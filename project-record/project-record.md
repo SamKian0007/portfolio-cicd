@@ -12,7 +12,7 @@ The portfolio website at samparsa.se already runs on a rented server. This secti
 
 ### 1.1 Before: Every Update Goes Straight to the Server
 
-Samuel Parsakian, the developer and owner of the site, does every step of an update by hand. Figure 1 shows the whole update from above. The numbers in the figure match the steps below.
+Samuel, the developer and owner of the site, does every step of an update by hand. Figure 1 shows the whole update from above. The numbers in the figure match the steps below.
 
 ![Overview of the manual update before the pipeline](images/overview-before-manual-update.png)
 
