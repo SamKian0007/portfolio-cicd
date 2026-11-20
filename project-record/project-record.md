@@ -179,3 +179,143 @@ Finally, the live site answers on its real address (Figure 10):
 *Figure 10. The live site at samparsa.se, the version that runs today.*
 
 The website runs on the Mac without problems, in both languages, and the live server runs the same site through Nginx and Gunicorn. This is the starting point the pipeline is built on.
+
+## 3. Continuous Integration: Every Change Is Checked Automatically
+
+With the starting point clear, the first part of the pipeline can be built: Continuous Integration (CI). CI means that every change is checked automatically as soon as it is pushed, so mistakes are found early, while they are still small and cheap to fix.
+
+### 3.1 The Repository: One Place for All Changes
+
+**What was done.** The project was put under version control with Git and pushed to a new private repository on GitHub, `portfolio-cicd`.
+
+**Why it was needed.** Before, the only copies of the site were on the Mac and in the folders on the server. A pipeline needs one shared place where every change arrives, so that it can react to each change.
+
+**What it solves.** Every change now has a commit: who changed what, when and why. This is the base of traceability: later, every Docker image and every deployment can be traced back to a commit.
+
+The repository is connected and the code is pushed from the terminal (Figure 11):
+
+1. `git remote add origin ...` tells Git where the GitHub repository is.
+2. `git push -u origin main feature/foundation` sends the two branches to GitHub.
+3. GitHub confirms that both branches were created.
+
+![First push to GitHub](images/git-first-push.png)
+
+*Figure 11. The code is pushed to the new repository.*
+
+The repository on GitHub then shows the code (Figure 12):
+
+1. The repository `portfolio-cicd` is private.
+2. Two branches: `main`, the stable version, and `feature/foundation`, where the first work was done. New work always happens on its own branch and is merged into `main` only when it is finished.
+3. The latest commit on `main`, with its short ID (`2ec7ead`). This ID is how a version is identified later.
+4. A short description of the project.
+
+![The repository on GitHub](images/github-repo-code.png)
+
+*Figure 12. The private repository on GitHub with the code and its history.*
+
+### 3.2 What Is Tested: The Tests
+
+**What was done.** Automated tests were written in `core/tests.py`, using the test tools that come with Django. No extra test framework is needed.
+
+**Why it was needed.** Before, the only check was to open the site in a browser and look. That is slow, easy to forget, and covers only the pages someone happens to open.
+
+**What it solves.** The tests open every page in both languages in a fraction of a second, every time, and fail if anything is wrong.
+
+A test is a small piece of code that uses the website the way a visitor would, and then checks the answer. Django's test client opens a page without a real browser and returns what the server answered, for example the status code: 200 means "OK", 404 means "not found" and 500 means "the server crashed".
+
+The start of the file prepares the list of pages (Figure 13):
+
+1. A short description of what the file does. The site has no database, so every test is a `SimpleTestCase`, the lightest kind of Django test.
+2. `PROJECTS_WITH_PAGES` finds every project that has screenshots, because only those have a detail page and a gallery page.
+3. `all_page_urls()` builds the full list of addresses: the main pages, the articles, and each project's detail and gallery pages. That is 37 addresses.
+
+![Tests, part 1: the list of pages](images/vscode-tests-part1.png)
+
+*Figure 13. `core/tests.py`, part 1: the list of every page on the site.*
+
+The first two groups of tests check the pages and the language switch (Figure 14):
+
+1. Every one of the 37 pages must open in English with status 200.
+2. The same test runs again with the language cookie set to Swedish. Together that is 74 pages.
+3. The switch to Swedish must send the visitor back to the page they came from and save the choice in a cookie.
+
+![Tests, part 2: pages and language](images/vscode-tests-part2.png)
+
+*Figure 14. `core/tests.py`, part 2: every page in both languages, and the language switch.*
+
+The next tests check the Swedish text and the safety of the switch (Figure 15):
+
+1. After the switch, the home page must really be in Swedish, with the heading "Om mig".
+2. The switch must never send a visitor to another website, even if someone builds a link that asks for it. This becomes important in section 3.4.
+3. A project page must show the project's own screenshots.
+
+![Tests, part 3: Swedish text, safe redirect and project images](images/vscode-tests-part3.png)
+
+*Figure 15. `core/tests.py`, part 3: Swedish text, a safe language switch and the project images.*
+
+The last group checks what happens with a wrong address (Figure 16):
+
+1. An unknown page and an unknown project must answer 404 (not found). If they answered 500, it would mean that the server crashed.
+
+![Tests, part 4: not found](images/vscode-tests-part4.png)
+
+*Figure 16. `core/tests.py`, part 4: wrong addresses answer "not found".*
+
+### 3.3 How the Pipeline Is Configured: The Tools and the Workflow
+
+**What was done.** Three check tools were chosen and a GitHub Actions workflow was written that runs them, together with the tests, on every push.
+
+**Why it was needed.** Tests check that the site works. They do not check code quality or security. Each tool covers one more kind of risk.
+
+**What it solves.** Problems in style, in the packages and in the production settings are found before anything is deployed.
+
+| Tool | What it checks | Risk it reduces |
+|---|---|---|
+| `ruff` (lint) | Code style and common mistakes, for example an unused import | Messy code that hides real bugs |
+| `pip-audit` | The Python packages in `requirements.txt` against a public list of known security holes | Running a package that attackers already know how to break |
+| `bandit` | The project's own code for risky patterns, for example a password written in the code | Security mistakes in the code itself |
+| `manage.py check --deploy` | Django's own check of the production settings | A live site with unsafe settings, for example debug mode left on |
+
+The packages the website needs are listed with exact versions in `requirements.txt` (Figure 17):
+
+1. Django, the framework, at version 5.2.10. This exact version becomes important in section 3.4.
+2. django-environ reads the settings from the environment, and WhiteNoise serves the static files.
+
+![The website's packages](images/vscode-requirements.png)
+
+*Figure 17. `requirements.txt`: the exact package versions the website runs on.*
+
+The check tools are kept in a separate file, `requirements-dev.txt`, because the live website does not need them (Figure 18):
+
+1. The line `-r requirements.txt` includes the website's own packages, so the tests run against exactly the same versions.
+2. The three check tools, each with an exact version, so the checks behave the same on every run.
+
+![The check tools](images/vscode-requirements-dev.png)
+
+*Figure 18. `requirements-dev.txt`: the tools used only by the pipeline.*
+
+A GitHub Actions workflow is a file in `.github/workflows/` that tells GitHub what to run and when. GitHub starts a fresh Ubuntu machine (a "runner") for each job, runs the steps, and throws the machine away afterwards. The first part of `ci.yml` sets the rules and the first job (Figure 19):
+
+1. `on: push` and `pull_request`: the workflow runs on every push to any branch and on every pull request.
+2. `permissions: contents: read`: the workflow may only read the code. It cannot change anything in the repository, which limits the damage if a tool were ever compromised.
+3. Python 3.11 is installed, the same version as on the Mac. `cache: pip` keeps the downloaded packages between runs, so later runs are faster.
+4. The lint job runs `ruff check .` on the whole project.
+5. The test job starts. Each job runs on its own fresh machine.
+
+![The workflow, part 1](images/vscode-ci-yml-lint.png)
+
+*Figure 19. `.github/workflows/ci.yml`, part 1: when the workflow runs, and the lint job.*
+
+The rest of the file holds the test job and the security job (Figure 20):
+
+1. `collectstatic` gathers all static files, the same step the live server needs. If a file were missing, this step would fail.
+2. `python manage.py test` runs all the tests from section 3.2.
+3. `pip-audit` checks the website's packages for known security holes.
+4. `bandit` checks the code in `core` and `config` for risky patterns.
+5. Django's deploy check runs with production settings: debug off, the real domain, and a random secret key made only for this run, so no real secret is ever stored in the workflow.
+
+![The workflow, part 2](images/vscode-ci-yml-test-security.png)
+
+*Figure 20. `.github/workflows/ci.yml`, part 2: the test job and the security job.*
+
+The three jobs (lint, tests, security) run side by side. This is faster than one long job, and when a run fails, the red job shows at once which kind of check found the problem.
