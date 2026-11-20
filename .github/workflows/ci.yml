@@ -1,9 +1,13 @@
-# Continuous Integration: checks every push and pull request.
-# Three jobs run side by side, so one red job shows exactly which kind of check failed.
+# Continuous Integration: checks every pull request and every change on main.
+# Three check jobs run side by side, so one red job shows exactly which kind of check failed.
+# The Docker image is built and tested only after all three are green.
 name: CI
 
 on:
+  # Pushes to main run here. Work on other branches is checked through its pull request,
+  # so the same commit is not checked twice.
   push:
+    branches: [main]
   pull_request:
 
 permissions:
@@ -58,5 +62,28 @@ jobs:
           DJANGO_DEBUG: "False"
           DJANGO_ALLOWED_HOSTS: samparsa.se
         run: |
-          export DJANGO_SECRET_KEY="$(python -c 'import secrets; print(secrets.token_urlsafe(50))')"
+          DJANGO_SECRET_KEY="$(python -c 'import secrets; print(secrets.token_urlsafe(50))')"
+          export DJANGO_SECRET_KEY
           python manage.py check --deploy --fail-level WARNING
+
+  build:
+    name: Build and test the image (Docker)
+    needs: [lint, test, security]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Build the image, tagged with the commit
+        run: docker build -t portfolio:${{ github.sha }} .
+      - name: Start the image with production settings
+        run: |
+          docker run -d --name portfolio -p 8000:8000 \
+            -e DJANGO_ENV=production \
+            -e DJANGO_DEBUG=False \
+            -e DJANGO_ALLOWED_HOSTS=samparsa.se \
+            -e DJANGO_SECRET_KEY="$(python3 -c 'import secrets; print(secrets.token_urlsafe(50))')" \
+            portfolio:${{ github.sha }}
+      - name: Smoke test the running container
+        run: scripts/smoke_test.sh http://localhost:8000 samparsa.se
+      - name: Show the container log
+        if: always()
+        run: docker logs portfolio
