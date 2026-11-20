@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}{{ article.page_title }} | {{ profile.name }}{% endblock %}
+{% block meta_description %}{{ article.page_title }} - {{ profile.name }}, {{ profile.role }}.{% endblock %}
+{% block body_class %}article-document-body{% endblock %}
+
+{% block content %}
+<a class="skip-link" href="#article-document-main">{{ ui.skip_article }}</a>
+<div class="archive-page article-document-page">
+  <div class="archive-wrap">
+    <a class="archive-back" href="{% url 'articles_archive' %}">{{ ui.back_all_articles }}</a>
+
+    <div class="container container-md px-0">
+      <div class="row justify-content-center">
+        <div class="col-12">
+          <h1 class="archive-title article-document__title" id="article-document-main" tabindex="-1">
+            {{ article.page_title }}
+          </h1>
+          {% for para in article.body_paragraphs %}
+          <p class="article-document__body">{{ para|safe }}</p>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load static %}
+{% load locale_extras %}
+{% block title %}{{ project.title }} - Gallery | {{ profile.name }}{% endblock %}
+{% block meta_description %}{{ project.title }} screenshot gallery. {{ project.desc }}{% endblock %}
+
+{% block content %}
+<article class="project-gallery-shell">
+  <div class="project-gallery-page">
+    <a class="archive-back" href="/#projects">← {{ profile.name }}</a>
+    <h1 class="archive-title">{{ project.title }} {{ ui.gallery_suffix }}</h1>
+
+    <section class="project-gallery-viewer" aria-label="{{ ui.gallery_viewer_aria|locfmt:project.title }}" data-gallery>
+      <div class="project-gallery-main-wrap">
+        <button type="button" class="project-gallery-btn project-gallery-prev" aria-label="{{ ui.lightbox_prev }}" data-prev>←</button>
+        <div class="project-gallery-main" role="region" aria-live="polite">
+          {% for image in project.gallery_images %}
+          <figure class="project-gallery-slide" data-index="{{ forloop.counter0 }}" {% if forloop.first %}data-active{% endif %}>
+            <img
+              src="{% static image.src %}"
+              alt="{{ image.alt }}"
+              class="project-gallery-main-img"
+              loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+              decoding="async"
+            >
+          </figure>
+          {% endfor %}
+        </div>
+        <button type="button" class="project-gallery-btn project-gallery-next" aria-label="{{ ui.lightbox_next }}" data-next>→</button>
+      </div>
+
+      <p class="project-gallery-counter" aria-live="polite">
+        <span data-current>1</span> / <span data-total>{{ project.gallery_images|length }}</span>
+      </p>
+
+      <nav class="project-gallery-thumbs" aria-label="{{ ui.gallery_thumb_nav }}">
+        {% for image in project.gallery_images %}
+        <button type="button" class="project-gallery-thumb {% if forloop.first %}is-active{% endif %}" data-index="{{ forloop.counter0 }}" aria-label="{{ ui.gallery_view_image|locfmt:forloop.counter }}">
+          <img src="{% static image.src %}" alt="" width="120" height="68" loading="lazy" decoding="async">
+        </button>
+        {% endfor %}
+      </nav>
+    </section>
+  </div>
+</article>
+{% endblock %}

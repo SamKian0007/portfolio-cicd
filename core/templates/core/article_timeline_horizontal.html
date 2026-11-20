@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}{{ article.heading }} | {{ profile.name }}{% endblock %}
+{% block meta_description %}{{ article.heading }} - {{ profile.name }}, {{ profile.role }}.{% endblock %}
+{% block body_class %}article-timeline-horizontal-body{% endblock %}
+
+{% block content %}
+<a class="skip-link" href="#article-timeline-horizontal-main">{{ ui.skip_article }}</a>
+<div class="archive-page article-timeline-horizontal-page">
+  <div class="archive-wrap">
+    <a class="archive-back" href="{% url 'articles_archive' %}">{{ ui.back_all_articles }}</a>
+    <h1 class="archive-title" id="article-timeline-horizontal-main" tabindex="-1">{{ article.heading }}</h1>
+    {% if article.description %}
+    <p class="article-timeline-horizontal__intro">{{ article.description }}</p>
+    {% endif %}
+
+    <section
+      class="article-timeline-horizontal"
+      aria-label="{{ ui.timeline_aria }}"
+    >
+      <div
+        class="article-timeline-horizontal__preview"
+        data-horiz-preview
+        aria-live="polite"
+        aria-atomic="true"
+      >
+        <div class="article-timeline-horizontal__preview-media">
+          <img
+            class="article-timeline-horizontal__preview-img"
+            data-horiz-preview-img
+            src=""
+            alt=""
+            width="320"
+            height="180"
+            loading="lazy"
+            decoding="async"
+            hidden
+          >
+        </div>
+        <h2 class="article-timeline-horizontal__preview-title" data-horiz-preview-title></h2>
+        <p class="article-timeline-horizontal__preview-desc" data-horiz-preview-desc></p>
+      </div>
+
+      <div class="article-timeline-horizontal__dock">
+        <div class="article-timeline-horizontal__track-scroll">
+          <div class="article-timeline-horizontal__track">
+            <div class="article-timeline-horizontal__line" aria-hidden="true"></div>
+            <ol class="article-timeline-horizontal__marks" role="list">
+              {% for item in timeline_items %}
+                {% include "core/includes/article_timeline_horizontal_point.html" with item=item idx=forloop.counter0 is_first=forloop.first %}
+              {% endfor %}
+            </ol>
+            <div class="article-timeline-horizontal__year-scale" aria-hidden="true">
+              {% for tick in article2_year_ticks %}
+                <span class="article-timeline-horizontal__year-label" style="left: {{ tick.position_pct }}%;">{{ tick.year }}</span>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+{{ article_horizontal_payload|json_script:"article-horiz-data" }}
+{% endblock %}
+
+{% block page_scripts %}
+<script src="{% static 'js/article-horizontal.js' %}?v=4"></script>
+{% endblock %}

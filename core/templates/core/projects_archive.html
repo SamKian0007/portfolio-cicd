@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% load static %}
+{% load locale_extras %}
+{% block title %}All Projects | {{ profile.name }}{% endblock %}
+{% block meta_description %}Projects archive - {{ profile.name }}.{% endblock %}
+
+{% block content %}
+<div class="archive-page">
+  <div class="archive-wrap">
+    <a class="archive-back" href="/">{{ ui.back_home }}</a>
+    <h1 class="archive-title">{{ ui.page_all_projects }}</h1>
+
+    <div class="projects-archive-list">
+      {% for p in projects %}
+      <article class="card-row card-link">
+        <div class="thumb">
+          {% if p.gallery_images %}
+          <a href="#" class="project-thumb-link" data-lightbox-trigger data-project-index="{{ forloop.counter0 }}" aria-label="{{ ui.lightbox_view_screenshots|locfmt:p.title }}">
+          {% endif %}
+          <picture>
+            {% if p.thumb_webp %}
+            <source srcset="{% static p.thumb_webp %}" type="image/webp">
+            {% endif %}
+            <img
+              src="{% static p.thumb %}"
+              alt="{{ p.thumb_alt }}"
+              width="180"
+              height="96"
+              loading="lazy"
+              decoding="async"
+            >
+          </picture>
+          {% if p.gallery_images %}
+          </a>
+          {% endif %}
+        </div>
+
+        <div class="card-right">
+          <div class="card-title">{{ p.title }}</div>
+          <p class="p">{{ p.desc }}</p>
+
+          {% if p.highlights %}
+          <ul class="project-highlights">
+            {% for item in p.highlights %}
+            <li>{{ item }}</li>
+            {% endfor %}
+          </ul>
+          {% endif %}
+
+          <div class="tags">
+            {% for t in p.tags %}
+              <span class="tag">{{ t }}</span>
+            {% endfor %}
+          </div>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{{ gallery_data|json_script:"projects-gallery-data" }}
+<div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="{{ ui.lightbox_aria }}" hidden>
+  <div class="lightbox-overlay" data-lightbox-close></div>
+  <div class="lightbox-inner">
+    <button type="button" class="lightbox-close-btn" aria-label="{{ ui.lightbox_close }}" data-lightbox-close>×</button>
+    <button type="button" class="lightbox-prev" aria-label="{{ ui.lightbox_prev }}" data-lightbox-prev>‹</button>
+    <div class="lightbox-content">
+      <div class="lightbox-image-wrap">
+        <img class="lightbox-main-img" src="" alt="" data-lightbox-img>
+      </div>
+      <p class="lightbox-counter" data-lightbox-counter>1 / 1</p>
+      <nav class="lightbox-thumbs" aria-label="{{ ui.lightbox_thumbs }}" data-lightbox-thumbs></nav>
+    </div>
+    <button type="button" class="lightbox-next" aria-label="{{ ui.lightbox_next }}" data-lightbox-next>›</button>
+  </div>
+</div>
+{% endblock %}
+

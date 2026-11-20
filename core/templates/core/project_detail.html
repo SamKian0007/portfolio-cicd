@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}{{ project.title }} | {{ profile.name }}{% endblock %}
+{% block meta_description %}{{ project.desc }}{% endblock %}
+
+{% block content %}
+<article class="project-detail-shell">
+  <div class="project-detail-page">
+    <a class="archive-back" href="/#projects">← {{ profile.name }}</a>
+    <h1 class="archive-title">{{ project.title }}</h1>
+    <p class="project-detail-copy">{{ project.desc }}</p>
+
+    {% if project.highlights %}
+    <ul class="project-highlights project-detail-highlights">
+      {% for item in project.highlights %}
+      <li>{{ item }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+
+    <div class="tags project-detail-tags">
+      {% for t in project.tags %}
+      <span class="tag">{{ t }}</span>
+      {% endfor %}
+    </div>
+
+    <section class="project-gallery" aria-label="{{ project.title }} screenshots">
+      {% for image in project.gallery_images %}
+      <figure class="project-gallery-item">
+        <img
+          class="project-gallery-image"
+          src="{% static image.src %}"
+          alt="{{ image.alt }}"
+          loading="lazy"
+          decoding="async"
+        >
+      </figure>
+      {% endfor %}
+    </section>
+  </div>
+</article>
+{% endblock %}

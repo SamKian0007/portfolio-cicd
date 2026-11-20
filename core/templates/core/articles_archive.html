@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}All Articles | {{ profile.name }}{% endblock %}
+{% block meta_description %}Articles and writing - {{ profile.name }}, {{ profile.role }}.{% endblock %}
+
+{% block content %}
+<div class="archive-page">
+  <div class="archive-wrap">
+    <a class="archive-back" href="/">{{ ui.back_home }}</a>
+    <h1 class="archive-title">{{ ui.page_all_articles }}</h1>
+
+    {% if article_second %}
+    <p class="articles-archive-feature">
+      <a class="archive-a" href="{% url 'article_second' %}">{{ article_second.heading }}</a>
+    </p>
+    {% endif %}
+
+    {% if article_third %}
+    <p class="articles-archive-feature">
+      <a class="archive-a" href="{% url 'article_third' %}" target="_blank" rel="noreferrer noopener">{{ article_third.page_title }}</a>
+    </p>
+    {% endif %}
+
+    {% if article_fourth %}
+    <p class="articles-archive-feature">
+      <a class="archive-a" href="{% url 'article_fourth' %}" target="_blank" rel="noreferrer noopener">{{ article_fourth.page_title }}</a>
+    </p>
+    {% endif %}
+
+    {% if article_fifth %}
+    <p class="articles-archive-feature">
+      <a class="archive-a" href="{% url 'article_fifth' %}" target="_blank" rel="noreferrer noopener">{{ article_fifth.page_title }}</a>
+    </p>
+    {% endif %}
+
+    {% if article_sixth %}
+    <p class="articles-archive-feature">
+      <a class="archive-a" href="{% url 'article_sixth' %}" target="_blank" rel="noreferrer noopener">{{ article_sixth.page_title }}</a>
+    </p>
+    {% endif %}
+
+    {% if article_seventh %}
+    <p class="articles-archive-feature">
+      <a class="archive-a" href="{% url 'article_seventh' %}" target="_blank" rel="noreferrer noopener">{{ article_seventh.page_title }}</a>
+    </p>
+    {% endif %}
+
+    {% if article_eighth %}
+    <p class="articles-archive-feature">
+      <a class="archive-a" href="{% url 'article_eighth' %}" target="_blank" rel="noreferrer noopener">{{ article_eighth.page_title }}</a>
+    </p>
+    {% endif %}
+
+    <div class="articles-list">
+      {% for w in writing %}
+      <div class="writing-row">
+        <picture>
+          <source srcset="{% static w.thumb_webp %}" type="image/webp">
+          <img
+            class="writing-thumb"
+            src="{% static w.thumb %}"
+            alt="{{ w.title }}"
+            width="144"
+            height="81"
+            loading="lazy"
+            decoding="async"
+          >
+        </picture>
+        <div class="writing-text">
+          <div class="writing-year">{{ w.year }}</div>
+          <a class="card-title" href="{{ w.url }}" target="_blank" rel="noreferrer noopener">
+            {{ w.title }} <span class="ext">↗</span>
+          </a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}

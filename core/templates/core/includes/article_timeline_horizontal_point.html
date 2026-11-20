@@ -1,0 +1,14 @@
+<li
+  class="article-timeline-horizontal__mark"
+  style="left: {{ item.position_pct }}%; --article-horiz-marker-y: {{ item.marker_translate_y_px }}px; --article-horiz-marker-x: {{ item.marker_translate_x_px }}px; --horiz-point-color: {{ item.connector_color|default:'rgba(100, 255, 218, 0.75)' }}"
+>
+  <button
+    type="button"
+    class="article-timeline-horizontal__point-hit{% if is_first %} is-active{% endif %}"
+    data-horiz-index="{{ idx }}"
+    aria-current="{% if is_first %}true{% else %}false{% endif %}"
+    aria-label="{{ item.date }}, {{ item.title }}"
+  >
+    <span class="article-timeline-horizontal__point-dot" aria-hidden="true"></span>
+  </button>
+</li>

@@ -1,0 +1,1448 @@
+[UI.SKIP.HOME]
+Hoppa till innehåll
+
+[UI.SKIP.ARTICLE]
+Hoppa till artikeln
+
+[UI.NAV.PRIMARY_ARIA]
+Primär
+
+[UI.NAV.ABOUT]
+OM MIG
+
+[UI.NAV.EXPERIENCE]
+ERFARENHET
+
+[UI.NAV.PROJECTS]
+PROJEKT
+
+[UI.NAV.ARTICLES]
+ARTIKLAR
+
+[UI.SECTION.ABOUT]
+Om mig
+
+[UI.SECTION.EXPERIENCE]
+Erfarenhet
+
+[UI.SECTION.PROJECTS]
+Projekt
+
+[UI.SECTION.ARTICLES]
+Artiklar
+
+[UI.CTA.VIEW_RESUME]
+Visa hela CV:t
+
+[UI.CTA.VIEW_PROJECT_ARCHIVE]
+Visa hela projektarkivet
+
+[UI.CTA.VIEW_ALL_ARTICLES]
+Visa alla artiklar
+
+[UI.BACK.HOME]
+← Hem
+
+[UI.BACK.ALL_ARTICLES]
+← Alla artiklar
+
+[UI.PAGE.ALL_PROJECTS]
+Alla projekt
+
+[UI.PAGE.ALL_ARTICLES]
+Alla artiklar
+
+[UI.PAGE.GALLERY_SUFFIX]
+- Galleri
+
+[UI.PAGE.FRONTEND_PROJECTS]
+Frontend-projekt
+
+[UI.LIGHTBOX.ARIA]
+Galleri med projektskärmbilder
+
+[UI.LIGHTBOX.CLOSE]
+Stäng galleriet
+
+[UI.LIGHTBOX.PREV]
+Föregående bild
+
+[UI.LIGHTBOX.NEXT]
+Nästa bild
+
+[UI.LIGHTBOX.THUMBS]
+Miniatyrbilder
+
+[UI.LIGHTBOX.VIEW_SCREENSHOTS]
+Visa skärmbilder för {title}
+
+[UI.LIGHTBOX.VIEW_PROJECT]
+Visa {title}
+
+[UI.GALLERY.VIEWER_ARIA]
+Skärmbildsvisare för {title}
+
+[UI.GALLERY.VIEW_IMAGE]
+Visa bild {n}
+
+[UI.GALLERY.THUMB_NAV]
+Navigering med miniatyrbilder
+
+[UI.SOCIAL.GITHUB_ARIA]
+GitHub-profil
+
+[UI.SOCIAL.LINKEDIN_ARIA]
+LinkedIn-profil
+
+[UI.SOCIAL.YOUTUBE_ARIA]
+YouTube
+
+[UI.SOCIAL.YOUTUBE_TITLE]
+YouTube
+
+[UI.SOCIAL.VERCEL_ARIA]
+Frontend-projekt
+
+[UI.SOCIAL.VERCEL_TITLE]
+Frontend-projekt
+
+[UI.ARTICLE2.TIMELINE_ARIA]
+Tidslinje med milstolpar från 2000 till 2025
+
+[UI.LANG.SWITCHER.EN]
+EN
+
+[UI.LANG.SWITCHER.SV]
+SV
+
+[UI.LANG.SWITCHER.ARIA]
+Byt språk
+
+[ABOUT.P1]
+Jag är en DevOps-student med fokus på Linux, Docker, Kubernetes, Git, CI/CD, scripting, databaser och molnteknologier. Jag har praktisk erfarenhet av att bygga och containerisera applikationer, automatisera arbetsflöden, arbeta med deployment pipelines och utveckla mindre system med Python och Java.
+
+[ABOUT.P2]
+Genom mina projekt har jag utvecklat praktisk erfarenhet inom applikationsdeployment, infrastrukturflöden, automation, nätverk och backendutveckling. Projekten har hjälpt mig att koppla det jag lär mig till verklig implementation och förbättra min förståelse för tillförlitliga system.
+
+[ABOUT.P3]
+Jag har också erfarenhet från strukturerade miljöer med högt ansvar, där noggrannhet, säkerhet och tydliga processer är viktiga. Det har stärkt min samarbetsförmåga, kommunikation och förmåga att arbeta effektivt under press.
+
+[ABOUT.P4]
+Jag brinner för att bygga tillförlitliga system, förbättra automation och fortsätta utveckla mina kunskaper inom cloud- och DevOps-teknologier.
+
+[EXPERIENCE.1.DATE]
+2023 - NU
+
+[EXPERIENCE.1.TITLE]
+DevOps Engineer-projekt
+
+[EXPERIENCE.1.ORG]
+Personliga projekt och träning
+
+[EXPERIENCE.1.BULLET.1]
+Byggde en GitOps-baserad CI/CD-pipeline i Azure med Azure DevOps, Terraform, AKS och Argo CD
+
+[EXPERIENCE.1.BULLET.2]
+Byggde och driftsatte en demo-radiologi-arbetslista med Docker Compose och Kubernetes på ett multi-node VPS-kluster
+
+[EXPERIENCE.1.BULLET.3]
+Byggde och driftsatte en medicinsk bildhanteringsplattform med DICOM/PACS, anonymisering, AI-inferens, objektlagring, API, dashboard, övervakning, CI och multi-node VPS-deployment
+
+[EXPERIENCE.1.BULLET.4]
+Byggde en Jenkins CI/CD-pipeline på AWS EC2 med GitHub-triggers, automatiserade Maven-tester, kvalitetskontroller i SonarQube och publicering av artefakter i Nexus
+
+[EXPERIENCE.1.BULLET.5]
+Byggde och containeriserade webbapplikationer med Docker och Docker Compose
+
+[EXPERIENCE.1.BULLET.6]
+Implementerade CI/CD-pipelines med GitHub Actions för automatiserad testning och deployment
+
+[EXPERIENCE.1.BULLET.7]
+Designade och konfigurerade ett komplett företagsnätverk i Cisco Packet Tracer och CML, inklusive OSPF-routing, HSRP, IPsec VPN, VLAN-segmentering och trådlös infrastruktur
+
+[EXPERIENCE.1.BULLET.8]
+Byggde och dokumenterade ett Microsoft 365-administrationslabb som täcker identitet, Teams, SharePoint, Exchange Online, åtkomstkontroll, säkerhetsgenomgång, onboarding, offboarding och incidenthanteringsflöden
+
+[EXPERIENCE.1.BULLET.9]
+Byggde en Node.js-applikation som integrerar OpenAI API med strömmande svar och konversationsminne
+
+[EXPERIENCE.1.BULLET.10]
+Utvecklade Flask-baserade applikationer med PostgreSQL och externa APIs
+
+[EXPERIENCE.1.BULLET.11]
+Designade och byggde en Java desktop-applikation för strukturerad logganalys och visualisering
+
+[EXPERIENCE.1.BULLET.12]
+Implementerade datafiltrering, diagramvisualisering och rapportfunktioner i flera projekt
+
+[EXPERIENCE.1.BULLET.13]
+Automatiserade deployment-flöden till en VPS-miljö med säkra SSH-baserade pipelines
+
+[EXPERIENCE.2.DATE]
+2022 - 2025
+
+[EXPERIENCE.2.TITLE]
+Assistent på röntgenavdelning
+
+[EXPERIENCE.2.ORG]
+Sjukhus i Sverige
+
+[EXPERIENCE.2.BULLET.1]
+Arbetade i kliniska miljöer med stort fokus på säkerhet och noggrannhet
+
+[EXPERIENCE.2.BULLET.2]
+Samarbetade med medicinska team i miljöer med högt tempo
+
+[EXPERIENCE.2.BULLET.3]
+Stärkte min kommunikation, ansvarskänsla och förmåga att arbeta strukturerat
+
+[EXPERIENCE.2.BULLET.4]
+Fick erfarenhet av att hantera kritiska system och processer
+
+[PROJECT.azure-devops-gitops-cicd.TITLE]
+Azure DevOps + GitOps CI/CD-pipeline
+
+[PROJECT.azure-devops-gitops-cicd.DESC]
+En GitOps-baserad CI/CD-plattform i Azure som automatiskt tar varje kodändring hela vägen från commit till det körande klustret: Azure Pipelines bygger och versionerar Docker-images, och Argo CD driftsätter dem till Kubernetes (AKS) utan manuella steg.
+
+[PROJECT.azure-devops-gitops-cicd.HIGHLIGHT.1]
+Byggde hela Azure-infrastrukturen som kod med Terraform, inklusive AKS, ACR, nätverk och en självhostad Azure DevOps-agent
+
+[PROJECT.azure-devops-gitops-cicd.HIGHLIGHT.2]
+Designade separata Azure Pipelines för tjänsterna vote, result och worker, så att varje tjänst byggs och driftsätts oberoende
+
+[PROJECT.azure-devops-gitops-cicd.HIGHLIGHT.3]
+Byggde och pushade versionerade Docker-images till ACR, med pipelinens Build ID som image-tagg för tydlig spårbarhet
+
+[PROJECT.azure-devops-gitops-cicd.HIGHLIGHT.4]
+Automatiserade uppdatering av Kubernetes-manifest med ett återanvändbart shell-script, med Git som enda källa till sanning
+
+[PROJECT.azure-devops-gitops-cicd.HIGHLIGHT.5]
+Använde Argo CD för automatiserad GitOps-deployment till AKS, så att det körande klustret alltid är synkat med Git
+
+[PROJECT.azure-devops-gitops-cicd.HIGHLIGHT.6]
+Verifierade hela flödet end-to-end med en live-ändring (Snow/Rain), från källkod till det körande klustret
+
+[PROJECT.azure-devops-gitops-cicd.THUMB_ALT]
+Arkitekturdiagram över CI/CD-flödet med Azure DevOps och GitOps, från kodändring till AKS
+
+[PROJECT.azure-devops-gitops-cicd.GALLERY_ALT.1]
+Arkitekturdiagram över CI/CD-flödet med Azure DevOps och GitOps, från kodändring till AKS
+
+[PROJECT.azure-devops-gitops-cicd.GALLERY_ALT.2]
+Ursprungligt example-voting-app-repo som används som applikation med flera tjänster
+
+[PROJECT.azure-devops-gitops-cicd.GALLERY_ALT.3]
+Röstningsappen med de ursprungliga alternativen Cats vs Dogs
+
+[PROJECT.azure-devops-gitops-cicd.GALLERY_ALT.4]
+Resultatappen som visar röstfördelningen för Cats vs Dogs i realtid
+
+[PROJECT.azure-devops-gitops-cicd.GALLERY_ALT.5]
+Diff i Azure Repos där röstalternativen ändras från Cats och Dogs till Snow och Rain
+
+[PROJECT.azure-devops-gitops-cicd.GALLERY_ALT.6]
+kubectl-utdata som visar att poddarna för vote, result, worker, Redis och databasen körs i AKS
+
+[PROJECT.azure-devops-gitops-cicd.GALLERY_ALT.7]
+kubectl-deployments som visar att images för vote, result och worker hämtas från ACR
+
+[PROJECT.azure-devops-gitops-cicd.GALLERY_ALT.8]
+Körhistorik i Azure Pipelines för worker-tjänstens CI-pipeline
+
+[PROJECT.azure-devops-gitops-cicd.GALLERY_ALT.9]
+Azure resource visualizer för AKS-klustret
+
+[PROJECT.azure-devops-gitops-cicd.GALLERY_ALT.10]
+Applikationsträd i Argo CD som visar att vote-lab är synkroniserad och frisk
+
+[PROJECT.azure-devops-gitops-cicd.GALLERY_ALT.11]
+Resurslista i Argo CD där alla poddar och tjänster är friska och synkroniserade
+
+[PROJECT.azure-devops-gitops-cicd.GALLERY_ALT.12]
+Nätverksvy i Argo CD som kopplar varje tjänst till sin podd
+
+[PROJECT.azure-devops-gitops-cicd.GALLERY_ALT.13]
+Poddvy i Argo CD grupperad per AKS-nod
+
+[PROJECT.azure-devops-gitops-cicd.GALLERY_ALT.14]
+Resursgrupp i Azure skapad med Terraform, inklusive ACR, AKS, nätverk och agent-VM
+
+[PROJECT.azure-devops-gitops-cicd.GALLERY_ALT.15]
+Körhistorik i Azure Pipelines för vote-tjänsten, inklusive ändringen till Snow och Rain
+
+[PROJECT.azure-devops-gitops-cicd.GALLERY_ALT.16]
+ACR-repot vote-app med images taggade med pipelinens Build ID
+
+[PROJECT.azure-devops-gitops-cicd.GALLERY_ALT.17]
+Argo CD synkroniserar automatiskt den nya vote-imagen som pushats av Azure Pipelines
+
+[PROJECT.medical-imaging-devops-platform.TITLE]
+Medical Imaging DevOps Platform
+
+[PROJECT.medical-imaging-devops-platform.DESC]
+Ett fullstack DevOps-projekt för en demo-radiologiplattform där medicinska bildstudier tas emot, anonymiseras, lagras, analyseras med AI och övervakas genom en komplett containeriserad miljö.
+
+[PROJECT.medical-imaging-devops-platform.HIGHLIGHT.1]
+Byggde en lokal Docker Compose-stack med Orthanc, PostgreSQL, MinIO, FastAPI, AI-inference, Prometheus och Grafana
+
+[PROJECT.medical-imaging-devops-platform.HIGHLIGHT.2]
+Implementerade en DICOM-pipeline för metadata-extraktion, anonymisering, preview-generering och uppladdning till S3-kompatibel objektlagring
+
+[PROJECT.medical-imaging-devops-platform.HIGHLIGHT.3]
+Utvecklade ett FastAPI-baserat backend-API och dashboard för studier, bildvisning, AI-resultat, audit events och operativa länkar
+
+[PROJECT.medical-imaging-devops-platform.HIGHLIGHT.4]
+Integrerade en separat AI-inference-service med TorchXRayVision DenseNet121 för chest X-ray findings, confidence scores och heatmap-generering
+
+[PROJECT.medical-imaging-devops-platform.HIGHLIGHT.5]
+Sparade AI-resultat, metadata och audit-loggar i PostgreSQL för spårbarhet och historik
+
+[PROJECT.medical-imaging-devops-platform.HIGHLIGHT.6]
+Byggde en demo-workflow för radiographer upload och doctor review med automatiserad AI-bearbetning
+
+[PROJECT.medical-imaging-devops-platform.HIGHLIGHT.7]
+Satte upp Prometheus-metrics och Grafana dashboards för både API och AI-service
+
+[PROJECT.medical-imaging-devops-platform.HIGHLIGHT.8]
+Implementerade backup- och restore-flöden för PostgreSQL, MinIO och Orthanc
+
+[PROJECT.medical-imaging-devops-platform.HIGHLIGHT.9]
+Verifierade CI med GitHub Actions genom riktiga push-, pull request- och merge-flöden
+
+[PROJECT.medical-imaging-devops-platform.HIGHLIGHT.10]
+Driftsatte plattformen över tre Hetzner VPS-noder för app, data/imaging och monitoring, med privat nätverk och Docker Compose per node
+
+[PROJECT.medical-imaging-devops-platform.THUMB_ALT]
+MedSyn Labs bildhanteringsplattform - startsida som visar stegen i DICOM-pipeline-demot
+
+[PROJECT.medical-imaging-devops-platform.GALLERY_ALT.1]
+MedSyn Labs bildhanteringsplattform - startsida som visar stegen i DICOM-pipeline-demot
+
+[PROJECT.medical-imaging-devops-platform.GALLERY_ALT.2]
+Uppladdningssida för att skicka in en chest X-ray-studie till pipelinen
+
+[PROJECT.medical-imaging-devops-platform.GALLERY_ALT.3]
+Ops-dashboard med länkar till API-dokumentationen, MinIO-konsolen, Orthanc Explorer, Prometheus och Grafana
+
+[PROJECT.medical-imaging-devops-platform.GALLERY_ALT.4]
+Hetzner Cloud-konsolen som visar de tre VPS-noderna för app-, data- och ops-lagren
+
+[PROJECT.medical-imaging-devops-platform.GALLERY_ALT.5]
+Exempeldata från NIH Chest X-ray-datasetet som användes för AI-inferenstestning
+
+[PROJECT.medical-imaging-devops-platform.GALLERY_ALT.6]
+Orthancs webbgränssnitt för DICOM-servern som visar en lagrad studie
+
+[PROJECT.medical-imaging-devops-platform.GALLERY_ALT.7]
+MinIO-objektlagringens filbläddrare som visar en anonymiserad DICOM-preview
+
+[PROJECT.medical-imaging-devops-platform.GALLERY_ALT.8]
+FastAPI Swagger-dokumentation för Medical Imaging Study API
+
+[PROJECT.medical-imaging-devops-platform.GALLERY_ALT.9]
+Docker Desktop som visar de körande containrarna i bildhanteringspipelinen
+
+[PROJECT.medical-imaging-devops-platform.GALLERY_ALT.10]
+Medicinsk bildhanteringsdashboard som visar en studie med AI-inferensresultat och en heatmap
+
+[PROJECT.medical-imaging-devops-platform.GALLERY_ALT.11]
+Doctor Review-sidan som visar en uppladdad studie med AI-fynd och heatmap
+
+[PROJECT.medical-imaging-devops-platform.GALLERY_ALT.12]
+DICOM-pipeline-demo som går igenom varje bearbetningssteg
+
+[PROJECT.medical-imaging-devops-platform.GALLERY_ALT.13]
+Grafana-dashboard som visar API-hälsa och request-mätvärden
+
+[PROJECT.medical-imaging-devops-platform.GALLERY_ALT.14]
+Prometheus target health som visar API- och AI-inference-tjänsterna som up
+
+[PROJECT.medical-imaging-devops-platform.GALLERY_ALT.15]
+Arkitekturdiagram över bildhanteringspipelinen och den tre-noders Hetzner-driftsättningen
+
+[PROJECT.radiology-scanflow.TITLE]
+Radiology ScanFlow
+
+[PROJECT.radiology-scanflow.DESC]
+Ett fullstack DevOps-projekt för en demo-radiologi-arbetslista, byggt med React, Node.js, Express och MongoDB. Applikationen containeriserades först med Docker Compose och driftsattes sedan på ett verkligt Kubernetes-kluster över tre VPS-instanser, med persistent lagring, NodePort-åtkomst, pod self-healing, node drain-testning och klustervisualisering i Lens.
+
+[PROJECT.radiology-scanflow.HIGHLIGHT.1]
+Byggde ett React-frontend för att visa, lägga till och ta bort demo-radiologifall
+
+[PROJECT.radiology-scanflow.HIGHLIGHT.2]
+Skapade ett Node.js- och Express-backend-API kopplat till MongoDB
+
+[PROJECT.radiology-scanflow.HIGHLIGHT.3]
+Containeriserade frontend, backend och databas med Docker Compose
+
+[PROJECT.radiology-scanflow.HIGHLIGHT.4]
+Skrev Kubernetes-manifest för frontend, backend, MongoDB, services och persistent lagring
+
+[PROJECT.radiology-scanflow.HIGHLIGHT.5]
+Driftsatte applikationen på ett tre-noders Kubernetes-kluster på VPS-infrastruktur
+
+[PROJECT.radiology-scanflow.HIGHLIGHT.6]
+Demonstrerade Kubernetes self-healing genom att ta bort pods och se automatisk återskapning
+
+[PROJECT.radiology-scanflow.HIGHLIGHT.7]
+Simulerade node failure med node drain och verifierade att pods schemalades om
+
+[PROJECT.radiology-scanflow.HIGHLIGHT.8]
+Använde Lens för att visuellt granska pods, services, loggar och deployments i klustret
+
+[PROJECT.radiology-scanflow.THUMB_ALT]
+Radiology ScanFlows arbetslista med bildgranskningsfall
+
+[PROJECT.radiology-scanflow.GALLERY_ALT.1]
+Radiology ScanFlows arbetslista med bildgranskningsfall
+
+[PROJECT.radiology-scanflow.GALLERY_ALT.2]
+Docker Desktop som visar de körande ScanFlow-containrarna
+
+[PROJECT.radiology-scanflow.GALLERY_ALT.3]
+Docker Desktop som visar de byggda images för ScanFlow-frontend och -backend
+
+[PROJECT.radiology-scanflow.GALLERY_ALT.4]
+Terminal som listar Docker-images för ScanFlow och MongoDB
+
+[PROJECT.radiology-scanflow.GALLERY_ALT.5]
+Terminalutskrift som bygger Docker Compose-stacken
+
+[PROJECT.radiology-scanflow.GALLERY_ALT.6]
+Terminalutskrift som startar containrarna för frontend, backend och databas
+
+[PROJECT.radiology-scanflow.GALLERY_ALT.7]
+ScanFlows backend-API:s hälsokontroll som svarar i webbläsaren
+
+[PROJECT.radiology-scanflow.GALLERY_ALT.8]
+Tre-noders Kubernetes-kluster som körs på Hetzners VPS-infrastruktur
+
+[PROJECT.radiology-scanflow.GALLERY_ALT.9]
+Brandvägg tillämpad på Kubernetes-klustrets servrar
+
+[PROJECT.radiology-scanflow.GALLERY_ALT.10]
+Brandväggsregler som begränsar åtkomst till SSH, API-server och NodePort
+
+[PROJECT.radiology-scanflow.GALLERY_ALT.11]
+Privat nätverk konfigurerat för Kubernetes-klustrets noder
+
+[PROJECT.radiology-scanflow.GALLERY_ALT.12]
+Kubernetes control plane-version efter klusterinitiering
+
+[PROJECT.radiology-scanflow.GALLERY_ALT.13]
+Klusterpods som körs över control plane och worker-noderna
+
+[PROJECT.radiology-scanflow.GALLERY_ALT.14]
+ScanFlows pods för frontend, backend och databas som körs i klustret
+
+[PROJECT.radiology-scanflow.GALLERY_ALT.15]
+Radiology ScanFlows arbetslista som körs live på Kubernetes-klustret
+
+[PROJECT.radiology-scanflow.GALLERY_ALT.16]
+Kubernetes self-healing som automatiskt ersätter en borttagen pod
+
+[PROJECT.radiology-scanflow.GALLERY_ALT.17]
+Dränering av en worker-nod och omschemaläggning av dess pods
+
+[PROJECT.radiology-scanflow.GALLERY_ALT.18]
+ScanFlows pods granskade visuellt i Lens
+
+[PROJECT.radiology-scanflow.GALLERY_ALT.19]
+Klustrets noder granskade i Lens med alternativ för cordon och drain
+
+[PROJECT.radiology-scanflow.GALLERY_ALT.20]
+Andra worker-noden dränerad och dess pods omschemalagda
+
+[PROJECT.jenkins-cicd-aws.TITLE]
+Jenkins CI/CD-pipeline på AWS
+
+[PROJECT.jenkins-cicd-aws.DESC]
+En Jenkins-driven CI-pipeline för en Maven Java-applikation, med GitHub-triggers, automatiserade tester, quality gates i SonarQube och publicering av artefakter i Nexus på separata AWS EC2-hosts.
+
+[PROJECT.jenkins-cicd-aws.HIGHLIGHT.1]
+Byggde en Jenkins-pipeline som triggas av ändringar i GitHub
+
+[PROJECT.jenkins-cicd-aws.HIGHLIGHT.2]
+Kompilerade och testade en Maven Java-applikation automatiskt
+
+[PROJECT.jenkins-cicd-aws.HIGHLIGHT.3]
+Integrerade SonarQube för kodkvalitetskontroller och validering av quality gate
+
+[PROJECT.jenkins-cicd-aws.HIGHLIGHT.4]
+Publicerade build-artefakter till Nexus Repository
+
+[PROJECT.jenkins-cicd-aws.HIGHLIGHT.5]
+Använde separata AWS EC2-instanser för Jenkins, SonarQube och Nexus
+
+[PROJECT.jenkins-cicd-aws.HIGHLIGHT.6]
+Visade ett komplett CI-flöde från code push till artefaktlagring
+
+[PROJECT.jenkins-cicd-aws.THUMB_ALT]
+AWS EC2-instanser för Jenkins, SonarQube och Nexus
+
+[PROJECT.jenkins-cicd-aws.GALLERY_ALT.1]
+AWS EC2-instanser för Jenkins, SonarQube och Nexus
+
+[PROJECT.jenkins-cicd-aws.GALLERY_ALT.2]
+AWS EC2 launch-konfiguration för Nexus CI-server
+
+[PROJECT.jenkins-cicd-aws.GALLERY_ALT.3]
+Jenkins-installation på Linux
+
+[PROJECT.jenkins-cicd-aws.GALLERY_ALT.4]
+Jenkins setup wizard installerar CI/CD-plugins
+
+[PROJECT.jenkins-cicd-aws.GALLERY_ALT.5]
+Lyckad Maven clean test-build
+
+[PROJECT.jenkins-cicd-aws.GALLERY_ALT.6]
+Maven clean package skapar JAR-artefakt
+
+[PROJECT.jenkins-cicd-aws.GALLERY_ALT.7]
+SonarQube Scanner konfigurerad i Jenkins
+
+[PROJECT.jenkins-cicd-aws.GALLERY_ALT.8]
+SonarQube quality gate godkänd för sample app
+
+[PROJECT.jenkins-cicd-aws.GALLERY_ALT.9]
+Nexus Repository med hostade Maven releases
+
+[PROJECT.jenkins-cicd-aws.GALLERY_ALT.10]
+Jenkins-pipeline med SonarQube quality gate och artefakter
+
+[PROJECT.jenkins-cicd-aws.GALLERY_ALT.11]
+Maven snapshot-artefakter publicerade i Nexus
+
+[PROJECT.notes-cicd-app.TITLE]
+Notes CI/CD App
+
+[PROJECT.notes-cicd-app.DESC]
+En enkel Flask-baserad anteckningsapp med containerisering, automatiserad testning och deployment till en Hetzner VPS.
+
+[PROJECT.notes-cicd-app.HIGHLIGHT.1]
+Skapa och ta bort anteckningar via ett enkelt webbgränssnitt
+
+[PROJECT.notes-cicd-app.HIGHLIGHT.2]
+Lagra anteckningar i en PostgreSQL-databas
+
+[PROJECT.notes-cicd-app.HIGHLIGHT.3]
+Kör appen och databasen tillsammans med Docker Compose
+
+[PROJECT.notes-cicd-app.HIGHLIGHT.4]
+Testa projektet automatiskt med GitHub Actions CI
+
+[PROJECT.notes-cicd-app.HIGHLIGHT.5]
+Deploya automatiskt till en Hetzner VPS med GitHub Actions över SSH
+
+[PROJECT.notes-cicd-app.HIGHLIGHT.6]
+Visar ett komplett flöde från code push till test och deployment
+
+[PROJECT.notes-cicd-app.THUMB_ALT]
+Notes CI/CD App huvudförhandsvisning
+
+[PROJECT.notes-cicd-app.GALLERY_ALT.1]
+Notes CI/CD App huvudförhandsvisning
+
+[PROJECT.notes-cicd-app.GALLERY_ALT.2]
+Skärmbild från Notes CI/CD App
+
+[PROJECT.notes-cicd-app.GALLERY_ALT.3]
+Skärmbild från Notes CI/CD App
+
+[PROJECT.notes-cicd-app.GALLERY_ALT.4]
+Skärmbild från Notes CI/CD App
+
+[PROJECT.ai-conversation-engine.TITLE]
+AI Conversation Engine (OpenAI API i Node.js)
+
+[PROJECT.ai-conversation-engine.DESC]
+En Node.js-applikation som visar praktisk integration med OpenAIs Responses API - inklusive autentiserade anrop, parameterjustering, konversationsminne och realtidsströmning.
+
+[PROJECT.ai-conversation-engine.HIGHLIGHT.1]
+Byggde en autentiserad klient för OpenAIs Responses API
+
+[PROJECT.ai-conversation-engine.HIGHLIGHT.2]
+Skickade förfrågningar och tolkade svar, inklusive tokenanvändning och metadata
+
+[PROJECT.ai-conversation-engine.HIGHLIGHT.3]
+Justerade svarsbeteende med temperature och max_output_tokens
+
+[PROJECT.ai-conversation-engine.HIGHLIGHT.4]
+Bibehöll konversationskontext över flera anrop med response IDs
+
+[PROJECT.ai-conversation-engine.HIGHLIGHT.5]
+Implementerade realtidsströmning av modellens svar, token för token
+
+[PROJECT.ai-conversation-engine.HIGHLIGHT.6]
+Säkrade API-nycklar med miljövariabler, exkluderade från versionskontroll
+
+[PROJECT.ai-conversation-engine.THUMB_ALT]
+Node.js-klientkod som anropar OpenAIs Responses API med strömning aktiverad
+
+[PROJECT.ai-conversation-engine.GALLERY_ALT.1]
+Skapar en ny OpenAI API-nyckel för projektet
+
+[PROJECT.ai-conversation-engine.GALLERY_ALT.2]
+Aktiv OpenAI API-nyckel som används av applikationen
+
+[PROJECT.ai-conversation-engine.GALLERY_ALT.3]
+Node.js-klientkod som anropar OpenAIs Responses API med strömning aktiverad
+
+[PROJECT.ai-conversation-engine.GALLERY_ALT.4]
+Logik för konversationsminne med response IDs
+
+[PROJECT.ai-conversation-engine.GALLERY_ALT.5]
+Git-historik som visar den stegvisa utvecklingen av API-integrationen
+
+[PROJECT.ai-conversation-engine.GALLERY_ALT.6]
+Utforskar OpenAIs tokenizer för att förstå tokenanvändning
+
+[PROJECT.ai-conversation-engine.GALLERY_ALT.7]
+Exempel på API-svar loggat i OpenAI-dashboarden
+
+[PROJECT.ai-conversation-engine.GALLERY_ALT.8]
+Ytterligare svarslogg som visar modellens output
+
+[PROJECT.loginsight.TITLE]
+LogInsight
+
+[PROJECT.loginsight.DESC]
+En Java desktop-applikation för att visa, filtrera och analysera loggfiler. Den hjälper användare att förstå systemaktivitet genom strukturerad filtrering, visualisering och rapportering.
+
+[PROJECT.loginsight.HIGHLIGHT.1]
+Läs in och analysera strukturerade loggfiler
+
+[PROJECT.loginsight.HIGHLIGHT.2]
+Filtrera loggar efter datum, tid, nivå, källa, användare och IP
+
+[PROJECT.loginsight.HIGHLIGHT.3]
+Visualisera loggar med diagram för aktivitet över tid, nivåfördelning och vanligaste källor
+
+[PROJECT.loginsight.HIGHLIGHT.4]
+Lägg till anteckningar på loggposter för uppföljning och granskning
+
+[PROJECT.loginsight.HIGHLIGHT.5]
+Exportera rapporter i Text-, JSON- och CSV-format
+
+[PROJECT.loginsight.HIGHLIGHT.6]
+Innehåller ett enkelt autentiseringssystem med fördefinierade användare
+
+[PROJECT.loginsight.THUMB_ALT]
+LogInsight dashboard med grafvy
+
+[PROJECT.loginsight.GALLERY_ALT.1]
+LogInsight inloggningsskärm
+
+[PROJECT.loginsight.GALLERY_ALT.2]
+LogInsight grafdashboard med filter och diagram
+
+[PROJECT.loginsight.GALLERY_ALT.3]
+LogInsight tabellvy med filtrerade loggposter
+
+[PROJECT.loginsight.GALLERY_ALT.4]
+LogInsight skärm för användarhantering
+
+[PROJECT.loginsight.GALLERY_ALT.5]
+LogInsight inloggningsdialog
+
+[PROJECT.job-explorer.TITLE]
+Job Explorer
+
+[PROJECT.job-explorer.DESC]
+En Flask-applikation för att utforska och analysera svenska jobbannonser med JobTech API, med filtrering, visualisering och valfria e-postsammanfattningar.
+
+[PROJECT.job-explorer.HIGHLIGHT.1]
+Hämta och visa jobbannonser från JobTech public API
+
+[PROJECT.job-explorer.HIGHLIGHT.2]
+Filtrera jobb efter nyckelord, plats och egenskaper
+
+[PROJECT.job-explorer.HIGHLIGHT.3]
+Visa resultat i ett strukturerat tabellformat
+
+[PROJECT.job-explorer.HIGHLIGHT.4]
+Visualisera jobbfördelning per stad med diagram
+
+[PROJECT.job-explorer.HIGHLIGHT.5]
+Valfri funktion för e-postsammanfattning med SendGrid eller SMTP
+
+[PROJECT.job-explorer.HIGHLIGHT.6]
+Innehåller test suite med mockade API-interaktioner
+
+[PROJECT.job-explorer.THUMB_ALT]
+Job Explorer huvudförhandsvisning
+
+[PROJECT.job-explorer.GALLERY_ALT.1]
+Job Explorer huvudförhandsvisning
+
+[PROJECT.job-explorer.GALLERY_ALT.2]
+Skärmbild från Job Explorer
+
+[PROJECT.job-explorer.GALLERY_ALT.3]
+Skärmbild från Job Explorer
+
+[PROJECT.medsyn-lab-network.TITLE]
+MedSyn Lab - Nätverksdesign för företag
+
+[PROJECT.medsyn-lab-network.DESC]
+Ett komplett företagsnätverk designat och implementerat i Cisco Packet Tracer och Cisco Modeling Labs, med routing, switching, säkerhet, VPN och hög tillgänglighet för ett fiktivt medicinskt företag med huvudkontor och filialkontor.
+
+[PROJECT.medsyn-lab-network.HIGHLIGHT.1]
+Designade en HQ-arkitektur med dubbla ISP:er och brandväggar för full redundans
+
+[PROJECT.medsyn-lab-network.HIGHLIGHT.2]
+Konfigurerade OSPF-routing och HSRP gateway-redundans över alla VLAN på båda platserna
+
+[PROJECT.medsyn-lab-network.HIGHLIGHT.3]
+Implementerade IPsec site-to-site VPN mellan huvudkontor och filialkontor
+
+[PROJECT.medsyn-lab-network.HIGHLIGHT.4]
+Konfigurerade VLAN-segmentering med 802.1Q-trunkning över 9 avdelningar
+
+[PROJECT.medsyn-lab-network.HIGHLIGHT.5]
+Driftsatte ett WLC-hanterat trådlöst nätverk med CAPWAP-baserade åtkomstpunkter
+
+[PROJECT.medsyn-lab-network.HIGHLIGHT.6]
+Verifierade fullständig anslutning - alla tester godkändes för HQ, filial, DMZ och VPN
+
+[PROJECT.medsyn-lab-network.THUMB_ALT]
+Fullständigt nätverkstopologidiagram för MedSyn Lab
+
+[PROJECT.medsyn-lab-network.GALLERY_ALT.1]
+Fullständig nätverkstopologidiagram (Packet Tracer)
+
+[PROJECT.medsyn-lab-network.GALLERY_ALT.2]
+Fullständig labbtopologi i Cisco Modeling Labs
+
+[PROJECT.medsyn-lab-network.GALLERY_ALT.3]
+HQ-avdelningsgrupper - MgmtAdmin, BizOps, Finance, TechOps, ITInfra
+
+[PROJECT.medsyn-lab-network.GALLERY_ALT.4]
+WAN-kärna, ISP:er, brandväggar och DMZ-kluster
+
+[PROJECT.medsyn-lab-network.GALLERY_ALT.5]
+Filialens topologi med CoreSW1/2 och accessswitchar
+
+[PROJECT.medsyn-lab-network.GALLERY_ALT.6]
+HQ MgmtAdmin och BizOps-grupper i närbild
+
+[PROJECT.medsyn-lab-network.GALLERY_ALT.7]
+SMLC-HQ-MgmtAdmin-SW1 körningskonfiguration
+
+[PROJECT.medsyn-lab-network.GALLERY_ALT.8]
+SMLC-HQ-FW1 (Cisco ASA) körningskonfiguration
+
+[PROJECT.medsyn-lab-network.GALLERY_ALT.9]
+ISP-HQ1-router körningskonfiguration
+
+[PROJECT.online-laptop-store.TITLE]
+Online Laptop Store
+
+[PROJECT.online-laptop-store.DESC]
+En fullstack Flask-webbapplikation för att bläddra bland och köpa laptops, med ett komplett köpflöde och ett adminsystem för hantering.
+
+[PROJECT.online-laptop-store.HIGHLIGHT.1]
+Bläddra bland produkter och visa detaljerade laptopsidor
+
+[PROJECT.online-laptop-store.HIGHLIGHT.2]
+Lägg till i varukorg och slutför en enkel checkout-process
+
+[PROJECT.online-laptop-store.HIGHLIGHT.3]
+Admin dashboard för att hantera produkter, beställningar och betalningar
+
+[PROJECT.online-laptop-store.HIGHLIGHT.4]
+Rent och responsivt UI med strukturerad backend-arkitektur
+
+[PROJECT.online-laptop-store.THUMB_ALT]
+Online Laptop Store startsida
+
+[PROJECT.portfolio.TITLE]
+Portfolio Website
+
+[PROJECT.portfolio.DESC]
+En minimal Django-portfoliomall som är gjord för att visa profil, erfarenhet, projekt och artiklar med både översiktssektioner och egna sidor.
+
+[PROJECT.portfolio.HIGHLIGHT.1]
+Strukturerad layout med huvudsektioner och separata sidor för mer innehåll
+
+[PROJECT.portfolio.HIGHLIGHT.2]
+Designad för enkel redigering och återanvändning av innehåll via konfiguration
+
+[PROJECT.portfolio.HIGHLIGHT.3]
+Rent och minimalt gränssnitt med fokus på läsbarhet
+
+[PROJECT.portfolio.HIGHLIGHT.4]
+Stöder länkar till externa resurser som PDF-CV och projektdetaljer
+
+[PROJECT.portfolio.THUMB_ALT]
+Översiktssektion för portfoliomall
+
+[PROJECT.windows-server-enterprise-lab.TITLE]
+Windows Server Enterprise Lab
+
+[PROJECT.windows-server-enterprise-lab.DESC]
+En Windows Server-miljö i produktionsliknande stil som simulerar en säker företagsinfrastruktur, med fokus på Active Directory-design, åtkomstkontroll och god praxis för systemhantering.
+
+[PROJECT.windows-server-enterprise-lab.HIGHLIGHT.1]
+Deploya och konfigurera Active Directory-domän (corp.local)
+
+[PROJECT.windows-server-enterprise-lab.HIGHLIGHT.2]
+Designa strukturerad OU-hierarki för Lund och Stockholm
+
+[PROJECT.windows-server-enterprise-lab.HIGHLIGHT.3]
+Implementera Group Policy för användar- och datorhantering
+
+[PROJECT.windows-server-enterprise-lab.HIGHLIGHT.4]
+Konfigurera DNS med forwarders och conditional forwarding
+
+[PROJECT.windows-server-enterprise-lab.HIGHLIGHT.5]
+Sätt upp centraliserad filserver med NTFS och share permissions
+
+[PROJECT.windows-server-enterprise-lab.HIGHLIGHT.6]
+Använd RBAC med AGDLP-modellen (inga direkta användarbehörigheter)
+
+[PROJECT.windows-server-enterprise-lab.HIGHLIGHT.7]
+Delegera administration med security groups
+
+[PROJECT.windows-server-enterprise-lab.HIGHLIGHT.8]
+Automatisera skapande av många användare med PowerShell
+
+[PROJECT.windows-server-enterprise-lab.HIGHLIGHT.9]
+Deploya skrivare via Group Policy
+
+[PROJECT.windows-server-enterprise-lab.HIGHLIGHT.10]
+Genomdriv säkerhetspolicyer, inklusive begränsade miljöer och adminkontroller
+
+[PROJECT.windows-server-enterprise-lab.THUMB_ALT]
+Förhandsvisning av Windows Server Enterprise Lab
+
+[PROJECT.medsyn-m365-admin.TITLE]
+MedSyn Microsoft 365-tenant-administration
+
+[PROJECT.medsyn-m365-admin.DESC]
+Ett Microsoft 365-administrationslabb för ett fiktivt medicinteknikföretag, byggt från grunden utifrån verksamhetskrav till en strukturerad tenant - med identitet, licenshantering, Teams, SharePoint, Exchange Online, säkerhetsgenomgång och dokumenterade adminflöden.
+
+[PROJECT.medsyn-m365-admin.HIGHLIGHT.1]
+Förberedde en PowerShell-miljö med Microsoft Graph, Exchange Online, Teams och PnP-moduler; dokumenterade tenant-baslinjen innan konfigurationsändringar påbörjades
+
+[PROJECT.medsyn-m365-admin.HIGHLIGHT.2]
+Skapade personal-, admin- och break-glass-konton från CSV-data; tilldelade Microsoft 365 Business Basic-licenser och dokumenterade begränsningar
+
+[PROJECT.medsyn-m365-admin.HIGHLIGHT.3]
+Konfigurerade Microsoft 365-grupper, säkerhetsgrupper, distributionslistor och delade postlådor
+
+[PROJECT.medsyn-m365-admin.HIGHLIGHT.4]
+Byggde Teams-arbetsytor och kanaler för avdelningar och filialer; konfigurerade SharePoint-webbplatser med gruppbaserade behörigheter och inaktiverad extern delning
+
+[PROJECT.medsyn-m365-admin.HIGHLIGHT.5]
+Lade till Exchange Online-regler för externa avsändarvarningar och blockering av riskfyllda bilagor; granskade säkerhetsstandarder, Service Health och gäståtkomst
+
+[PROJECT.medsyn-m365-admin.HIGHLIGHT.6]
+Testade onboarding, offboarding, postlådestädning, sessionsåterkallelse och incidenthantering; exporterade den slutliga tenantkonfigurationen som dokumenterad evidens
+
+[PROJECT.medsyn-m365-admin.THUMB_ALT]
+Översikt av Microsoft 365-adminportalen
+
+[PROJECT.medsyn-m365-admin.GALLERY_ALT.1]
+Översikt av Microsoft 365-adminportalen
+
+[PROJECT.medsyn-m365-admin.GALLERY_ALT.2]
+PowerShell-miljö med Microsoft 365-moduler installerade
+
+[PROJECT.medsyn-m365-admin.GALLERY_ALT.3]
+Tenant-baslinje dokumenterad innan konfigurationsändringar
+
+[PROJECT.medsyn-m365-admin.GALLERY_ALT.4]
+Användarkonton skapade från CSV-källdata
+
+[PROJECT.medsyn-m365-admin.GALLERY_ALT.5]
+Microsoft 365 Business Basic-licenser tilldelade till användare
+
+[PROJECT.medsyn-m365-admin.GALLERY_ALT.6]
+Microsoft 365-grupper och säkerhetsgrupper konfigurerade
+
+[PROJECT.medsyn-m365-admin.GALLERY_ALT.7]
+Distributionslistor och delade postlådor skapade
+
+[PROJECT.medsyn-m365-admin.GALLERY_ALT.8]
+Teams-arbetsytor och avdelningskanaler uppsatta
+
+[PROJECT.medsyn-m365-admin.GALLERY_ALT.9]
+SharePoint-webbplatser med mappstrukturer och gruppbaserade behörigheter
+
+[PROJECT.medsyn-m365-admin.GALLERY_ALT.10]
+Extern delning inaktiverad för SharePoint-webbplatser
+
+[PROJECT.medsyn-m365-admin.GALLERY_ALT.11]
+Exchange Online-regel för varningar om externa avsändare
+
+[PROJECT.medsyn-m365-admin.GALLERY_ALT.12]
+Exchange Online-regel som blockerar riskfyllda bilagor
+
+[PROJECT.medsyn-m365-admin.GALLERY_ALT.13]
+Service Health och Message Center granskat
+
+[PROJECT.medsyn-m365-admin.GALLERY_ALT.14]
+Säkerhetsstandarder och gäståtkomst granskade
+
+[PROJECT.medsyn-m365-admin.GALLERY_ALT.15]
+Grupptillhörighet och åtkomstkontroll verifierad
+
+[PROJECT.medsyn-m365-admin.GALLERY_ALT.16]
+Onboarding-flöde testat för nya personalkonton
+
+[PROJECT.medsyn-m365-admin.GALLERY_ALT.17]
+Offboarding med postlådestädning och sessionsåterkallelse
+
+[PROJECT.medsyn-m365-admin.GALLERY_ALT.18]
+Incidenthanteringsåtgärder testade i tenanten
+
+[PROJECT.medsyn-m365-admin.GALLERY_ALT.19]
+Identitets- och behörighetskonfiguration exporterad som dokumentation
+
+[PROJECT.medsyn-m365-admin.GALLERY_ALT.20]
+Exchange Online- och Teams-konfiguration exporterad
+
+[PROJECT.medsyn-m365-admin.GALLERY_ALT.21]
+Slutlig sammanfattning av tenantkonfiguration för alla arbetsbelastningar
+
+[ARTICLE2.HEADING]
+Viktiga milstolpar inom DevOps, cloud och platform engineering
+
+[ARTICLE2.DESCRIPTION]
+En resa genom verktygen och idéerna som förändrade mjukvara från manuellt serverarbete till snabba, automatiserade och skalbara system.
+
+[ARTICLE2.TIMELINE.001.TITLE]
+Puppet
+
+[ARTICLE2.TIMELINE.001.DESCRIPTION]
+Före Puppet konfigurerade administratörer ofta servrar manuellt. Det ledde till configuration drift, där maskiner som skulle vara identiska långsamt blev olika över tid, vilket gjorde incidenter svårare att förebygga och felsöka. Puppet löste detta genom att låta team definiera önskat systemtillstånd i kod och sedan genomdriva det konsekvent på många servrar. Exempel: Före: en webbserver har en nyare paketversion än den andra, så appen beter sig olika. Efter: Puppet använder samma paket och konfiguration på båda servrarna.
+
+[ARTICLE2.TIMELINE.001.IMAGE_ALT]
+Illustration av Puppet-teknik
+
+[ARTICLE2.TIMELINE.002.TITLE]
+AWS (med Amazon S3-lanseringen som startpunkt)
+
+[ARTICLE2.TIMELINE.002.DESCRIPTION]
+Före AWS krävde infrastruktur oftast att man köpte hårdvara, väntade på provisionering och drev allt internt. Det gjorde skalning långsam, dyr och svår att anpassa efter ändrad efterfrågan. AWS hjälpte till att lösa detta genom att erbjuda infrastrukturtjänster via APIs med en pay-as-you-go-modell. S3 var särskilt viktigt eftersom det gav team hållbar lagring utan att de behövde bygga och hantera egna lagringssystem. Exempel: Före: ett team köper lagringshårdvara och väntar flera veckor innan den kan användas. Efter: teamet skapar en S3 bucket samma dag och börjar lagra backups.
+
+[ARTICLE2.TIMELINE.002.IMAGE_ALT]
+Grafik för Amazon S3 och AWS-integration
+
+[ARTICLE2.TIMELINE.003.TITLE]
+TeamCity
+
+[ARTICLE2.TIMELINE.003.DESCRIPTION]
+Innan CI-servrar blev vanliga upptäcktes integrationsproblem ofta sent, ibland nära release. TeamCity löste detta genom att automatisera builds och tester när koden ändrades, så att team kunde hitta fel tidigare och minska risken för trasiga releaser som berodde på sen integration. Exempel: Före: en dålig commit märks först under release-testning. Efter: TeamCity kör builden efter committen och rapporterar felet direkt.
+
+[ARTICLE2.TIMELINE.003.IMAGE_ALT]
+TeamCity continuous integration-branding
+
+[ARTICLE2.TIMELINE.004.TITLE]
+RabbitMQ
+
+[ARTICLE2.TIMELINE.004.DESCRIPTION]
+Innan message brokers användes brett kommunicerade system ofta direkt med varandra. Det skapade starka beroenden, så om en tjänst var långsam eller otillgänglig kunde andra tjänster också påverkas. RabbitMQ löste detta genom att lägga köer mellan system, så att applikationer kunde utbyta arbete asynkront och distribuerade system blev mer motståndskraftiga och skalbara. Exempel: Före: checkout väntar på att e-posttjänsten ska svara innan ordern slutförs. Efter: checkout lägger ett meddelande i RabbitMQ och blir klar direkt.
+
+[ARTICLE2.TIMELINE.004.IMAGE_ALT]
+RabbitMQ message broker-logotyp
+
+[ARTICLE2.TIMELINE.005.TITLE]
+Google App Engine
+
+[ARTICLE2.TIMELINE.005.DESCRIPTION]
+Före plattformar som App Engine behövde utvecklare hantera servrar, runtime-konfiguration och skalningsdetaljer även för ganska enkla webbapplikationer. App Engine löste detta genom att erbjuda en plattform där kod kunde deployas direkt, medan mycket av den underliggande infrastrukturen hanterades av Google. Det minskade driftarbetet och gjorde leverans av applikationer snabbare. Exempel: Före: ett team sätter upp VMs, webbservrar och skalningsregler för en liten app. Efter: teamet deployar appen till App Engine och plattformen hanterar runtime-miljön.
+
+[ARTICLE2.TIMELINE.005.IMAGE_ALT]
+Google App Engine-branding
+
+[ARTICLE2.TIMELINE.006.TITLE]
+GitHub
+
+[ARTICLE2.TIMELINE.006.DESCRIPTION]
+Git gav kraftfull versionshantering, men samarbete runt Git var fortfarande svårt för många team. GitHub löste detta genom att göra repository-hosting, code review och samarbetsflöden mycket enklare att använda i större skala. Det hjälpte till att standardisera hur team arbetade tillsammans på delade kodbaser, särskilt inom open source och distribuerade utvecklingsmiljöer. Exempel: Före: utvecklare skickar patches via e-post och granskar dem manuellt. Efter: de öppnar en pull request på GitHub och diskuterar ändringarna där.
+
+[ARTICLE2.TIMELINE.006.IMAGE_ALT]
+GitHub-logotyp
+
+[ARTICLE2.TIMELINE.007.TITLE]
+Windows Azure
+
+[ARTICLE2.TIMELINE.007.DESCRIPTION]
+Många enterprise-team ville ha cloud-funktioner men var fortfarande nära kopplade till Microsoft-teknik och on-premises-miljöer. Windows Azure löste detta genom att erbjuda en Microsoft cloud-plattform för hosting av applikationer och tjänster, vilket gjorde det enklare för dessa organisationer att flytta workloads till cloud och samtidigt stanna i ett välkänt ekosystem. Exempel: Före: en .NET-applikation körs bara på lokala Windows-servrar i företagets datacenter. Efter: samma typ av workload hostas på Azure-tjänster i Microsofts cloud.
+
+[ARTICLE2.TIMELINE.007.IMAGE_ALT]
+Windows Azure cloud-branding
+
+[ARTICLE2.TIMELINE.008.TITLE]
+New Relic
+
+[ARTICLE2.TIMELINE.008.DESCRIPTION]
+När applikationer blev mer distribuerade och alltid online behövde team bättre insyn i prestandaproblem i produktion. New Relic löste detta genom att erbjuda SaaS-baserad application performance monitoring, vilket hjälpte team att hitta långsamma transaktioner, flaskhalsar och fel utan att först bygga en egen monitoringplattform. Exempel: Före: användare säger att appen är långsam, men teamet kan inte se vilken request som orsakar det. Efter: New Relic visar att en databasfråga tar för lång tid.
+
+[ARTICLE2.TIMELINE.008.IMAGE_ALT]
+New Relic APM-branding
+
+[ARTICLE2.TIMELINE.009.TITLE]
+Chef
+
+[ARTICLE2.TIMELINE.009.DESCRIPTION]
+Manuell uppsättning av infrastruktur skapade inkonsekvens, upprepat arbete och svag change control. Chef löste detta genom att låta team beskriva infrastruktur och systemkonfiguration i kod, vilket gjorde miljöer enklare att automatisera, återanvända, granska och återskapa. Det hjälpte till att ta in metoder från mjukvaruutveckling i infrastrukturhantering. Exempel: Före: en admin installerar paket och ändrar config-filer för hand på varje server. Efter: Chef recipes använder samma setup automatiskt på alla servrar.
+
+[ARTICLE2.TIMELINE.009.IMAGE_ALT]
+Chef automation-logotyp
+
+[ARTICLE2.TIMELINE.010.TITLE]
+Redis
+
+[ARTICLE2.TIMELINE.010.DESCRIPTION]
+Traditionella databaser var ofta för långsamma för workloads som caching, session storage, counters, queues och realtidsstate. Redis löste detta genom en in-memory-design optimerad för mycket snabba läsningar och skrivningar. Det gjorde Redis värdefullt när låg latens var viktigare än hela funktionsutbudet i en traditionell databas. Exempel: Före: varje sidladdning läser sessionsdata från en långsammare diskbaserad databas. Efter: sessionen läses från Redis mycket snabbare.
+
+[ARTICLE2.TIMELINE.010.IMAGE_ALT]
+Redis data store-logotyp
+
+[ARTICLE2.TIMELINE.011.TITLE]
+Heroku
+
+[ARTICLE2.TIMELINE.011.DESCRIPTION]
+Att deploya applikationer krävde tidigare mycket kunskap om servrar och plattformar, vilket bromsade team och ökade den operativa komplexiteten. Heroku löste detta genom att erbjuda en plattform där utvecklare kunde pusha kod och köra applikationer utan att hantera större delen av den underliggande infrastrukturen. Det gjorde deployment snabbare och sänkte tröskeln för att få applikationer till produktion. Exempel: Före: en utvecklare förbereder servrar och runtime-inställningar innan appen publiceras. Efter: appen deployas till Heroku med en git push.
+
+[ARTICLE2.TIMELINE.011.IMAGE_ALT]
+Heroku plattformslogotyp
+
+[ARTICLE2.TIMELINE.012.TITLE]
+Elasticsearch
+
+[ARTICLE2.TIMELINE.012.DESCRIPTION]
+Att söka i loggar, dokument och driftsdata i stor skala krävde ofta komplexa egna system eller verktyg som var svåra att skala. Elasticsearch löste detta genom att erbjuda en distribuerad sökmotor med ett enkelt API och bra prestanda för stora dataset. Det blev särskilt användbart för loggsökning, analys och felsökning i drift. Exempel: Före: engineers loggar in på många servrar och söker i loggfiler en i taget. Efter: de söker i alla insamlade loggar från ett Elasticsearch-kluster.
+
+[ARTICLE2.TIMELINE.012.IMAGE_ALT]
+Elasticsearch search-branding
+
+[ARTICLE2.TIMELINE.013.TITLE]
+Vagrant
+
+[ARTICLE2.TIMELINE.013.DESCRIPTION]
+Utvecklingsmiljöer skilde sig ofta mellan laptops och team, vilket skapade setup-problem och inkonsekvent lokalt beteende. Vagrant löste detta genom att göra utvecklingsmiljöer reproducerbara med kod, så att team kunde definiera och återskapa samma lokala miljö mer pålitligt på olika maskiner. Exempel: Före: applikationen fungerar på en utvecklares laptop men misslyckas på en annan eftersom den lokala setupen är annorlunda. Efter: båda utvecklarna startar samma Vagrant-miljö.
+
+[ARTICLE2.TIMELINE.013.IMAGE_ALT]
+Vagrant utvecklingsmiljö-branding
+
+[ARTICLE2.TIMELINE.014.TITLE]
+Sentry
+
+[ARTICLE2.TIMELINE.014.DESCRIPTION]
+Produktionsfel var ofta gömda i loggar eller upptäcktes först efter att användare rapporterade dem. Sentry löste detta genom att centralisera felspårning för applikationer och visa var fel uppstod, hur ofta de hände och vilka kodvägar som var inblandade. Det gjorde felsökning i produktion snabbare och mer strukturerad. Exempel: Före: en användare rapporterar en krasch och teamet söker i många loggfiler för att hitta felet. Efter: Sentry visar exception, stack trace och påverkad request på ett ställe.
+
+[ARTICLE2.TIMELINE.014.IMAGE_ALT]
+Sentry error tracking-branding
+
+[ARTICLE2.TIMELINE.015.TITLE]
+Zero Trust Architecture
+
+[ARTICLE2.TIMELINE.015.DESCRIPTION]
+Traditionella säkerhetsmodeller antog att system innanför nätverksperimetern var mer pålitliga än system utanför. Det blev svagare när cloud-system, fjärråtkomst och intern lateral movement från angripare blev vanligare. Zero Trust Architecture löste detta genom att flytta modellen mot kontinuerlig verifiering av identitet och åtkomst, i stället för att bara lita på nätverksplats. Exempel: Före: en laptop som är ansluten till det interna nätverket når många system automatiskt. Efter: varje åtkomstförsök kräver identitets- och policykontroller.
+
+[ARTICLE2.TIMELINE.015.IMAGE_ALT]
+Konceptgrafik för Zero Trust Architecture
+
+[ARTICLE2.TIMELINE.016.TITLE]
+AWS CloudFormation
+
+[ARTICLE2.TIMELINE.016.DESCRIPTION]
+Tidigt cloud-användande innebar fortfarande mycket manuell setup via webbkonsoler. CloudFormation löste detta genom att låta team definiera AWS-infrastruktur i templates och provisionera den automatiskt. Det gjorde infrastrukturen mer repeterbar, enklare att versionshantera och enklare att bygga upp igen efter fel eller förändring. Exempel: Före: en engineer återskapar servrar, nätverk och databaser manuellt i AWS-konsolen efter ett fel. Efter: CloudFormation återskapar miljön från templaten.
+
+[ARTICLE2.TIMELINE.016.IMAGE_ALT]
+AWS CloudFormation placeholder-grafik
+
+[ARTICLE2.TIMELINE.017.TITLE]
+OpenShift
+
+[ARTICLE2.TIMELINE.017.DESCRIPTION]
+Team ville leverera applikationer snabbare utan att själva behöva sätta ihop varje plattformslager ovanpå rå infrastruktur. OpenShift löste detta genom att erbjuda en applikationsplattform som minskade mängden infrastrukturarbete utvecklare och operatörer behövde göra direkt, vilket hjälpte organisationer att leverera applikationer mer konsekvent och med mindre manuell setup. Exempel: Före: ett team bygger sin egen applikationsplattform från råa servrar och middleware. Efter: teamet deployar applikationen på OpenShift med den plattform som redan finns.
+
+[ARTICLE2.TIMELINE.017.IMAGE_ALT]
+OpenShift placeholder-grafik
+
+[ARTICLE2.TIMELINE.018.TITLE]
+Travis CI
+
+[ARTICLE2.TIMELINE.018.DESCRIPTION]
+Många mindre team och open-source-projekt behövde continuous integration men ville inte köra och underhålla egna CI-servrar. Travis CI löste detta genom att erbjuda hosted CI som automatiskt byggde och testade kodändringar, vilket gjorde continuous integration enklare att börja med och mer tillgängligt. Exempel: Före: contributors kör tester manuellt innan kod mergas. Efter: Travis CI kör testerna automatiskt för varje pull request.
+
+[ARTICLE2.TIMELINE.018.IMAGE_ALT]
+Travis CI placeholder-grafik
+
+[ARTICLE2.TIMELINE.019.TITLE]
+CircleCI
+
+[ARTICLE2.TIMELINE.019.DESCRIPTION]
+Att köra CI-infrastruktur internt skapade underhållsarbete och bromsade team. CircleCI löste detta genom att erbjuda hosted CI/CD-tjänster, vilket minskade den operativa belastningen från att underhålla build-system och gjorde automatiserad testning och leverans enklare att använda. Exempel: Före: teamet lägger tid på att laga och underhålla sin egen CI-server. Efter: CircleCI kör pipelinen som en managed service.
+
+[ARTICLE2.TIMELINE.019.IMAGE_ALT]
+CircleCI placeholder-grafik
+
+[ARTICLE2.TIMELINE.020.TITLE]
+Apache Kafka (första Apache-releasen)
+
+[ARTICLE2.TIMELINE.020.DESCRIPTION]
+Äldre meddelandesystem hade ofta svårt att hantera mycket stora mängder event-data och realtidsdata mellan tjänster. Kafka löste detta genom att erbjuda en distribuerad, hållbar event streaming-plattform med hög throughput. Den blev viktig för log pipelines, stream processing och event-driven architectures där pålitligt dataflöde i stor skala var avgörande. Exempel: Före: en växande ström av applikationsevents överbelastar det gamla meddelandesystemet. Efter: Kafka hanterar event-strömmen och olika consumers läser den pålitligt.
+
+[ARTICLE2.TIMELINE.020.IMAGE_ALT]
+Apache Kafka placeholder-grafik
+
+[ARTICLE2.TIMELINE.021.TITLE]
+Ansible
+
+[ARTICLE2.TIMELINE.021.DESCRIPTION]
+Vissa automationsverktyg var effektiva men krävde agenter, tyngre setup eller mer komplex hantering. Ansible löste detta genom en agentless-modell och läsbara YAML playbooks, vilket gjorde automation enklare att införa och underhålla över många system. Exempel: Före: teamet installerar och hanterar en agent på varje server innan något kan automatiseras. Efter: Ansible ansluter via SSH och kör playbooken direkt.
+
+[ARTICLE2.TIMELINE.021.IMAGE_ALT]
+Ansible placeholder-grafik
+
+[ARTICLE2.TIMELINE.022.TITLE]
+Firebase
+
+[ARTICLE2.TIMELINE.022.DESCRIPTION]
+Att bygga realtidsfunktioner i applikationer krävde tidigare en egen backend, synkroniseringslogik och löpande infrastrukturarbete. Firebase löste detta genom att erbjuda en hosted real-time backend som synkroniserade data automatiskt mellan klienter, vilket minskade arbetet som krävdes för att bygga interaktiva och live-uppdaterade applikationer. Exempel: Före: en chattapp behöver egen backendkod för att pusha nya meddelanden till anslutna användare. Efter: Firebase synkar nya meddelanden till alla klienter i realtid.
+
+[ARTICLE2.TIMELINE.022.IMAGE_ALT]
+Firebase placeholder-grafik
+
+[ARTICLE2.TIMELINE.023.TITLE]
+Kubernetes
+
+[ARTICLE2.TIMELINE.023.DESCRIPTION]
+Att köra containers en och en var hanterbart, men att driva dem över många servrar skapade utmaningar kring scheduling, skalning, nätverk och återhämtning. Kubernetes löste detta genom att automatisera container orchestration, så att team kunde köra containeriserade workloads på ett mer pålitligt, skalbart och kontrollerat sätt. Exempel: Före: operatörer väljer manuellt vilken server som ska köra varje container och startar om trasiga containers själva. Efter: Kubernetes schemalägger containers, startar om dem och skalar dem automatiskt.
+
+[ARTICLE2.TIMELINE.023.IMAGE_ALT]
+Kubernetes placeholder-grafik
+
+[ARTICLE2.TIMELINE.024.TITLE]
+Terraform
+
+[ARTICLE2.TIMELINE.024.DESCRIPTION]
+Cloud-infrastruktur skapades ofta manuellt eller med egna scripts som var svåra att underhålla och återanvända. Terraform löste detta genom att låta infrastruktur deklareras i kod och appliceras konsekvent, även över flera cloud providers. Det förbättrade reproducerbarhet, granskning och change control för infrastrukturarbete. Exempel: Före: en engineer skapar cloud-resurser genom att klicka i konsolen och upprepar samma steg varje gång. Efter: Terraform skapar miljön från versionshanterad kod.
+
+[ARTICLE2.TIMELINE.024.IMAGE_ALT]
+Terraform placeholder-grafik
+
+[ARTICLE2.TIMELINE.025.TITLE]
+AWS CodeDeploy
+
+[ARTICLE2.TIMELINE.025.DESCRIPTION]
+Manuella deployments var långsamma, inkonsekventa och känsliga för mänskliga fel, särskilt över många servrar eller instanser. CodeDeploy löste detta genom att automatisera utrullning av applikationer, vilket hjälpte team att standardisera deployments, minska risk och förbättra release-pålitlighet. Exempel: Före: admins kopierar den nya applikationsversionen till varje server för hand. Efter: CodeDeploy pushar den nya versionen automatiskt till alla målservrar.
+
+[ARTICLE2.TIMELINE.025.IMAGE_ALT]
+AWS CodeDeploy placeholder-grafik
+
+[ARTICLE2.TIMELINE.026.TITLE]
+AWS CodePipeline
+
+[ARTICLE2.TIMELINE.026.DESCRIPTION]
+Build-, test- och deployment-steg låg ofta utspridda över fristående scripts och verktyg. CodePipeline löste detta genom att erbjuda ett managed sätt att koppla ihop releasesteg till ett automatiserat arbetsflöde, vilket gjorde delivery pipelines mer konsekventa och enklare att driva. Exempel: Före: build, test och deploy startas separat av olika scripts eller personer. Efter: CodePipeline kör stegen i ett sammanhängande flöde.
+
+[ARTICLE2.TIMELINE.026.IMAGE_ALT]
+AWS CodePipeline placeholder-grafik
+
+[ARTICLE2.TIMELINE.027.TITLE]
+Nomad
+
+[ARTICLE2.TIMELINE.027.DESCRIPTION]
+När workloads spreds över många maskiner behövde team ett pålitligt sätt att placera applikationer och jobb automatiskt. Nomad löste detta genom att erbjuda en scheduler och workload orchestrator som minskade behovet av manuell placering och förbättrade konsekvensen i distribuerade miljöer. Exempel: Före: operatörer bestämmer för hand vilken server som ska köra varje jobb. Efter: Nomad placerar jobb automatiskt på tillgängliga maskiner.
+
+[ARTICLE2.TIMELINE.027.IMAGE_ALT]
+Nomad placeholder-grafik
+
+[ARTICLE2.TIMELINE.028.TITLE]
+Helm
+
+[ARTICLE2.TIMELINE.028.DESCRIPTION]
+Kubernetes-deployments krävde ofta många YAML-filer, upprepad konfiguration och svår release-hantering. Helm löste detta genom att paketera Kubernetes-applikationer i återanvändbara charts, vilket gjorde deployment, uppgradering och delning av komplexa applikationer enklare att hantera. Exempel: Före: ett team applicerar många separata Kubernetes YAML-filer för att installera en applikation. Efter: Helm installerar applikationen som ett chart med återanvändbara värden.
+
+[ARTICLE2.TIMELINE.028.IMAGE_ALT]
+Helm placeholder-grafik
+
+[ARTICLE2.TIMELINE.029.TITLE]
+Spinnaker
+
+[ARTICLE2.TIMELINE.029.DESCRIPTION]
+När release-frekvensen ökade blev deployments svårare att hantera säkert över flera miljöer och cloud-plattformar. Spinnaker löste detta genom fokus på continuous delivery, deployment orchestration, rollout control och rollback-stöd, vilket hjälpte team att släppa mjukvara snabbare med mer kontroll. Exempel: Före: team flyttar releaser mellan miljöer med manuella steg och riskfyllda rollback-processer. Efter: Spinnaker hanterar rollout och rollback från ett delivery-flöde.
+
+[ARTICLE2.TIMELINE.029.IMAGE_ALT]
+Spinnaker placeholder-grafik
+
+[ARTICLE2.TIMELINE.030.TITLE]
+Prometheus
+
+[ARTICLE2.TIMELINE.030.DESCRIPTION]
+Traditionella monitoringsystem var ofta byggda för statiska miljöer och passade inte moderna cloud-native-system särskilt bra. Prometheus löste detta genom att erbjuda en monitoringmodell som passar dynamisk infrastruktur, med flexibel insamling av metrics och alerting för distribuerade tjänster och containeriserade miljöer. Exempel: Före: monitoring missar kortlivade containers eftersom targets hela tiden ändras. Efter: Prometheus fortsätter hitta targets och samla metrics när miljön förändras.
+
+[ARTICLE2.TIMELINE.030.IMAGE_ALT]
+Prometheus placeholder-grafik
+
+[ARTICLE2.TIMELINE.031.TITLE]
+AWS SAM
+
+[ARTICLE2.TIMELINE.031.DESCRIPTION]
+Serverless-applikationer på AWS kunde snabbt bli svåra att definiera eftersom team fortfarande behövde beskriva många relaterade cloud-resurser i detalj. AWS SAM löste detta genom att lägga en enklare modell ovanpå CloudFormation för Lambda functions, APIs och relaterade serverless-resurser. Det gjorde serverless-applikationer enklare att definiera, granska och deploya som en enhet. Exempel: Före: ett team skriver stora CloudFormation-filer för varje Lambda och API. Efter: teamet definierar serverless-appen i en kortare SAM template.
+
+[ARTICLE2.TIMELINE.031.IMAGE_ALT]
+AWS SAM placeholder-grafik
+
+[ARTICLE2.TIMELINE.032.TITLE]
+AWS CodeBuild
+
+[ARTICLE2.TIMELINE.032.DESCRIPTION]
+Build-servrar krävde ofta underhåll, skalningsarbete och manuell setup av build-miljöer. AWS CodeBuild löste detta genom att ge team en managed build service som kunde kompilera kod, köra tester och skapa artefakter utan att teamet behövde driva build-infrastrukturen själva. Exempel: Före: ett team underhåller sin egen build VM och uppdaterar verktyg manuellt. Efter: CodeBuild startar rena builds vid behov.
+
+[ARTICLE2.TIMELINE.032.IMAGE_ALT]
+AWS CodeBuild placeholder-grafik
+
+[ARTICLE2.TIMELINE.033.TITLE]
+Flux CD
+
+[ARTICLE2.TIMELINE.033.DESCRIPTION]
+Kubernetes-kluster gled ofta bort från konfigurationen som fanns i Git eftersom deployments fortfarande triggades eller ändrades manuellt. Flux CD löste detta genom att kontinuerligt synka klustrets state med det som var deklarerat i versionshanteringen. Det gjorde deployments mer granskningsbara och minskade configuration drift. Exempel: Före: någon ändrar klustret manuellt och Git matchar inte längre. Efter: Flux upptäcker drift och återställer Git-state.
+
+[ARTICLE2.TIMELINE.033.IMAGE_ALT]
+Flux CD placeholder-grafik
+
+[ARTICLE2.TIMELINE.034.TITLE]
+Packer 1.0
+
+[ARTICLE2.TIMELINE.034.DESCRIPTION]
+Team byggde ofta machine images för hand, vilket gjorde base images inkonsekventa och svåra att återskapa. Packer löste detta genom att låta team skapa images för olika plattformar från en gemensam källkonfiguration. Det gjorde image creation mer repeterbar och förbättrade konsekvensen mellan miljöer. Exempel: Före: engineers bygger AMIs manuellt med olika paketversioner. Efter: Packer skapar matchande images från en definition.
+
+[ARTICLE2.TIMELINE.034.IMAGE_ALT]
+Packer 1.0 placeholder-grafik
+
+[ARTICLE2.TIMELINE.035.TITLE]
+Istio
+
+[ARTICLE2.TIMELINE.035.DESCRIPTION]
+I microservice-system implementerades saker som service-to-service-säkerhet, trafikkontroll och telemetry ofta separat i varje tjänst. Istio löste detta genom att introducera ett service mesh som flyttade dessa delar till ett gemensamt infrastrukturlager. Det gjorde distribuerade system enklare att observera, säkra och kontrollera konsekvent. Exempel: Före: varje tjänst lägger till egen retry- och trafiklogik. Efter: Istio applicerar reglerna från mesh-lagret.
+
+[ARTICLE2.TIMELINE.035.IMAGE_ALT]
+Istio placeholder-grafik
+
+[ARTICLE2.TIMELINE.036.TITLE]
+GitOps model
+
+[ARTICLE2.TIMELINE.036.DESCRIPTION]
+Infrastruktur- och deployment-ändringar var ofta svåra att granska eftersom de skedde via dashboards, scripts eller direkt klusteråtkomst. GitOps-modellen löste detta genom att göra Git till källan för önskat systemtillstånd och använda automation för att applicera ändringarna. Det förbättrade reviewability, spårbarhet och rollback. Exempel: Före: en produktionsinställning ändras direkt i klustret. Efter: ändringen går via Git och appliceras automatiskt.
+
+[ARTICLE2.TIMELINE.036.IMAGE_ALT]
+GitOps model placeholder-grafik
+
+[ARTICLE2.TIMELINE.037.TITLE]
+Fluentd 1.0
+
+[ARTICLE2.TIMELINE.037.DESCRIPTION]
+Loggar från applikationer och infrastruktur var ofta utspridda över olika system och format, vilket gjorde central analys svår. Fluentd löste detta genom att fungera som en gemensam datainsamlare som kunde samla in, transformera och skicka loggar till flera destinationer. Det gjorde log pipelines mer konsekventa och portabla. Exempel: Före: varje app skriver loggar till olika filer och verktyg. Efter: Fluentd samlar in och vidarebefordrar dem till en pipeline.
+
+[ARTICLE2.TIMELINE.037.IMAGE_ALT]
+Fluentd 1.0 placeholder-grafik
+
+[ARTICLE2.TIMELINE.038.TITLE]
+Cilium
+
+[ARTICLE2.TIMELINE.038.DESCRIPTION]
+Traditionell container-nätverkshantering och säkerhet byggde ofta på äldre Linux-mekanismer som blev svårare att skala och hantera i dynamiska Kubernetes-miljöer. Cilium löste detta genom att använda eBPF-baserade nätverks- och säkerhetskontroller för moderna containersystem. Det förbättrade synlighet, policykontroll och prestanda. Exempel: Före: nätverksregler bygger på stora iptables-kedjor. Efter: Cilium genomdriver policy med eBPF i kernel.
+
+[ARTICLE2.TIMELINE.038.IMAGE_ALT]
+Cilium placeholder-grafik
+
+[ARTICLE2.TIMELINE.039.TITLE]
+Kustomize
+
+[ARTICLE2.TIMELINE.039.DESCRIPTION]
+Kubernetes-team kopierade och ändrade ofta många YAML-filer för varje miljö, vilket skapade duplicering och underhållsproblem. Kustomize löste detta genom att låta team anpassa baskonfigurationer med overlays utan att templatera originalfilerna. Det gjorde miljöspecifika ändringar enklare att hantera. Exempel: Före: dev och prod har separata kopior av nästan samma YAML. Efter: båda återanvänder en base med små overlays.
+
+[ARTICLE2.TIMELINE.039.IMAGE_ALT]
+Kustomize placeholder-grafik
+
+[ARTICLE2.TIMELINE.040.TITLE]
+Pulumi
+
+[ARTICLE2.TIMELINE.040.DESCRIPTION]
+Infrastructure as code-verktyg var kraftfulla, men vissa team tyckte att helt deklarativ syntax blev begränsande när de behövde rikare logik och återanvändbara abstraktioner. Pulumi löste detta genom att låta infrastruktur definieras med vanliga programmeringsspråk. Det gjorde det enklare att använda mjukvaruutvecklingsmönster på cloud-infrastruktur. Exempel: Före: delad infrastrukturlogik är klumpig i enkla templates. Efter: Pulumi låter team bygga återanvändbara komponenter i kod.
+
+[ARTICLE2.TIMELINE.040.IMAGE_ALT]
+Pulumi placeholder-grafik
+
+[ARTICLE2.TIMELINE.041.TITLE]
+Knative
+
+[ARTICLE2.TIMELINE.041.DESCRIPTION]
+Team ville ha serverless-beteende på Kubernetes, men Kubernetes ensam gav inte en komplett uppsättning byggblock för event-driven workloads och request-baserad autoscaling. Knative löste detta genom att lägga serverless-inriktade komponenter ovanpå Kubernetes. Det gjorde det enklare att köra event-driven och autoscaling workloads inom Kubernetes-ekosystemet. Exempel: Före: ett team sätter ihop autoscaling och event routing själva. Efter: Knative ger dessa byggblock på Kubernetes.
+
+[ARTICLE2.TIMELINE.041.IMAGE_ALT]
+Knative placeholder-grafik
+
+[ARTICLE2.TIMELINE.042.TITLE]
+Azure DevOps
+
+[ARTICLE2.TIMELINE.042.DESCRIPTION]
+Planering, source control, pipelines, packages och testning var ofta utspridda över flera Microsoft-märkta tjänster och produktnamn. Azure DevOps löste detta genom att samla dessa funktioner under ett tydligare DevOps-plattformsnamn och en tjänstefamilj. Det gjorde delivery-flöden mer samlade för Microsoft-centrerade team. Exempel: Före: ett team hoppar mellan separata Microsoft-verktyg och namn. Efter: teamet använder Azure DevOps för boards, repos, pipelines och artifacts.
+
+[ARTICLE2.TIMELINE.042.IMAGE_ALT]
+Azure DevOps placeholder-grafik
+
+[ARTICLE2.TIMELINE.043.TITLE]
+Linkerd 2.0
+
+[ARTICLE2.TIMELINE.043.DESCRIPTION]
+Service meshes kunde ge mycket komplexitet och resurskostnad, vilket gjorde införandet svårare för vissa team. Linkerd 2.0 löste detta genom fokus på ett lättare och enklare service mesh för Kubernetes med stark prestanda och lägre operativ komplexitet. Exempel: Före: teamet undviker service mesh eftersom det känns för tungt. Efter: Linkerd 2.0 lägger till mTLS och observability med mindre overhead.
+
+[ARTICLE2.TIMELINE.043.IMAGE_ALT]
+Linkerd 2.0 placeholder-grafik
+
+[ARTICLE2.TIMELINE.044.TITLE]
+GitHub Actions
+
+[ARTICLE2.TIMELINE.044.DESCRIPTION]
+Workflow automation krävde ofta externa CI-system även när koden redan låg på GitHub. GitHub Actions löste detta genom att ta in workflow automation direkt i GitHub-plattformen, så att team kunde bygga, testa, paketera och deploya från repository-events. Exempel: Före: varje workflow beror på ett externt CI-verktyg. Efter: GitHub Actions körs från repository-events inne i GitHub.
+
+[ARTICLE2.TIMELINE.044.IMAGE_ALT]
+GitHub Actions placeholder-grafik
+
+[ARTICLE2.TIMELINE.045.TITLE]
+Firecracker
+
+[ARTICLE2.TIMELINE.045.DESCRIPTION]
+Containers var snabba och effektiva, men vissa workloads behövde starkare isolering närmare virtuella maskiner utan den fulla tyngden från traditionella VMs. Firecracker löste detta genom att introducera lätta microVMs för serverless- och containerbaserade tjänster. Det förbättrade balansen mellan hastighet och isolering. Exempel: Före: ett team väljer mellan snabba containers och tyngre VMs. Efter: Firecracker ger lätta microVMs med starkare isolering.
+
+[ARTICLE2.TIMELINE.045.IMAGE_ALT]
+Firecracker placeholder-grafik
+
+[ARTICLE2.TIMELINE.046.TITLE]
+Tekton
+
+[ARTICLE2.TIMELINE.046.DESCRIPTION]
+CI/CD-verktyg kändes ofta separata från Kubernetes även när team redan körde sina applikationer där. Tekton löste detta genom att definiera pipelines och build tasks som Kubernetes-native-resurser. Det gjorde mjukvaruleveransflöden mer naturliga i cloud-native-miljöer. Exempel: Före: appar körs på Kubernetes men pipelinen finns någon annanstans. Efter: Tekton kör pipelinen som Kubernetes-native-resurser.
+
+[ARTICLE2.TIMELINE.046.IMAGE_ALT]
+Tekton placeholder-grafik
+
+[ARTICLE2.TIMELINE.047.TITLE]
+OpenTelemetry
+
+[ARTICLE2.TIMELINE.047.DESCRIPTION]
+Observability-verktyg hade blivit fragmenterade, med separata standarder och bibliotek för traces, metrics och instrumentation. OpenTelemetry löste detta genom att samla telemetry collection och instrumentation i ett öppet framework. Det förbättrade portabilitet och minskade duplicering mellan observability-verktyg. Exempel: Före: tracing och metrics använder olika bibliotek och regler. Efter: OpenTelemetry ger ett gemensamt sätt att instrumentera.
+
+[ARTICLE2.TIMELINE.047.IMAGE_ALT]
+OpenTelemetry placeholder-grafik
+
+[ARTICLE2.TIMELINE.048.TITLE]
+Argo CD
+
+[ARTICLE2.TIMELINE.048.DESCRIPTION]
+Kubernetes-deployments drevs ofta fortfarande av imperativa kommandon, vilket gjorde ändringar svårare att granska och klusterstate svårare att hålla i linje med Git. Argo CD löste detta genom att erbjuda en GitOps-fokuserad continuous delivery controller för Kubernetes. Den jämförde kontinuerligt live state med önskat state i Git och kunde synka tillbaka klustret när drift uppstod. Exempel: Före: en release engineer kör kubectl manuellt. Efter: Argo CD synkar klustret automatiskt från Git.
+
+[ARTICLE2.TIMELINE.048.IMAGE_ALT]
+Argo CD placeholder-grafik
+
+[ARTICLE2.TIMELINE.049.TITLE]
+Backstage
+
+[ARTICLE2.TIMELINE.049.DESCRIPTION]
+När engineering-organisationer växte behövde utvecklare ofta hoppa mellan många verktyg för att hitta service ownership, dokumentation, deployments och driftkontext. Backstage löste detta genom att skapa en gemensam intern utvecklarportal. Det minskade fragmentering och förbättrade developer experience kring interna system. Exempel: Före: docs, owners och deploy-länkar är utspridda över verktyg. Efter: Backstage visar dem i en portal.
+
+[ARTICLE2.TIMELINE.049.IMAGE_ALT]
+Backstage placeholder-grafik
+
+[ARTICLE2.TIMELINE.050.TITLE]
+Crossplane
+
+[ARTICLE2.TIMELINE.050.DESCRIPTION]
+Plattformsteam ville ofta erbjuda self-service cloud-infrastruktur, men hanteringsmodellen för cloud-resurser var fortfarande utspridd över provider-specifika verktyg och templates. Crossplane löste detta genom att utöka Kubernetes så att team kunde hantera cloud-resurser och bygga återanvändbara platform APIs från en control plane-modell. Exempel: Före: utvecklare beställer databaser och nätverk via separata cloud-verktyg. Efter: Crossplane exponerar dem som platform APIs från Kubernetes.
+
+[ARTICLE2.TIMELINE.050.IMAGE_ALT]
+Crossplane placeholder-grafik
+
+[ARTICLE2.TIMELINE.051.TITLE]
+Telepresence 2
+
+[ARTICLE2.TIMELINE.051.DESCRIPTION]
+Att utveckla en microservice i en stor Kubernetes-applikation kunde vara långsamt eftersom det var svårt att återskapa hela den remote-miljön lokalt. Telepresence 2 löste detta genom att låta utvecklare koppla en lokal tjänst till ett remote-kluster och testa mot riktiga beroende tjänster. Det kortade feedback-loopar för cloud-native-utveckling. Exempel: Före: en utvecklare kör många beroende tjänster lokalt för att testa en ändring. Efter: Telepresence kopplar den lokala tjänsten till remote-klustret.
+
+[ARTICLE2.TIMELINE.051.IMAGE_ALT]
+Telepresence 2 placeholder-grafik
+
+[ARTICLE2.TIMELINE.052.TITLE]
+Cosign
+
+[ARTICLE2.TIMELINE.052.DESCRIPTION]
+Att signera och verifiera mjukvaruartefakter, särskilt container images, var ofta för svårt för vanliga utvecklingsflöden. Cosign löste detta genom att göra signering och verifiering mycket enklare för OCI-artefakter. Det hjälpte team att förbättra förtroendet i software supply chain med mindre operativt arbete. Exempel: Före: ett team publicerar container images utan enkel verifiering. Efter: Cosign signerar imagen och användare verifierar dess ursprung.
+
+[ARTICLE2.TIMELINE.052.IMAGE_ALT]
+Cosign placeholder-grafik
+
+[ARTICLE2.TIMELINE.053.TITLE]
+HTTP/3
+
+[ARTICLE2.TIMELINE.053.DESCRIPTION]
+HTTP/2 förbättrade prestanda, men ärvde fortfarande vissa begränsningar på transportnivå från TCP, särskilt kring head-of-line blocking. HTTP/3 löste detta genom att mappa HTTP till QUIC, vilket förbättrade anslutningsbeteende och prestanda på moderna nätverk. Exempel: Före: paketförlust på en TCP-stream fördröjer annan trafik. Efter: HTTP/3 använder QUIC-streams för att minska den blockeringen.
+
+[ARTICLE2.TIMELINE.053.IMAGE_ALT]
+HTTP/3 placeholder-grafik
+
+[ARTICLE2.TIMELINE.054.TITLE]
+Istio Ambient Mesh
+
+[ARTICLE2.TIMELINE.054.DESCRIPTION]
+Traditionella service meshes var ofta beroende av sidecar proxies för varje workload, vilket ökade resursanvändning och operativ komplexitet. Istio Ambient Mesh löste detta genom att introducera ett sidecar-less data plane-läge för enklare drift och lägre overhead, samtidigt som viktiga mesh-funktioner behölls. Exempel: Före: varje pod kör sin egen sidecar proxy. Efter: ambient mesh flyttar mycket av arbetet till gemensam infrastruktur.
+
+[ARTICLE2.TIMELINE.054.IMAGE_ALT]
+Istio Ambient Mesh placeholder-grafik
+
+[ARTICLE2.TIMELINE.055.TITLE]
+Sigstore GA
+
+[ARTICLE2.TIMELINE.055.DESCRIPTION]
+Infrastruktur för mjukvarusignering var ofta svår att driva och för kostsam för många open-source- och mindre team. Sigstore GA löste detta genom att göra en stabil, community-driven signerings- och verifieringstjänst brett tillgänglig. Det sänkte tröskeln för starkare software supply chain security. Exempel: Före: många projekt levererar artefakter utan ett enkelt publikt signeringsflöde. Efter: Sigstore erbjuder production-grade publika signerings- och verifieringstjänster.
+
+[ARTICLE2.TIMELINE.055.IMAGE_ALT]
+Sigstore GA placeholder-grafik
+
+[ARTICLE2.TIMELINE.056.TITLE]
+Flux 2 GA
+
+[ARTICLE2.TIMELINE.056.DESCRIPTION]
+Tidiga GitOps-setuper kunde fungera bra, men team ville fortfarande ha en mer mogen och stabil uppsättning production-ready GitOps-komponenter. Flux 2 GA löste detta genom att markera Flux 2-komponentmodellen som generally available. Det gav team en starkare grund för GitOps-drift i produktion på Kubernetes. Exempel: Före: team ser Flux 2 som något som fortfarande utvecklas för central produktionsanvändning. Efter: Flux 2 GA blir en stabil GitOps-baslinje.
+
+[ARTICLE2.TIMELINE.056.IMAGE_ALT]
+Flux 2 GA placeholder-grafik
+
+[ARCHIVE_ROW.1.PROJECT]
+Exempelklient eller projekt
+
+[ARCHIVE_ROW.1.MADE_AT]
+Byrå eller företag
+
+[ARCHIVE_ROW.2.PROJECT]
+Ett annat exempelprojekt
+
+[ARCHIVE_ROW.2.MADE_AT]
+Tidigare företag
+
+[FRONTEND_PROJECT.med-imaging-hub.TITLE]
+Med Imaging Hub
+
+[FRONTEND_PROJECT.med-imaging-hub.DESC]
+Ett tvåspråkigt (svenska/engelska) frontend-gränssnitt för en bildhanteringsplattform som visualiserar MR-kapacitet, tillgänglighet och regionala trender i Sverige. Visas här som gränssnittslagret av ett större fullstack-projekt.
+
+[FRONTEND_PROJECT.sam-medsyn-lab.TITLE]
+Sam MedSyn Lab
+
+[FRONTEND_PROJECT.sam-medsyn-lab.DESC]
+Ett interaktivt Next.js-frontend för en modern bildhanteringsklinik, byggt med Framer Motion för responsiv, rörelsedriven visuell design.
+
+[FRONTEND_PROJECT.korkort-redo.TITLE]
+Körkort Redo
+
+[FRONTEND_PROJECT.korkort-redo.DESC]
+En webbaserad övningsapp för det svenska körkortsteoriprovet, med en frågebank på 280 frågor på fyra språk och fullt RTL-stöd för farsi och arabiska. Här lyfts Next.js-frontendet och den klientbaserade övningsupplevelsen fram.
