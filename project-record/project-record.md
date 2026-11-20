@@ -4,6 +4,8 @@ This project is the final assignment in the course Continuous Integration and Co
 
 Before this project, every change to the website was copied to the server by hand. The goal is to make delivery automatic and safe: each change is tested, packaged as a Docker image, checked in a test environment and then deployed to the live server on Hetzner, with a clear way back to an earlier version if something goes wrong. Each step of the pipeline is explained, together with why it exists.
 
+The project is a course assignment, but it is built on a real system: the website is the real portfolio, and the pipeline is meant to stay in use after the course. The solution is therefore sized to the website. It is a small site with no database on one server, so the pipeline aims to be clean, reliable and easy to follow, not a large enterprise setup. Where a real production setup would go further, this is pointed out.
+
 ## 1. Before and After: From Manual Updates to a Pipeline
 
 The portfolio website at samparsa.se already runs on a rented server. This section shows in two pictures how an update reaches the live site today, and how it should reach it when the pipeline is in place.
@@ -73,7 +75,23 @@ The website is a Django application (Django is a Python framework for building w
 - **Two languages.** English and Swedish. The EN | SV switch in the corner saves the choice in a cookie.
 - **Static files** (images, styles, scripts, CV files) are served by WhiteNoise, a small Python package that lets Django serve them itself.
 
-To prove that the website works from its project folder, it was started with Django's built-in development server (Figure 3):
+The project is organized in the usual Django way (Figure 3):
+
+1. `config/` holds the project settings (`settings.py`), the main address list (`urls.py`) and `wsgi.py`, the entry point a production server such as Gunicorn uses to start the site.
+2. `core/` is the application itself: the pages (`views.py`), their addresses (`urls.py`), the HTML templates, and all texts, projects and articles (`site_data.py` and the two `article_two_rows` files). `locale.py` loads the Swedish texts.
+3. `project-record/` is this document and its images. It is part of the project, so the documentation is versioned together with the code.
+4. `static/` holds the CSS, JavaScript, images and the CV files in English and Swedish.
+5. `Swedish Version/SV-TRANSLATION.txt` holds all Swedish texts in one file.
+6. `templates/base.html` is the shared page frame that every page is built on.
+7. `manage.py` is Django's command tool, and `requirements.txt` lists the exact Python packages and versions the site needs: Django 5.2.10, django-environ 0.12.0 and WhiteNoise 6.11.0.
+
+![Project structure in VS Code](images/vscode-project-structure.png)
+
+*Figure 3. The project folders, opened in VS Code.*
+
+Two more files matter for safety. `.gitignore` keeps local and secret files out of Git, and `.env.example` shows which settings (for example the secret key) must be given from outside, so that no secret is stored in the code.
+
+To prove that the website works from its project folder, it was started with Django's built-in development server (Figure 4):
 
 1. The command `python3.11 manage.py runserver 8010` starts the website on the Mac, on port 8010.
 2. Django checks the project first and finds no problems.
@@ -82,18 +100,18 @@ To prove that the website works from its project folder, it was started with Dja
 
 ![Terminal with the Django development server running](images/local-run-terminal.png)
 
-*Figure 3. The website starts on the Mac with no problems found.*
+*Figure 4. The website starts on the Mac with no problems found.*
 
-The home page then opens in the browser (Figure 4):
+The home page then opens in the browser (Figure 5):
 
-1. The address is the local one from Figure 3.
+1. The address is the local one from Figure 4.
 2. The language switch shows EN as the active language.
 
 ![Home page in English on the local server](images/local-run-home-en.png)
 
-*Figure 4. The home page in English, running on the Mac.*
+*Figure 5. The home page in English, running on the Mac.*
 
-After a click on SV, the same page is shown in Swedish (Figure 5):
+After a click on SV, the same page is shown in Swedish (Figure 6):
 
 1. The address is still the local one.
 2. SV is now the active language.
@@ -101,7 +119,7 @@ After a click on SV, the same page is shown in Swedish (Figure 5):
 
 ![Home page in Swedish on the local server](images/local-run-home-sv.png)
 
-*Figure 5. The same home page in Swedish.*
+*Figure 6. The same home page in Swedish.*
 
 ### 2.2 The Live Server Today
 
@@ -110,7 +128,7 @@ The live site runs on a VPS (a rented virtual server) at Hetzner, with Ubuntu 24
 - **Nginx** receives all visits to samparsa.se, handles HTTPS, and passes the requests on.
 - **Gunicorn** runs the Django code. It is started by systemd, the part of Ubuntu that starts and watches services.
 
-The command `systemctl status gunicorn --no-pager` shows if Gunicorn is running and from where (Figure 6):
+The command `systemctl status gunicorn --no-pager` shows if Gunicorn is running and from where (Figure 7):
 
 1. The command asks systemd for the state of the Gunicorn service.
 2. Gunicorn is active and has been running for 5 days.
@@ -119,9 +137,9 @@ The command `systemctl status gunicorn --no-pager` shows if Gunicorn is running 
 
 ![Gunicorn service status on the server](images/server-gunicorn-status.png)
 
-*Figure 6. Gunicorn runs the live site from the folder samstack_next4.*
+*Figure 7. Gunicorn runs the live site from the folder samstack_next4.*
 
-The command `grep -E "server_name|proxy_pass|alias" /etc/nginx/sites-available/samparsa` shows only the three most important lines of the Nginx settings for the site (Figure 7):
+The command `grep -E "server_name|proxy_pass|alias" /etc/nginx/sites-available/samparsa` shows only the three most important lines of the Nginx settings for the site (Figure 8):
 
 1. `server_name`: Nginx answers for samparsa.se and www.samparsa.se.
 2. `alias`: the static files are read straight from the same folder, samstack_next4.
@@ -129,16 +147,16 @@ The command `grep -E "server_name|proxy_pass|alias" /etc/nginx/sites-available/s
 
 ![Nginx settings for the site](images/server-nginx-site.png)
 
-*Figure 7. Nginx passes visits to Gunicorn and serves the static files from samstack_next4.*
+*Figure 8. Nginx passes visits to Gunicorn and serves the static files from samstack_next4.*
 
 Both Gunicorn and Nginx point at one folder by its name. To put a new version live by hand, both must be changed and restarted, which is exactly the kind of manual step the pipeline removes.
 
-Finally, the live site answers on its real address (Figure 8):
+Finally, the live site answers on its real address (Figure 9):
 
 1. The address is https://samparsa.se, served over HTTPS.
 
 ![The live portfolio website](images/live-site-home-en.png)
 
-*Figure 8. The live site at samparsa.se, the version that runs today.*
+*Figure 9. The live site at samparsa.se, the version that runs today.*
 
 The website runs on the Mac without problems, in both languages, and the live server runs the same site through Nginx and Gunicorn. This is the starting point the pipeline is built on.
