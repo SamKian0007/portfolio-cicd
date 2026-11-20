@@ -1,0 +1,62 @@
+# Continuous Integration: checks every push and pull request.
+# Three jobs run side by side, so one red job shows exactly which kind of check failed.
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    name: Lint (ruff)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.11"
+          cache: pip
+      - run: pip install -r requirements-dev.txt
+      - name: Check code style and common mistakes
+        run: ruff check .
+
+  test:
+    name: Tests (Django)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.11"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: Collect static files
+        run: python manage.py collectstatic --noinput
+      - name: Run the tests (every page in EN and SV, language switch, 404)
+        run: python manage.py test --verbosity 2
+
+  security:
+    name: Security (pip-audit, bandit, deploy check)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.11"
+          cache: pip
+      - run: pip install -r requirements-dev.txt
+      - name: Check the packages for known security holes
+        run: pip-audit -r requirements.txt
+      - name: Check the code for risky patterns
+        run: bandit -r core config
+      - name: Check the production settings
+        env:
+          DJANGO_ENV: production
+          DJANGO_DEBUG: "False"
+          DJANGO_ALLOWED_HOSTS: samparsa.se
+        run: |
+          export DJANGO_SECRET_KEY="$(python -c 'import secrets; print(secrets.token_urlsafe(50))')"
+          python manage.py check --deploy --fail-level WARNING

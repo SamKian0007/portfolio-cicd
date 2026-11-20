@@ -1,5 +1,6 @@
 from django.urls import path
 
+from . import views
 from .site_data import (
     ARTICLE_EIGHTH_SLUG,
     ARTICLE_FIFTH_SLUG,
@@ -9,7 +10,6 @@ from .site_data import (
     ARTICLE_SIXTH_SLUG,
     ARTICLE_THIRD_SLUG,
 )
-from . import views
 
 urlpatterns = [
     path("", views.home, name="home"),

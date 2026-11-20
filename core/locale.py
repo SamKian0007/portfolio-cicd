@@ -190,7 +190,7 @@ def _build_sv_site(base_site: dict) -> dict:
 
     # Article 2 page
     art2_pages = site.get("article_pages") or {}
-    for art2_slug, art2 in art2_pages.items():
+    for art2 in art2_pages.values():
         art2["heading"] = _SV.get("ARTICLE2.HEADING", art2.get("heading", ""))
         art2["description"] = _SV.get("ARTICLE2.DESCRIPTION", art2.get("description", ""))
         for i, item in enumerate(art2.get("items") or []):
@@ -202,7 +202,8 @@ def _build_sv_site(base_site: dict) -> dict:
     return site
 
 
-# Build once at import time (SV strings are static for the lifetime of the process)
-from .site_data import SITE as _EN_SITE  # noqa: E402  (avoids circular import at top)
+# Build once at import time (SV strings are static for the lifetime of the process).
+# Imported here and not at the top of the file, to avoid a circular import.
+from .site_data import SITE as _EN_SITE
 
 SV_SITE: dict = _build_sv_site(_EN_SITE) if _SV else _EN_SITE

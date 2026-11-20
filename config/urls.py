@@ -1,7 +1,7 @@
 """URL configuration for config project."""
-from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from django.urls import include, path
 
 urlpatterns = [
     path("", include("core.urls")),
