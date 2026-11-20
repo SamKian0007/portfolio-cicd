@@ -15,7 +15,11 @@
   --card-border:rgba(100,255,218,0.14);
 }
 
-html{overflow-y:auto;}
+html{
+  overflow-y:auto;
+  /* Dark scroll bars to match the theme (inherited by all scroll areas) */
+  scrollbar-color: var(--lightest-navy) transparent;
+}
 html,body{min-height:100%;}
 body{
   margin:0;
