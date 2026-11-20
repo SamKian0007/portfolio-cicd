@@ -51,6 +51,9 @@ if not DEBUG:
     SECURE_HSTS_SECONDS = 3600
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     SECURE_HSTS_PRELOAD = False
+    # HSTS preload is a long-term promise for the whole domain and is not needed here,
+    # so its deploy-check warning is silenced on purpose.
+    SILENCED_SYSTEM_CHECKS = ["security.W021"]
     SECURE_CONTENT_TYPE_NOSNIFF = True
     X_FRAME_OPTIONS = "DENY"
     SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"

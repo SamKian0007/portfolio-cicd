@@ -1,0 +1,4 @@
+# Settings for ruff, the code style checker used in CI.
+[tool.ruff]
+target-version = "py311"
+extend-exclude = [".venv", "staticfiles"]
