@@ -14,5 +14,5 @@ def locfmt(fmt_string, value):
     """
     try:
         return str(fmt_string).replace("{title}", str(value)).replace("{n}", str(value))
-    except Exception:
+    except (TypeError, ValueError):
         return fmt_string

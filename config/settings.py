@@ -1,8 +1,9 @@
 """Django settings for config project."""
 
 import os
-import environ
 from pathlib import Path
+
+import environ
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 env = environ.Env(DEBUG=(bool, False))

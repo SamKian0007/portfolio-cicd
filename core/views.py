@@ -5,7 +5,8 @@ from django.conf import settings
 from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import render
 from django.templatetags.static import static
-from .locale import SV_SITE, get_ui
+
+from .locale import SV_SITE
 from .site_data import (
     ARTICLE_EIGHTH_SLUG,
     ARTICLE_FIFTH_SLUG,
