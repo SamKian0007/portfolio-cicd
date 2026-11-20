@@ -5,6 +5,7 @@ from django.conf import settings
 from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import render
 from django.templatetags.static import static
+from django.utils.http import url_has_allowed_host_and_scheme
 
 from .locale import SV_SITE
 from .site_data import (
@@ -34,7 +35,11 @@ def set_language(request):
     if lang not in ("en", "sv"):
         lang = "en"
     next_url = request.GET.get("next") or "/"
-    if not next_url.startswith("/"):
+    # Only go back to a page on this site. Django's check also stops tricks such as
+    # "//other-site.example", which starts with "/" but points to another website.
+    if not url_has_allowed_host_and_scheme(
+        next_url, allowed_hosts={request.get_host()}, require_https=request.is_secure()
+    ):
         next_url = "/"
     response = HttpResponseRedirect(next_url)
     response.set_cookie(
