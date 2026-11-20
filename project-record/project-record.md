@@ -215,13 +215,7 @@ The repository on GitHub then shows the code (Figure 12):
 
 ### 3.2 What Is Tested: The Tests
 
-**What was done.** Automated tests were written in `core/tests.py`, using the test tools that come with Django. No extra test framework is needed.
-
-**Why it was needed.** Before, the only check was to open the site in a browser and look. That is slow, easy to forget, and covers only the pages someone happens to open.
-
-**What it solves.** The tests open every page in both languages in a fraction of a second, every time, and fail if anything is wrong.
-
-A test is a small piece of code that uses the website the way a visitor would, and then checks the answer. Django's test client opens a page without a real browser and returns what the server answered, for example the status code: 200 means "OK", 404 means "not found" and 500 means "the server crashed".
+The goal of the tests in `core/tests.py` is to prove, after every change, that the whole site still works: every page opens in both languages, the language switch works and cannot be misused, project pages show their own screenshots, and a wrong address answers "not found" instead of crashing the server. Before, the only check was to open a few pages in a browser by hand, which was slow, easy to skip and never complete. Now all 74 pages are checked automatically, so a broken page is stopped before it reaches the live site. The tests use Django's own test tools, so no extra framework is needed. Each test requests a page and compares the real answer with the expected one: the status code must be 200, the Swedish page must contain the heading "Om mig", the language switch must lead back to `/`. Any difference fails the test. The requests go straight to the Django code in memory, with no browser, network or database, which is why all 10 tests finish in well under a second.
 
 The start of the file prepares the list of pages (Figure 13):
 
@@ -319,3 +313,108 @@ The rest of the file holds the test job and the security job (Figure 20):
 *Figure 20. `.github/workflows/ci.yml`, part 2: the test job and the security job.*
 
 The three jobs (lint, tests, security) run side by side. This is faster than one long job, and when a run fails, the red job shows at once which kind of check found the problem.
+
+### 3.4 The First Run: The Pipeline Finds Real Problems
+
+The workflow ran for the first time as soon as it was pushed. All three jobs failed. The problems were already in the code and packages of the live website. They had simply never been checked before.
+
+The summary of the run shows the result at a glance (Figure 21):
+
+1. The run was started by a push of commit `940b020` to the branch `feature/ci`. This link between a run and a commit is what makes every result traceable.
+2. Status: Failure, after 38 seconds.
+3. All three jobs are red. Because they run side by side, each one reports its own problem.
+4. Each job ends with "exit code 1", which is how a tool tells GitHub that its check failed.
+
+![The first run: three red jobs](images/github-run-first-red-summary.png)
+
+*Figure 21. The first run of the workflow: all three jobs failed.*
+
+**Lint: 8 code style problems.** Ruff listed every problem with the file, the line and a suggested fix (Figure 22):
+
+1. The failed step, "Check code style and common mistakes".
+2. One of the problems: `get_ui` is imported in `core/views.py` but never used. Ruff also shows the fix: remove it from the import line.
+3. "Found 8 errors". Six of them ruff can fix by itself, marked `[*]`.
+
+![The lint job: ruff's findings](images/github-job-lint-red.png)
+
+*Figure 22. The lint job: ruff found 8 problems in the code.*
+
+**Tests: the language switch could send visitors to another website.** Nine of the ten tests passed. The failing one is the safety test from section 3.2 (Figure 23):
+
+1. The failed step, "Run the tests".
+2. The other tests passed, so every page opens in both languages.
+3. The failure: the test expected the switch to lead back to `/`, but it led to `//other-site.example/`. A link like that starts with `/`, so the old code accepted it as a page on this site, but a browser reads it as another website. Someone could use it to send a visitor from samparsa.se to a fake site. This kind of hole is called an open redirect.
+4. "Ran 10 tests in 0.296s", "FAILED (failures=1)".
+
+![The test job: one failed test](images/github-job-tests-red.png)
+
+*Figure 23. The test job: the language switch failed the safety test.*
+
+**Security: Django 5.2.10 had known security holes.** pip-audit compared the installed packages with a public list of known security holes (Figure 24):
+
+1. The failed step, "Check the packages for known security holes".
+2. The end of the list. In total, pip-audit reported "Found 51 known vulnerabilities in 1 package", all in Django 5.2.10. The last column shows the versions where each hole is fixed.
+3. Because this step failed, the next two checks (bandit and the deploy check) did not run at all.
+
+![The security job: known security holes in Django](images/github-job-security-red.png)
+
+*Figure 24. The security job: pip-audit found known security holes in Django 5.2.10.*
+
+### 3.5 Fixing the Findings: One Fix for Each Problem
+
+Each finding from section 3.4 got its own small fix, in its own commit, so every change can be traced back to the problem it solves.
+
+**Problem 1: code style.** Ruff found 8 problems. *Solution: follow ruff's suggestions.* Six of the fixes were the ones ruff offered itself (Figure 22): imports sorted in four files, the unused `get_ui` import removed, and an old comment marker that was no longer needed. The last two were changed by hand: a loop in `core/locale.py` now reads only the values it uses, and a too-broad `except Exception` in `core/templatetags/locale_extras.py` now catches only the two errors that can really happen there (`TypeError`, `ValueError`). The behavior of the site did not change.
+
+**Problem 2: the open redirect.** The switch trusted any address that started with `/`. *Solution: use Django's own safety check.* Instead of a home-made rule, the switch now asks Django whether the address really belongs to this site (Figure 25):
+
+1. The check is imported from Django: `url_has_allowed_host_and_scheme`.
+2. If the address points anywhere other than this site, the visitor is sent to the home page `/` instead.
+
+![The fix for the open redirect](images/vscode-views-redirect-fix.png)
+
+*Figure 25. `core/views.py`: the language switch now only goes back to pages on this site.*
+
+**Problem 3: known security holes in Django.** *Solution: update Django to the latest 5.2 version.* Version 5.2.19 fixes all the reported holes. It is still in the same 5.2 series, a long-term support version, so the update brings fixes but no breaking changes (Figure 26):
+
+1. `Django==5.2.19` instead of `5.2.10`.
+
+![The updated Django version](images/vscode-requirements-fixed.png)
+
+*Figure 26. `requirements.txt`: Django updated to 5.2.19.*
+
+Before pushing, the same checks were run on the Mac: ruff reported "All checks passed!", all 10 tests passed, pip-audit reported "No known vulnerabilities found", and the deploy check found no issues.
+
+### 3.6 The Second Run: Green, and Only Green Code Reaches main
+
+After the three fixes were pushed, the workflow ran again by itself. The list of runs now tells the whole story (Figure 27):
+
+1. Run #1, commit `940b020`: failed.
+2. Run #2, commit `9c2c9cf`, the Django update: passed.
+
+![Run 1 red, run 2 green](images/github-actions-runs-red-then-green.png)
+
+*Figure 27. The list of runs: the first run failed, the run after the fixes passed.*
+
+The second run in detail (Figure 28):
+
+1. Started by the push of commit `9c2c9cf` to `feature/ci`.
+2. Status: Success, after 26 seconds.
+3. All three jobs are green: lint 15 s, tests 10 s, security 23 s.
+
+![The second run: all green](images/github-run-green-summary.png)
+
+*Figure 28. The second run: all three checks passed.*
+
+A green run only helps if a red one can actually stop a change. Without a rule, anyone could still merge broken code into `main`. So a branch protection rule was added to `main` in the repository settings. It allows changes only through a pull request, and only when all three checks have passed (Figure 29):
+
+1. "Require status checks to pass before merging" is turned on.
+2. The three required checks: `Lint (ruff)`, `Tests (Django)` and `Security (pip-audit, bandit, deploy check)`. If any of them is red, the merge button stays locked.
+
+![The branch protection rule for main](images/github-branch-rule-required-checks.png)
+
+*Figure 29. The branch protection rule: `main` only accepts changes that passed all three checks.*
+
+No approval from a second person is required, because there is only one developer. The rule still makes sure that every change is checked before it reaches `main`, and later, before it reaches the server.
+
+Continuous Integration is now in place. Every push is checked for code style, broken pages, unsafe redirects, known security holes and unsafe production settings, in under a minute. The first run already found three real problems in the live site, and all three were fixed and confirmed by a green run.
