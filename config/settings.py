@@ -89,5 +89,10 @@ USE_TZ = True
 STATIC_URL = "static/"
 STATICFILES_DIRS = [BASE_DIR / "static"]
 STATIC_ROOT = BASE_DIR / "staticfiles"
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+# Django 5.1+ reads STORAGES (the old STATICFILES_STORAGE setting is ignored).
+# WhiteNoise gives every static file a unique name with its content hash and a
+# compressed copy, so browsers can cache them for a year without ever getting a stale file.
+STORAGES = {
+    "staticfiles": {"BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage"},
+}
 WHITENOISE_MAX_AGE = 31536000

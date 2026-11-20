@@ -4,6 +4,7 @@ The site has no database, so every test is a SimpleTestCase: Django's test clien
 opens the pages like a browser would and the tests check the answers.
 """
 
+from django.templatetags.static import static
 from django.test import SimpleTestCase
 from django.urls import reverse
 
@@ -99,7 +100,8 @@ class ProjectPageTests(SimpleTestCase):
         response = self.client.get(reverse("project_detail", args=[project["slug"]]))
         self.assertContains(response, project["title"])
         for image in project["gallery_images"]:
-            self.assertContains(response, image["src"])
+            # static() gives the real address, including the file's content hash.
+            self.assertContains(response, static(image["src"]))
 
 
 class NotFoundTests(SimpleTestCase):
