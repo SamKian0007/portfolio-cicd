@@ -1,6 +1,7 @@
 # Continuous Integration: checks every pull request and every change on main.
 # Three check jobs run side by side, so one red job shows exactly which kind of check failed.
 # The Docker image is built and tested only after all three are green.
+# On main (and on a version tag) the tested image is then stored in GitHub Container Registry.
 name: CI
 
 on:
@@ -8,6 +9,8 @@ on:
   # so the same commit is not checked twice.
   push:
     branches: [main]
+    # A version tag such as v1.0.0 marks a release.
+    tags: ["v*"]
   pull_request:
 
 permissions:
@@ -70,10 +73,20 @@ jobs:
     name: Build and test the image (Docker)
     needs: [lint, test, security]
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write # needed to store the image in GitHub Container Registry
+    env:
+      IMAGE: ghcr.io/samkian0007/portfolio-cicd
     steps:
       - uses: actions/checkout@v7
       - name: Build the image, tagged with the commit
-        run: docker build -t portfolio:${{ github.sha }} .
+        # The labels record which commit and which repository the image was built from.
+        run: |
+          docker build -t portfolio:${{ github.sha }} \
+            --label org.opencontainers.image.revision=${{ github.sha }} \
+            --label org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }} \
+            .
       - name: Start the image with production settings
         run: |
           docker run -d --name portfolio -p 8000:8000 \
@@ -87,3 +100,22 @@ jobs:
       - name: Show the container log
         if: always()
         run: docker logs portfolio
+
+      # Only images that passed every check above are stored. Pull requests stop here.
+      - name: Log in to GitHub Container Registry
+        if: github.event_name == 'push'
+        uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Store the tested image, tagged with the commit
+        if: github.event_name == 'push'
+        run: |
+          docker tag portfolio:${{ github.sha }} "$IMAGE:${{ github.sha }}"
+          docker push "$IMAGE:${{ github.sha }}"
+      - name: Also tag the image with the version (releases only)
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: |
+          docker tag portfolio:${{ github.sha }} "$IMAGE:${{ github.ref_name }}"
+          docker push "$IMAGE:${{ github.ref_name }}"
