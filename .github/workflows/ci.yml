@@ -137,6 +137,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - name: Set up the SSH key for the server
+        id: ssh
         run: |
           install -m 700 -d ~/.ssh
           echo "${{ secrets.DEPLOY_SSH_KEY }}" > ~/.ssh/id_ed25519
@@ -149,7 +150,7 @@ jobs:
       - name: Smoke test staging
         run: ssh "$SERVER" bash -s -- http://127.0.0.1:8002 samparsa.se < scripts/smoke_test.sh
       - name: Log the server out of the registry
-        if: always()
+        if: always() && steps.ssh.outcome == 'success' # only when the server can be reached
         run: ssh "$SERVER" docker logout ghcr.io
 
   production:
@@ -169,6 +170,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - name: Set up the SSH key for the server
+        id: ssh
         run: |
           install -m 700 -d ~/.ssh
           echo "${{ secrets.DEPLOY_SSH_KEY }}" > ~/.ssh/id_ed25519
@@ -181,5 +183,5 @@ jobs:
       - name: Smoke test production
         run: ssh "$SERVER" bash -s -- http://127.0.0.1:8003 samparsa.se < scripts/smoke_test.sh
       - name: Log the server out of the registry
-        if: always()
+        if: always() && steps.ssh.outcome == 'success' # only when the server can be reached
         run: ssh "$SERVER" docker logout ghcr.io
