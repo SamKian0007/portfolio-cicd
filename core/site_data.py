@@ -34,7 +34,7 @@ SITE = {
     "profile": {
         "name": "Samuel Parsakian",
         "role": "DevOps Engineer",
-        "tagline": "\"Make it work, make it right, make it fats.\"<br>- Kent Beck",
+        "tagline": "\"Make it work, make it right, make it fast.\"<br>- Kent Beck",
     },
     "social": [
         {"label": "GitHub", "url": "https://github.com/SamParsakian"},
