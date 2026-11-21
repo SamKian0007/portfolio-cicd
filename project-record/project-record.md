@@ -8,20 +8,20 @@ The project is a course assignment, but it is built on a real system: the websit
 
 Figure 1 is a map of the whole project: the three places involved, what is set up in each, and how they connect. Each box names the section that explains it.
 
-- **The developer's Mac:** the code, the tests, the Dockerfile and the workflow files are written and tried here.
+- **The local development machine** (the developer's own computer): the code, the tests, the Dockerfile and the workflow files are written and tried here.
 - **GitHub:** keeps the code, runs the pipeline, stores every tested image, and holds the server's key and the approval rule.
 - **The Hetzner server:** runs the website in Docker containers, behind Nginx.
 
 The purple letters on the lines are the connections:
 
-- **A:** the Mac sends changes to GitHub with `git push` and pull requests (section 3.1).
+- **A:** the local machine sends changes to GitHub with `git push` and pull requests (section 3.1).
 - **B:** GitHub Actions logs in to the server as the user `deploy`, with the key stored in GitHub (sections 6.3 and 6.5).
 - **C:** the server downloads the tested image from the registry (sections 5 and 6.1).
 - **D:** Nginx passes each visit on samparsa.se to the production container (section 6.2).
 
-![The big picture: the Mac, GitHub and the server](images/big-picture-where-everything-lives.png)
+![The big picture: the local machine, GitHub and the server](images/big-picture-where-everything-lives.png)
 
-*Figure 1. The big picture: what is set up on the Mac, on GitHub and on the server, and how they connect.*
+*Figure 1. The big picture: what is set up on the local machine, on GitHub and on the server, and how they connect.*
 
 ## 1. Before and After
 
@@ -33,9 +33,9 @@ Every step of an update is done by hand by the developer, who also owns the site
 
 ![Overview of the manual update before the pipeline](images/overview-before-manual-update.png)
 
-*Figure 2. Before: an update goes from the Mac straight to the live server.*
+*Figure 2. Before: an update goes from the local machine straight to the live server.*
 
-1. **Changes the code.** The Django site is edited on the Mac.
+1. **Changes the code.** The Django site is edited on the local machine.
 2. **Copies the files.** The new files are sent to a folder on the server over SSH (a secure connection to the server).
 3. **Restarts the site.** Gunicorn, the program that runs the Django code on the server, is restarted so that the new code is used.
 4. **Checks the site.** samparsa.se is opened in the browser to see if the pages still look right.
@@ -103,7 +103,7 @@ In short, the manual update works, but nothing protects the live site from a fau
 
 Before anything is automated, the starting point must be clear: what the website is, how it runs on a computer, and how it runs on the live server today. A known working starting point matters, because any later problem can then be compared with it.
 
-### 2.1 The Website on the Mac
+### 2.1 The Website on the Local Machine
 
 The website is a Django application (Django is a Python framework for building websites). It has a few features that keep it simple:
 
@@ -129,14 +129,14 @@ Two more files matter for safety. `.gitignore` keeps local and secret files out 
 
 To prove that the website works from its project folder, it was started with Django's built-in development server (Figure 6):
 
-1. The command `python3.11 manage.py runserver 8010` starts the website on the Mac, on port 8010.
+1. The command `python3.11 manage.py runserver 8010` starts the website on the local machine, on port 8010.
 2. Django checks the project first and finds no problems.
-3. The website is now reachable at `http://127.0.0.1:8010/`, an address that only works on this Mac.
+3. The website is now reachable at `http://127.0.0.1:8010/`, an address that only works on this machine.
 4. Django warns that this server is only for development. A real website needs a production server such as Gunicorn. This becomes important later, when the Docker image is built.
 
 ![Terminal with the Django development server running](images/local-run-terminal.png)
 
-*Figure 6. The website starts on the Mac with no problems found.*
+*Figure 6. The website starts on the local machine with no problems found.*
 
 The home page then opens in the browser (Figure 7):
 
@@ -145,7 +145,7 @@ The home page then opens in the browser (Figure 7):
 
 ![Home page in English on the local server](images/local-run-home-en.png)
 
-*Figure 7. The home page in English, running on the Mac.*
+*Figure 7. The home page in English, running on the local machine.*
 
 After a click on SV, the same page is shown in Swedish (Figure 8):
 
@@ -195,7 +195,7 @@ Finally, the live site answers on its real address (Figure 11):
 
 *Figure 11. The live site at samparsa.se, the version that runs today.*
 
-The website runs on the Mac without problems, in both languages, and the live server runs the same site through Nginx and Gunicorn. This is the starting point the pipeline is built on.
+The website runs on the local machine without problems, in both languages, and the live server runs the same site through Nginx and Gunicorn. This is the starting point the pipeline is built on.
 
 ## 3. Continuous Integration: Automatic Checks
 
@@ -205,7 +205,7 @@ With the starting point clear, the first part of the pipeline can be built: Cont
 
 **What was done.** The project was put under version control with Git and pushed to a new private repository on GitHub, `portfolio-cicd`.
 
-**Why it was needed.** Before, the only copies of the site were on the Mac and in the folders on the server. A pipeline needs one shared place where every change arrives, so that it can react to each change.
+**Why it was needed.** Before, the only copies of the site were on the local machine and in the folders on the server. A pipeline needs one shared place where every change arrives, so that it can react to each change.
 
 **What it solves.** Every change now has a commit: who changed what, when and why. This is the base of traceability: later, every Docker image and every deployment can be traced back to a commit.
 
@@ -309,7 +309,7 @@ A GitHub Actions workflow is a file in `.github/workflows/` that tells GitHub wh
 
 1. `on: push` and `pull_request`: the workflow runs on every push to any branch and on every pull request.
 2. `permissions: contents: read`: the workflow may only read the code. It cannot change anything in the repository, which limits the damage if a tool were ever compromised.
-3. Python 3.11 is installed, the same version as on the Mac. `cache: pip` keeps the downloaded packages between runs, so later runs are faster.
+3. Python 3.11 is installed, the same version as on the local machine. `cache: pip` keeps the downloaded packages between runs, so later runs are faster.
 4. The lint job runs `ruff check .` on the whole project.
 5. The test job starts. Each job runs on its own fresh machine.
 
@@ -400,7 +400,7 @@ Each finding from section 3.4 got its own small fix, in its own commit, so every
 
 *Figure 27. `requirements.txt`: Django updated to 5.2.19.*
 
-Before pushing, the same checks were run on the Mac: ruff reported "All checks passed!", all 10 tests passed, pip-audit reported "No known vulnerabilities found", and the deploy check found no issues.
+Before pushing, the same checks were run on the local machine: ruff reported "All checks passed!", all 10 tests passed, pip-audit reported "No known vulnerabilities found", and the deploy check found no issues.
 
 ### 3.6 The Second Run: All Checks Green
 
@@ -438,7 +438,7 @@ Continuous Integration is now in place. Every push is checked for code style, br
 
 ## 4. The Docker Image
 
-Continuous Integration proves that the code works. The next question is how exactly that code reaches the server. Today the server has its own Python, its own packages and its own Gunicorn, all installed by hand in the folder from section 2.2. If anything there differs from the Mac, the live site can behave differently from the tested one. A Docker image removes this risk: the code, Python, the packages and Gunicorn are packed into one unit, and the same unit is tested, stored and deployed.
+Continuous Integration proves that the code works. The next question is how exactly that code reaches the server. Today the server has its own Python, its own packages and its own Gunicorn, all installed by hand in the folder from section 2.2. If anything there differs from the local machine, the live site can behave differently from the tested one. A Docker image removes this risk: the code, Python, the packages and Gunicorn are packed into one unit, and the same unit is tested, stored and deployed.
 
 ### 4.1 The Dockerfile
 
@@ -455,9 +455,9 @@ The image is described in a file called `Dockerfile`, a list of build steps that
 
 *Figure 31. `Dockerfile`: the build steps of the website image.*
 
-### 4.2 Running the Image on the Mac
+### 4.2 Running the Image Locally
 
-Before the image was added to the pipeline, it was built and started on the Mac by hand. The build (Figure 32):
+Before the image was added to the pipeline, it was built and started on the local machine by hand. The build (Figure 32):
 
 1. `docker build -t portfolio:local .` builds the image from the Dockerfile and names it `portfolio:local`.
 2. Finished in 3.2 seconds, because the package step was reused from an earlier build.
@@ -466,11 +466,11 @@ Before the image was added to the pipeline, it was built and started on the Mac 
 
 ![Building the image](images/terminal-docker-build.png)
 
-*Figure 32. The image is built on the Mac.*
+*Figure 32. The image is built on the local machine.*
 
 A running image is called a container. It is started with one command (Figure 33):
 
-1. `docker run -d --name portfolio -p 8020:8000 portfolio:local` starts a container from the image in the background. Gunicorn listens on port 8000 inside the container, and `-p 8020:8000` makes it reachable on port 8020 of the Mac. Docker answers with the ID of the new container.
+1. `docker run -d --name portfolio -p 8020:8000 portfolio:local` starts a container from the image in the background. Gunicorn listens on port 8000 inside the container, and `-p 8020:8000` makes it reachable on port 8020 of the local machine. Docker answers with the ID of the new container.
 
 ![Starting the container](images/terminal-docker-run.png)
 
@@ -485,7 +485,7 @@ The site from the container opens in the browser (Figure 34):
 
 *Figure 34. The website, served by Gunicorn inside the container.*
 
-Opening pages by hand does not scale, so a short script, `scripts/smoke_test.sh`, does the same checks automatically. A smoke test is a quick check that a running copy of the site really answers: it requests a few key pages over the network, just like a browser, and stops with an error if one of them is wrong. The unit tests from section 3.2 check the code; the smoke test checks the finished, running package. The same script is used later against the server. The result on the Mac (Figure 35):
+Opening pages by hand does not scale, so a short script, `scripts/smoke_test.sh`, does the same checks automatically. A smoke test is a quick check that a running copy of the site really answers: it requests a few key pages over the network, just like a browser, and stops with an error if one of them is wrong. The unit tests from section 3.2 check the code; the smoke test checks the finished, running package. The same script is used later against the server. The result on the local machine (Figure 35):
 
 1. The script is started with the address of the container.
 2. Six checks: three main pages open, an unknown page answers "not found", the Swedish page contains "Om mig", and the stylesheet loads.
@@ -511,7 +511,7 @@ The same steps were added to the workflow as a fourth job, "Build and test the i
 
 The new job was also added to the branch protection rule from section 3.6, so `main` now requires all four checks before a change can be merged.
 
-The website is now one Docker image that runs the same on the Mac and in the pipeline. Every change is packed into an image, started and checked with the smoke test, before anything goes near the server.
+The website is now one Docker image that runs the same on the local machine and in the pipeline. Every change is packed into an image, started and checked with the smoke test, before anything goes near the server.
 
 ## 5. The Image Registry
 
@@ -826,15 +826,15 @@ The same file in VS Code (Figure 58):
 
 ### 7.3 The Fix
 
-Deleting the one character would leave the editor's other changes in the pull request. So the file was taken back from `main`, and lint and the tests were run on the Mac before the push (Figure 59):
+Deleting the one character would leave the editor's other changes in the pull request. So the file was taken back from `main`, and lint and the tests were run on the local machine before the push (Figure 59):
 
 1. `git checkout main -- core/site_data.py` takes the last checked version of the file.
 2. `ruff check`: all checks passed.
 3. The Django tests: 10 tests OK.
 
-![Lint and tests pass on the Mac](images/terminal-local-checks-pass.png)
+![Lint and tests pass on the local machine](images/terminal-local-checks-pass.png)
 
-*Figure 59. The same checks as in the pipeline, run on the Mac before the push.*
+*Figure 59. The same checks as in the pipeline, run on the local machine before the push.*
 
 Then the quote was changed again and pushed. "Format on save" was switched off in VS Code, so the editor no longer changes lines that were not touched.
 
@@ -850,7 +850,7 @@ The pipeline ran again on the new commits (Figure 60):
 
 *Figure 60. Pull request #7 after the fix: all checks passed.*
 
-One stray character would have taken the whole site down. The checks stopped it in under half a minute, the logs pointed to the exact line, and the fix was confirmed on the Mac and in the pipeline.
+One stray character would have taken the whole site down. The checks stopped it in under half a minute, the logs pointed to the exact line, and the fix was confirmed on the local machine and in the pipeline.
 
 ## 8. Scenario 2: A Typo Goes Live, Then a Rollback
 
