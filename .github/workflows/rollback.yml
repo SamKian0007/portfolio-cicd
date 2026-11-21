@@ -1,0 +1,50 @@
+# Rollback: starts an earlier image in production again.
+# Started by hand from the Actions tab ("Run workflow"), with the version to go back to.
+# Every image is still in the registry, so going back needs no new build.
+name: Rollback
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version to go back to: a commit ID (40 characters) or a release such as v1.0.0"
+        required: true
+
+permissions:
+  contents: read
+  packages: read # the server pulls the image with this run's key
+
+jobs:
+  rollback:
+    name: Roll back production
+    runs-on: ubuntu-latest
+    environment:
+      name: production # needs the same approval as a normal release
+      url: https://samparsa.se
+    concurrency: production
+    env:
+      VERSION: ${{ inputs.version }}
+      SERVER: deploy@${{ vars.DEPLOY_HOST }}
+    steps:
+      - uses: actions/checkout@v7
+      - name: Check the version name
+        run: |
+          if [[ ! "$VERSION" =~ ^([0-9a-f]{40}|v[0-9]+\.[0-9]+\.[0-9]+)$ ]]; then
+            echo "Not a commit ID or a version: $VERSION"
+            exit 1
+          fi
+      - name: Set up the SSH key for the server
+        run: |
+          install -m 700 -d ~/.ssh
+          echo "${{ secrets.DEPLOY_SSH_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          echo "${{ secrets.DEPLOY_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
+      - name: Let the server log in to the registry (only for this run)
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | ssh "$SERVER" docker login ghcr.io -u "${{ github.actor }}" --password-stdin
+      - name: Start the earlier image in production
+        run: ssh "$SERVER" bash -s -- "ghcr.io/samkian0007/portfolio-cicd:$VERSION" portfolio-production 8003 < scripts/deploy.sh
+      - name: Smoke test production
+        run: ssh "$SERVER" bash -s -- http://127.0.0.1:8003 samparsa.se < scripts/smoke_test.sh
+      - name: Log the server out of the registry
+        if: always()
+        run: ssh "$SERVER" docker logout ghcr.io
