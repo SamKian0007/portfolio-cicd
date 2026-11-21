@@ -1,0 +1,17 @@
+# Files that never go into the image: local tools, secrets, docs and generated files.
+.git
+.github
+.venv
+.vscode
+.ruff_cache
+__pycache__
+*.pyc
+.env
+.env.*
+staticfiles
+project-record
+README.md
+requirements-dev.txt
+pyproject.toml
+Dockerfile
+.dockerignore
