@@ -518,11 +518,15 @@ There are several registries. The best known is **Docker Hub** (hub.docker.com),
 
 ### 5.2 How the Pipeline Stores the Image
 
-Three steps were added to the end of the Docker job:
+Three steps were added to the end of the Docker job in `ci.yml`, right after the smoke test (Figure 36):
 
-1. **Log in** to `ghcr.io` with the run's own key.
-2. **Push** the image that just passed the smoke test, tagged with the full Git commit ID. The pipeline pushes the tested image itself; it never builds a second one, so the stored image is exactly the one that was checked.
+1. **Log in** to `ghcr.io` with the run's own key (`secrets.GITHUB_TOKEN`). `if: github.event_name == 'push'` means the step runs only for a push to `main`, never for a pull request.
+2. **Push** the image that just passed the smoke test, tagged with the full Git commit ID (`github.sha`). The pipeline pushes the tested image itself; it never builds a second one, so the stored image is exactly the one that was checked.
 3. **Add a version tag**, such as `v1.0.0`, when a release is marked with a Git tag of that name. This becomes important when the site goes live in section 6.
+
+![The steps that store the image](images/vscode-ci-yml-store-image.png)
+
+*Figure 36. `.github/workflows/ci.yml`, end of the Docker job: log in, store the tested image, add the version tag.*
 
 These steps run only for changes on `main`. A pull request is still built and tested, but its image is not stored, so the registry only holds versions that were accepted into `main`.
 
@@ -535,16 +539,16 @@ The stored images are not in the list of files of the repository. They are in a 
 - From the repository: on the **Code** page, the right-hand column has a **Packages** section with a link to `portfolio-cicd`.
 - From the GitHub profile: the **Packages** tab lists every package of the account.
 
-The profile view (Figure 36):
+The profile view (Figure 37):
 
 1. The **Packages** tab of the profile.
 2. The package `portfolio-cicd`: private, and published from the repository `SamKian0007/portfolio-cicd`.
 
 ![The Packages tab of the GitHub profile](images/github-profile-packages-tab.png)
 
-*Figure 36. The Packages tab: the website image is stored as the package portfolio-cicd.*
+*Figure 37. The Packages tab: the website image is stored as the package portfolio-cicd.*
 
-Clicking the package opens its page (Figure 37):
+Clicking the package opens its page (Figure 38):
 
 1. The package name, followed by the tag of the newest image: the full ID of commit `78c7106`, the change that added this registry step.
 2. The package is private, and this is the latest image.
@@ -554,7 +558,7 @@ Clicking the package opens its page (Figure 37):
 
 ![The package page of the website image](images/github-package-page.png)
 
-*Figure 37. The package page: every stored image is named after the commit it was built from.*
+*Figure 38. The package page: every stored image is named after the commit it was built from.*
 
 This is how a running version is traced back to its code: the tag of the image is the commit ID, and the commit ID leads straight to the change in the repository, its pull request and its pipeline run.
 
