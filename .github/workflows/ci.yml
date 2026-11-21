@@ -2,6 +2,7 @@
 # Three check jobs run side by side, so one red job shows exactly which kind of check failed.
 # The Docker image is built and tested only after all three are green.
 # On main (and on a version tag) the tested image is then stored in GitHub Container Registry.
+# On main it is then deployed: first to staging, then, after approval, to production.
 name: CI
 
 on:
@@ -119,3 +120,66 @@ jobs:
         run: |
           docker tag portfolio:${{ github.sha }} "$IMAGE:${{ github.ref_name }}"
           docker push "$IMAGE:${{ github.ref_name }}"
+
+  staging:
+    name: Deploy to staging
+    needs: build
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment: staging
+    concurrency: staging
+    permissions:
+      contents: read
+      packages: read # the server pulls the image with this run's key
+    env:
+      IMAGE: ghcr.io/samkian0007/portfolio-cicd:${{ github.sha }}
+      SERVER: deploy@${{ vars.DEPLOY_HOST }}
+    steps:
+      - uses: actions/checkout@v7
+      - name: Set up the SSH key for the server
+        run: |
+          install -m 700 -d ~/.ssh
+          echo "${{ secrets.DEPLOY_SSH_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          echo "${{ secrets.DEPLOY_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
+      - name: Let the server log in to the registry (only for this run)
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | ssh "$SERVER" docker login ghcr.io -u "${{ github.actor }}" --password-stdin
+      - name: Start the image on the server (staging, port 8002)
+        run: ssh "$SERVER" bash -s -- "$IMAGE" portfolio-staging 8002 < scripts/deploy.sh
+      - name: Smoke test staging
+        run: ssh "$SERVER" bash -s -- http://127.0.0.1:8002 samparsa.se < scripts/smoke_test.sh
+      - name: Log the server out of the registry
+        if: always()
+        run: ssh "$SERVER" docker logout ghcr.io
+
+  production:
+    name: Deploy to production
+    needs: staging
+    runs-on: ubuntu-latest
+    environment:
+      name: production # waits for approval
+      url: https://samparsa.se
+    concurrency: production
+    permissions:
+      contents: read
+      packages: read
+    env:
+      IMAGE: ghcr.io/samkian0007/portfolio-cicd:${{ github.sha }}
+      SERVER: deploy@${{ vars.DEPLOY_HOST }}
+    steps:
+      - uses: actions/checkout@v7
+      - name: Set up the SSH key for the server
+        run: |
+          install -m 700 -d ~/.ssh
+          echo "${{ secrets.DEPLOY_SSH_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          echo "${{ secrets.DEPLOY_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
+      - name: Let the server log in to the registry (only for this run)
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | ssh "$SERVER" docker login ghcr.io -u "${{ github.actor }}" --password-stdin
+      - name: Start the same image in production (port 8003)
+        run: ssh "$SERVER" bash -s -- "$IMAGE" portfolio-production 8003 < scripts/deploy.sh
+      - name: Smoke test production
+        run: ssh "$SERVER" bash -s -- http://127.0.0.1:8003 samparsa.se < scripts/smoke_test.sh
+      - name: Log the server out of the registry
+        if: always()
+        run: ssh "$SERVER" docker logout ghcr.io
