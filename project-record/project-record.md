@@ -23,11 +23,11 @@ The purple letters on the lines are the connections:
 
 *Figure 1. The big picture: what is set up on the Mac, on GitHub and on the server, and how they connect.*
 
-## 1. Before and After: From Manual Updates to a Pipeline
+## 1. Before and After
 
 The portfolio website at samparsa.se already runs on a rented server. This section shows in two pictures how an update reaches the live site today, and how it should reach it when the pipeline is in place.
 
-### 1.1 Before: Every Update Goes Straight to the Server
+### 1.1 Before: Manual Updates
 
 Every step of an update is done by hand by the developer, who also owns the site. Figure 2 shows the whole update from above. The numbers in the figure match the steps below.
 
@@ -49,7 +49,7 @@ Every step of an update is done by hand by the developer, who also owns the site
 - **Availability:** a faulty update can make pages or the whole site unavailable until it is fixed by hand.
 - **Maintenance:** every update is a series of manual steps on the live server, with no record of what changed or when, and no quick way back to a known working version.
 
-### 1.2 After: Every Change Goes Through the Pipeline
+### 1.2 After: The CI/CD Pipeline
 
 With the pipeline, the developer only pushes the change to GitHub and approves the release. The checks, the build and the deployment run automatically. Figure 3 shows the same update in the new way.
 
@@ -99,11 +99,11 @@ Figure 4 shows the same pipeline in the usual CI/CD form, as one line of stages.
 
 In short, the manual update works, but nothing protects the live site from a faulty change. The pipeline adds the checks, the versions and the way back that are missing today.
 
-## 2. The Starting Point: The Website and the Server
+## 2. The Starting Point
 
 Before anything is automated, the starting point must be clear: what the website is, how it runs on a computer, and how it runs on the live server today. A known working starting point matters, because any later problem can then be compared with it.
 
-### 2.1 The Website Runs on the Mac
+### 2.1 The Website on the Mac
 
 The website is a Django application (Django is a Python framework for building websites). It has a few features that keep it simple:
 
@@ -157,7 +157,7 @@ After a click on SV, the same page is shown in Swedish (Figure 8):
 
 *Figure 8. The same home page in Swedish.*
 
-### 2.2 The Live Server Today
+### 2.2 The Live Server
 
 The live site runs on a VPS (a rented virtual server) at Hetzner, with Ubuntu 24.04. Two programs work together on it:
 
@@ -197,11 +197,11 @@ Finally, the live site answers on its real address (Figure 11):
 
 The website runs on the Mac without problems, in both languages, and the live server runs the same site through Nginx and Gunicorn. This is the starting point the pipeline is built on.
 
-## 3. Continuous Integration: Every Change Is Checked Automatically
+## 3. Continuous Integration: Automatic Checks
 
 With the starting point clear, the first part of the pipeline can be built: Continuous Integration (CI). CI means that every change is checked automatically as soon as it is pushed, so mistakes are found early, while they are still small and cheap to fix.
 
-### 3.1 The Repository: One Place for All Changes
+### 3.1 The Repository
 
 **What was done.** The project was put under version control with Git and pushed to a new private repository on GitHub, `portfolio-cicd`.
 
@@ -230,7 +230,7 @@ The repository on GitHub then shows the code (Figure 13):
 
 *Figure 13. The private repository on GitHub with the code and its history.*
 
-### 3.2 What Is Tested: The Tests
+### 3.2 The Tests
 
 The goal of the tests in `core/tests.py` is to prove, after every change, that the whole site still works: every page opens in both languages, the language switch works and cannot be misused, project pages show their own screenshots, and a wrong address answers "not found" instead of crashing the server. Before, the only check was to open a few pages in a browser by hand, which was slow, easy to skip and never complete. Now all 74 pages are checked automatically, so a broken page is stopped before it reaches the live site. The tests use Django's own test tools, so no extra framework is needed. Each test requests a page and compares the real answer with the expected one: the status code must be 200, the Swedish page must contain the heading "Om mig", the language switch must lead back to `/`. Any difference fails the test. The requests go straight to the Django code in memory, with no browser, network or database, which is why all 10 tests finish in well under a second.
 
@@ -272,7 +272,7 @@ The last group checks what happens with a wrong address (Figure 17):
 
 *Figure 17. `core/tests.py`, part 4: wrong addresses answer "not found".*
 
-### 3.3 How the Pipeline Is Configured: The Tools and the Workflow
+### 3.3 The Workflow
 
 **What was done.** Three check tools were chosen and a GitHub Actions workflow was written that runs them, together with the tests, on every push.
 
@@ -331,7 +331,7 @@ The rest of the file holds the test job and the security job (Figure 21):
 
 The three jobs (lint, tests, security) run side by side. This is faster than one long job, and when a run fails, the red job shows at once which kind of check found the problem.
 
-### 3.4 The First Run: The Pipeline Finds Real Problems
+### 3.4 The First Run: Real Problems Found
 
 The workflow ran for the first time as soon as it was pushed. All three jobs failed. The problems were already in the code and packages of the live website. They had simply never been checked before.
 
@@ -377,7 +377,7 @@ The summary of the run shows the result at a glance (Figure 22):
 
 *Figure 25. The security job: pip-audit found known security holes in Django 5.2.10.*
 
-### 3.5 Fixing the Findings: One Fix for Each Problem
+### 3.5 Fixing the Problems
 
 Each finding from section 3.4 got its own small fix, in its own commit, so every change can be traced back to the problem it solves.
 
@@ -402,7 +402,7 @@ Each finding from section 3.4 got its own small fix, in its own commit, so every
 
 Before pushing, the same checks were run on the Mac: ruff reported "All checks passed!", all 10 tests passed, pip-audit reported "No known vulnerabilities found", and the deploy check found no issues.
 
-### 3.6 The Second Run: Green, and Only Green Code Reaches main
+### 3.6 The Second Run: All Checks Green
 
 After the three fixes were pushed, the workflow ran again by itself. The list of runs now tells the whole story (Figure 28):
 
@@ -436,11 +436,11 @@ No approval from a second person is required, because there is only one develope
 
 Continuous Integration is now in place. Every push is checked for code style, broken pages, unsafe redirects, known security holes and unsafe production settings, in under a minute. The first run already found three real problems in the live site, and all three were fixed and confirmed by a green run.
 
-## 4. The Docker Image: One Package That Runs the Same Everywhere
+## 4. The Docker Image
 
 Continuous Integration proves that the code works. The next question is how exactly that code reaches the server. Today the server has its own Python, its own packages and its own Gunicorn, all installed by hand in the folder from section 2.2. If anything there differs from the Mac, the live site can behave differently from the tested one. A Docker image removes this risk: the code, Python, the packages and Gunicorn are packed into one unit, and the same unit is tested, stored and deployed.
 
-### 4.1 The Dockerfile: How the Image Is Built
+### 4.1 The Dockerfile
 
 The image is described in a file called `Dockerfile`, a list of build steps that Docker runs from top to bottom (Figure 31):
 
@@ -455,7 +455,7 @@ The image is described in a file called `Dockerfile`, a list of build steps that
 
 *Figure 31. `Dockerfile`: the build steps of the website image.*
 
-### 4.2 The Image Runs on the Mac
+### 4.2 Running the Image on the Mac
 
 Before the image was added to the pipeline, it was built and started on the Mac by hand. The build (Figure 32):
 
@@ -497,7 +497,7 @@ Opening pages by hand does not scale, so a short script, `scripts/smoke_test.sh`
 
 **Why the smoke test matters.** In the first version of the image, the Swedish texts were missing. The file that holds them had been listed in `.dockerignore` by mistake, and without it the site quietly shows English instead. All 10 unit tests still passed, because they run on the source code, where the file exists. Only the smoke test, which asks the running container for the Swedish page, failed: `FAIL Swedish page has 'Om mig'`. The line was removed from `.dockerignore`, the image was built again, and all six checks passed. Without the smoke test, this image could have gone live with a broken Swedish version.
 
-### 4.3 The Image Is Built and Tested in the Pipeline
+### 4.3 Building the Image in the Pipeline
 
 The same steps were added to the workflow as a fourth job, "Build and test the image (Docker)". It builds the image, names it after the Git commit, starts it with production settings (debug off, the real domain, a random secret key made only for this run) and runs the smoke test against it. If the smoke test fails, the job fails. A run of the workflow now looks like this (Figure 36):
 
@@ -513,11 +513,11 @@ The new job was also added to the branch protection rule from section 3.6, so `m
 
 The website is now one Docker image that runs the same on the Mac and in the pipeline. Every change is packed into an image, started and checked with the smoke test, before anything goes near the server.
 
-## 5. The Registry: Every Tested Image Is Stored and Traceable
+## 5. The Image Registry
 
 The image from section 4 is built on a GitHub runner, and the runner is thrown away after each job. Without a place to keep the image, the server would have no way to get it. That place is a container registry.
 
-### 5.1 What a Registry Is, and Why GitHub's Own Registry Was Chosen
+### 5.1 What a Registry Is
 
 A container registry is a storage service for Docker images, in the same way that GitHub is a storage service for code. Three words are used all the time:
 
@@ -533,7 +533,7 @@ There are several registries. The best known is **Docker Hub** (hub.docker.com),
 - **No extra password.** The workflow logs in with the short-lived key that GitHub gives every run (`GITHUB_TOKEN`). Docker Hub would need its own account and an access key stored as a secret in GitHub.
 - **Private by default.** The images of a private repository are private too, so only the owner and the pipeline can pull them.
 
-### 5.2 How the Pipeline Stores the Image
+### 5.2 Storing the Image
 
 Three steps were added to the end of the Docker job in `ci.yml`, right after the smoke test (Figure 37):
 
@@ -581,11 +581,11 @@ This is how a running version is traced back to its code: the tag of the image i
 
 Every tested change on `main` is now stored as an image in GitHub's own registry, named after its commit and private to the owner. Any stored version can be pulled again at any time, which is exactly what the deployment to the server needs.
 
-## 6. Deployment: The Same Image in Staging, Then in Production
+## 6. Deployment: Staging and Production
 
 The registry from section 5 holds every tested image. This section shows how an image gets from there onto the server: first into staging, where it is checked without visitors, and then, after a person approves, into production at samparsa.se.
 
-### 6.1 What Happens on the Server During a Release
+### 6.1 What Happens on the Server
 
 Figure 40 shows a whole release on the server. The deploy job in GitHub Actions does the same six steps twice: first for staging, then, after the approval, for production.
 
@@ -602,7 +602,7 @@ The bottom row is a visit: the browser asks for samparsa.se, Nginx receives it o
 
 *Figure 40. One release on the server: six steps, the same for staging and production.*
 
-### 6.2 The Server: Docker and a Dedicated Deploy User
+### 6.2 The Server Setup
 
 The server needs three things before the pipeline can use it. They were set up once, by hand, over SSH as the administrator (root). Figure 41 shows the result:
 
@@ -617,7 +617,7 @@ The server needs three things before the pipeline can use it. They were set up o
 
 Nginx, the web server that receives every visitor on samparsa.se and holds the HTTPS certificate, passes each request on to the production container on port 8003. Staging has no public address. It is checked by the pipeline only.
 
-### 6.3 GitHub: Environments, the Approval Rule and the Secrets
+### 6.3 GitHub Settings: Environments and Secrets
 
 The pipeline needs two kinds of information from GitHub before it may touch the server: how to log in, and who may say "go live". Both are stored in **environments**, a GitHub feature that groups the settings and rules of one deployment target.
 
@@ -671,7 +671,7 @@ Further down on the same page are the other rule, the secrets and the variable (
 
 The staging environment has the same secrets, the same variable and the same branch rule, but no reviewer: a release goes to staging on its own and is only checked by the pipeline.
 
-### 6.4 The Deploy Script: Replace One Container With a New One
+### 6.4 The Deploy Script
 
 Staging and production are started in exactly the same way, so the steps live in one short script, `scripts/deploy.sh`. The pipeline sends it over SSH and runs it on the server, with three values: the image, the container name and the port (Figure 47):
 
@@ -685,7 +685,7 @@ Staging and production are started in exactly the same way, so the steps live in
 
 *Figure 47. `scripts/deploy.sh`: start the new image, replace the old container.*
 
-### 6.5 The Workflow: Two New Jobs After the Build
+### 6.5 The Deploy Jobs
 
 Two jobs were added at the end of `ci.yml`. The staging job (Figure 48):
 
@@ -713,7 +713,7 @@ The production job has the same steps, with three differences, and shows the las
 
 *Figure 49. `.github/workflows/ci.yml`: the production job, with the smoke test and the logout.*
 
-### 6.6 The First Release: From a Merge to the Live Site
+### 6.6 The First Release
 
 The first full run went from the merge of the deployment change into `main` all the way to the live site. After lint, tests, security and the Docker job, the run stopped and waited (Figure 50):
 
@@ -758,11 +758,11 @@ The first working state on the server was marked as a release: the Git tag `v1.0
 
 Every accepted change on `main` now goes the same way: checks, image, staging with a smoke test, approval, production with a smoke test. Only the merge and the approval are done by hand. The live site at samparsa.se runs from a Docker image that can be traced to its commit, and the first release is kept as `v1.0.0`.
 
-## 7. November 21: A Broken Change Is Stopped Before It Reaches the Site
+## 7. Scenario 1: A Broken Change Is Stopped
 
 The checks from section 3 exist to stop mistakes before they go live. The same day, a small change put them to the test.
 
-### 7.1 What Happened: One Stray Character
+### 7.1 What Happened
 
 The quote on the home page, in `core/site_data.py`, was changed on the branch `feature/new-quote`, and pull request #7 was opened. A slip of the keyboard also left one extra character, `Í`, on line 4. The pull request turned red (Figure 54):
 
@@ -777,7 +777,7 @@ The quote on the home page, in `core/site_data.py`, was changed on the branch `f
 
 The live site was never touched. The broken code could not even reach `main`.
 
-### 7.2 Finding the Cause: From the Red Check to the Line
+### 7.2 Finding the Cause
 
 Each red check has a log, and the log names the file and the line. The lint log (Figure 55):
 
@@ -824,7 +824,7 @@ The same file in VS Code (Figure 58):
 
 *Figure 58. The stray character on line 4.*
 
-### 7.3 The Fix: Start Again From main
+### 7.3 The Fix
 
 Deleting the one character would leave the editor's other changes in the pull request. So the file was taken back from `main`, and lint and the tests were run on the Mac before the push (Figure 59):
 
@@ -838,7 +838,7 @@ Deleting the one character would leave the editor's other changes in the pull re
 
 Then the quote was changed again and pushed. "Format on save" was switched off in VS Code, so the editor no longer changes lines that were not touched.
 
-### 7.4 The Result: Pull Request #7 Is Green
+### 7.4 The Result
 
 The pipeline ran again on the new commits (Figure 60):
 
@@ -852,11 +852,11 @@ The pipeline ran again on the new commits (Figure 60):
 
 One stray character would have taken the whole site down. The checks stopped it in under half a minute, the logs pointed to the exact line, and the fix was confirmed on the Mac and in the pipeline.
 
-## 8. November 21: A Typo Reaches the Live Site, and a Rollback Brings Back the Previous Version
+## 8. Scenario 2: A Typo Goes Live, Then a Rollback
 
 Section 7 showed a mistake the checks can find. This one they cannot.
 
-### 8.1 What Happened: "Make It Fats"
+### 8.1 What Happened
 
 The new quote had a typo: "make it fats" instead of "make it fast" (Figure 61):
 
@@ -869,7 +869,7 @@ The new quote had a typo: "make it fats" instead of "make it fast" (Figure 61):
 
 The code is correct and every page opens, so every check passed. No check reads the meaning of a text. The change was merged and approved, and at 15:06 the typo was live on samparsa.se.
 
-### 8.2 The Plan: Go Back First, Fix Afterwards
+### 8.2 Why a Rollback
 
 Changing the text on the server by hand would skip the checks and make the live site differ from `main`. A new fix through the pipeline takes several minutes. A rollback is faster: the previous image is already tested and stored, so it only has to be started again.
 
@@ -889,7 +889,7 @@ The rollback is its own workflow, `rollback.yml`, started by hand with the versi
 
 *Figure 62. `.github/workflows/rollback.yml`: start a stored image in production again.*
 
-### 8.4 The Rollback: Two Tries
+### 8.4 Running the Rollback
 
 The rollback was started from **Actions > Rollback > Run workflow** with `v1.0.0`, the last version without the typo (section 6.7). It needed two tries (Figure 63):
 
@@ -935,7 +935,7 @@ All runs of the incident, newest at the top (Figure 66):
 
 *Figure 66. The release with the typo, the failed rollback and the successful one.*
 
-### 8.5 The Result: The Live Site Revisited
+### 8.5 The Result
 
 The live site before and after the rollback (Figure 67):
 
