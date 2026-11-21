@@ -45,7 +45,7 @@ With the pipeline, the developer only pushes the change to GitHub and approves t
 3. **Builds the image.** Only if every check passes, the site is packed into one Docker image (a ready-to-run package of the site with everything it needs), named after the Git commit. The image runs the same way everywhere, so the version that was tested is exactly the version that goes live.
 4. **Stores the image.** The image is saved in the GitHub container registry (GHCR), so every version is kept and the previous one can be started again.
 5. **Tests in staging.** The image runs on the server in a separate test copy of the site, called staging, and is checked automatically. A problem shows up there first, not on the live site.
-6. **Approves the release.** The developer looks at staging and approves the release in GitHub. A person stays in control of what goes live.
+6. **Approves the release.** The developer sees that staging passed its checks and approves the release in GitHub. A person stays in control of what goes live.
 7. **Goes live.** The same image is started in production (the live site) and checked again. The previous image is kept.
 
 Figure 3 shows the same pipeline in the usual CI/CD form, as one line of stages. The blue part is Continuous Integration (CI): it checks and packs every change. The green part is Continuous Delivery (CD): it takes the packed change to the server. The table below follows the same numbers.
@@ -563,3 +563,422 @@ Clicking the package opens its page (Figure 38):
 This is how a running version is traced back to its code: the tag of the image is the commit ID, and the commit ID leads straight to the change in the repository, its pull request and its pipeline run.
 
 Every tested change on `main` is now stored as an image in GitHub's own registry, named after its commit and private to the owner. Any stored version can be pulled again at any time, which is exactly what the deployment to the server needs.
+
+## 6. Deployment: The Same Image in Staging, Then in Production
+
+The registry from section 5 holds every tested image. This section shows how an image gets from there onto the server: first into staging, where it is checked without visitors, and then, after a person approves, into production at samparsa.se.
+
+### 6.1 The Server: Docker and a Dedicated Deploy User
+
+The server needs three things before the pipeline can use it. They were set up once, by hand, over SSH as the administrator (root). Figure 39 shows the result:
+
+1. **Docker**, installed from Docker's official package source for Ubuntu. Docker runs the containers.
+2. **A user called `deploy`**, made only for the pipeline. It is a member of the `docker` group, so it can start and stop containers, but it is not the administrator. It has no password: it can only log in with one SSH key, and that key is stored in GitHub (section 6.2). If the key were ever stolen, it would open only this user, not the whole server.
+3. **The settings file** `/etc/portfolio/production.env`. It holds the production settings of the site: the secret key, the domain and debug switched off. Only root can change it, and only the `deploy` user can read it (`-rw-r-----`, owner `root`, group `deploy`). The file stays on the server, so the secret key never appears in the code, in Git or in the pipeline logs.
+4. **The two running containers** (`docker ps`), both started by the pipeline from the same image: `portfolio-production` on port 8003 and `portfolio-staging` on port 8002. Both ports are opened only inside the server (`127.0.0.1`), so visitors cannot reach them directly.
+
+![The server: Docker, the deploy user, the settings file and the containers](images/terminal-server-docker-deploy-user.png)
+
+*Figure 39. The server: Docker, the `deploy` user, the settings file and the two containers.*
+
+Nginx, the web server that receives every visitor on samparsa.se and holds the HTTPS certificate, passes each request on to the production container on port 8003. Staging has no public address. It is checked by the pipeline only.
+
+### 6.2 GitHub: Environments, the Approval Rule and the Secrets
+
+The pipeline needs two kinds of information from GitHub before it may touch the server: how to log in, and who may say "go live". Both are stored in **environments**, a GitHub feature that groups the settings and rules of one deployment target.
+
+The approval rule (a required reviewer) is free on GitHub only for public repositories, so the repository was made public first. The code holds nothing secret: the secret key lives on the server (section 6.1), the SSH key lives in GitHub's secret store, and the image package from section 5 stays private. The repository page shows the change, and the **Settings** tab is where all the following settings are (Figure 40):
+
+1. The repository is now **Public**.
+2. The **Settings** tab.
+
+![The public repository](images/github-repo-public.png)
+
+*Figure 40. The repository is public, and the Settings tab is at the top right.*
+
+In **Settings** there is the **Danger Zone** at the bottom of the page. The visibility is changed there (Figure 41):
+
+1. **Change repository visibility**, with the button **Change visibility**.
+
+![The Danger Zone in Settings](images/github-settings-danger-zone.png)
+
+*Figure 41. The Danger Zone in Settings, where the repository was made public.*
+
+Two environments were created, one for each container on the server (Figure 42):
+
+1. The **Settings** tab.
+2. **Environments** in the menu on the left.
+3. **production**: two protection rules, two secrets and one variable.
+4. **staging**: one protection rule, and the same secrets and variable.
+
+![The two environments](images/github-environments-list.png)
+
+*Figure 42. The two environments, staging and production.*
+
+**Where:** Settings > Environments > production.
+**What is set:** the rule that a person must approve every deployment to production (Figure 43):
+
+1. The page of the production environment.
+2. **Required reviewers** is switched on, with Samuel's account as the reviewer. The pipeline stops before production and waits until he approves.
+
+![The required reviewer for production](images/github-environment-production-reviewer.png)
+
+*Figure 43. Production needs an approval from Samuel before anything goes live.*
+
+Further down on the same page are the other rule, the secrets and the variable (Figure 44):
+
+1. **Deployment branches:** only protected branches, which means only `main`. A branch that was never checked and merged can never deploy, not even by mistake.
+2. **Environment secrets:** `DEPLOY_SSH_KEY` is the private SSH key of the `deploy` user, and `DEPLOY_KNOWN_HOSTS` is the server's own fingerprint, so the pipeline can check that it talks to the real server. GitHub never shows a secret again after it is saved, and it hides secrets in the logs.
+3. **Environment variable:** `DEPLOY_HOST`, the address of the server. It is not a secret, so it is a normal variable.
+
+![The secrets and the variable of production](images/github-environment-production-secrets.png)
+
+*Figure 44. Only `main` may deploy, and the SSH key is stored as a secret.*
+
+The staging environment has the same secrets, the same variable and the same branch rule, but no reviewer: a release goes to staging on its own and is only checked by the pipeline.
+
+### 6.3 The Deploy Script: Replace One Container With a New One
+
+Staging and production are started in exactly the same way, so the steps live in one short script, `scripts/deploy.sh`. The pipeline sends it over SSH and runs it on the server, with three values: the image, the container name and the port (Figure 45):
+
+1. The script in the `scripts` folder, next to the smoke test from section 4.2.
+2. The three values. If one is missing, the script stops with a clear message instead of guessing.
+3. `docker pull` downloads the image from the registry.
+4. The old container with the same name is removed, and a new one is started from the new image. `--env-file` reads the settings file from section 6.1, `--restart unless-stopped` starts the container again after a server restart, and `-p 127.0.0.1:...` keeps the port inside the server.
+5. Images that no container uses and that are older than one week are deleted, so the disk does not fill up. Every version stays in the registry and can be pulled again.
+
+![The deploy script](images/vscode-deploy-sh.png)
+
+*Figure 45. `scripts/deploy.sh`: start the new image, replace the old container.*
+
+### 6.4 The Workflow: Two New Jobs After the Build
+
+Two jobs were added at the end of `ci.yml`. The staging job (Figure 46):
+
+1. Still the same file, `ci.yml`.
+2. `needs: build` means the job starts only after the Docker job from section 4.3 is green. `if:` means it runs only for a push to `main`, never for a pull request.
+3. `environment: staging` connects the job to the staging environment and its secrets (section 6.2). `concurrency` makes sure that two deployments to staging never run at the same time.
+4. The job may only read the code and the registry. `IMAGE` is the image named after this commit, the one that was just tested and stored.
+5. The SSH key and the server fingerprint are written from the secrets into the runner. The step gets a short name, `ssh`, used again in the last step.
+6. The server logs in to the registry with the run's own short-lived key (`GITHUB_TOKEN`, as in section 5.1). The key is sent through the SSH connection and is never written into a file.
+7. The deploy script from Figure 45 starts the image as `portfolio-staging` on port 8002.
+
+![The staging job](images/vscode-ci-yml-staging-job.png)
+
+*Figure 46. `.github/workflows/ci.yml`: the staging job.*
+
+The production job has the same steps, with three differences, and shows the last two steps that both jobs share (Figure 47):
+
+1. `needs: staging`: production starts only after staging is green.
+2. `environment: production` brings in the approval rule from Figure 43, so the job waits for Samuel before it starts. The `url` is shown on the run page as a link to the live site.
+3. The **same** image, named after the same commit, is started as `portfolio-production` on port 8003. Nothing is built again between staging and production.
+4. The smoke test from section 4.2 runs on the server against the new container. If one of the six checks fails, the job fails and the run turns red.
+5. The server logs out of the registry again, so no login stays behind on the server. `always()` makes this step run even when an earlier step failed, but only when the SSH step worked, because without SSH the server cannot be reached.
+
+![The production job](images/vscode-ci-yml-production-job.png)
+
+*Figure 47. `.github/workflows/ci.yml`: the production job, with the smoke test and the logout.*
+
+### 6.5 The First Release: From a Merge to the Live Site
+
+The first full run went from the merge of the deployment change into `main` all the way to the live site. After lint, tests, security and the Docker job, the run stopped and waited (Figure 48):
+
+1. **Deploy to staging** is green: the image runs on the server on port 8002 and passed the smoke test.
+2. **Deploy to production** waits for review.
+3. GitHub shows that a review is needed, with the button **Review deployments**.
+
+![The run waits for approval](images/github-run-waiting-approval.png)
+
+*Figure 48. Staging is done, and production waits for a person.*
+
+**Review deployments** opens a small window (Figure 49):
+
+1. The production environment, which needs a review from Samuel.
+2. **Approve and deploy** lets the production job start. **Reject** would stop the release, and nothing would change on the live site.
+
+![The review window](images/github-review-dialog-approve.png)
+
+*Figure 49. The release is approved.*
+
+The finished run (Figure 50):
+
+1. **Success**, in 4 minutes 21 seconds. Almost 3 minutes of that was the time until the approval. The production job itself took 19 seconds.
+2. All six jobs are green, from lint on the left to production on the right.
+
+![The run is green all the way to production](images/github-run-production-green.png)
+
+*Figure 50. The first release: every job is green, from the checks to production.*
+
+The live site at samparsa.se now comes from the container. Both languages were checked in the browser (Figure 51):
+
+1. The address is `https://samparsa.se`, the real site.
+2. The language switch works: English on the left, Swedish on the right.
+
+![The live site in English and Swedish](images/browser-live-site-en-sv.png)
+
+*Figure 51. samparsa.se, served from the production container, in English and Swedish.*
+
+### 6.6 The First Version: v1.0.0
+
+The first working state on the server was marked as a release: the Git tag `v1.0.0` was added to the commit that was running in production. The tag starts the workflow once more, and the step from Figure 36 gives the image that is already stored the extra name `v1.0.0`. Nothing is built again, so `v1.0.0` is exactly the image that passed staging and went live. This name is used again in section 8.
+
+Every accepted change on `main` now goes the same way: checks, image, staging with a smoke test, approval, production with a smoke test. Samuel only merges and approves. The live site at samparsa.se runs from a Docker image that can be traced to its commit, and the first release is kept as `v1.0.0`.
+
+## 7. November 21: A Broken Change Is Stopped Before It Reaches the Site
+
+The pipeline from sections 3 to 6 was built to stop mistakes before they go live. The first real test came on the same day, from a change that looked very small.
+
+### 7.1 What Happened: A Small Text Change Fails Three Checks
+
+Samuel wanted to change the quote on the home page. The text lives in `core/site_data.py`. The change was made in VS Code on a new branch, `feature/new-quote`, and a pull request (#7) was opened. A few seconds later, the pull request showed this (Figure 52):
+
+1. The whole pull request page, with the checks in the middle.
+2. Three checks failed: lint, security and tests. All three are required (section 3.6).
+3. The Docker job and both deployments were skipped, because they only start when the checks are green.
+4. **Merge pull request** is greyed out. The change cannot reach `main`.
+
+![The pull request with failed checks](images/github-pr7-checks-failed-pair.png)
+
+*Figure 52. Pull request #7: three checks failed, the rest was skipped, and the merge is blocked.*
+
+For the visitors, this means:
+
+- **Nothing changed.** The live site never saw the broken code. Without the checks, this change would have been copied to the server.
+
+For Samuel, this means:
+
+- **The merge is blocked** until the problem is found and fixed.
+- **The cause is not obvious.** Only one line of text was meant to change.
+
+### 7.2 Finding the Cause: From the Red Check to the Line in the File
+
+Each red check has a log. The way to the cause is always the same: open the log, find the file and line it names, and look at that line.
+
+**Step 1: the lint log.** A click on **Details** next to the failed lint check opens its log (Figure 53):
+
+1. The failed job, **Lint (ruff)**.
+2. `F821 Undefined name 'Í'` and the place: `core/site_data.py:4:1`, which means file `core/site_data.py`, line 4, column 1.
+3. Line 4 holds only one character, `Í`. Ruff points at it with `^`.
+4. `Found 3 errors`. The other two are about the same line, or about the order of the import lines at the top of the file.
+
+![The lint log](images/github-pr7-lint-log.png)
+
+*Figure 53. The lint log names the file and the line: `core/site_data.py`, line 4.*
+
+**Step 2: the test log.** The tests fail for the same reason. A test log can be long; the useful part is at the end (Figure 54):
+
+1. The failed job, **Tests (Django)**.
+2. The last file in the list is `core/site_data.py`, line 4. Each line above it is one step on the way there, so the last one is where the problem is.
+3. `NameError: name 'Í' is not defined`. Python reads `Í` as the name of something that does not exist. The file cannot be loaded, and without it no page of the site can be shown.
+
+![The test log](images/github-pr7-tests-log.png)
+
+*Figure 54. The test log ends at the same file and line.*
+
+The security job failed in the same way, because its last check (`check --deploy`) also loads the site's code.
+
+**Step 3: the changes in the pull request.** The tab **Files changed** shows every line the pull request adds or removes, compared to `main` (Figure 55):
+
+1. The tab **Files changed**.
+2. `+46 -24`: 46 lines added and 24 removed, far more than one changed line.
+3. Line 4: the extra character `Í`, added by a slip of the keyboard.
+4. and 5. The two import lines at the top were moved: VS Code sorted them again when the file was saved (the "format on save" setting). This is the third lint error.
+6. The intended change: the quote. Many of the other changed lines are long lines that the editor broke into two.
+
+![The changed lines in the pull request](images/github-pr7-files-changed.png)
+
+*Figure 55. Files changed: the stray character, the moved imports and the quote.*
+
+**Step 4: the file in VS Code.** The same file, opened on the Mac (Figure 56):
+
+1. `site_data.py`, marked as changed (`M`) and with one problem (`1`).
+2. Line 4, with the stray `Í`, underlined by the editor.
+3. The two import lines, in the order the editor gave them.
+
+![The stray character in VS Code](images/vscode-stray-character.png)
+
+*Figure 56. `core/site_data.py` on the Mac: the stray character on line 4.*
+
+The cause, in short: one stray character made the file unreadable for Python, and the editor's automatic formatting changed lines that were never meant to change.
+
+### 7.3 Defining the Fix
+
+The quick fix would be to delete the one character. That fixes two of the three lint errors, but the moved imports and the re-wrapped lines would stay, and the pull request would still change far more than the quote.
+
+| Goal | Today | Expected after the fix |
+|---|---|---|
+| **Code loads** | `NameError` on line 4 | All 10 tests pass |
+| **Only the intended change** | `+46 -24` in one file | The quote, and nothing that changes how the site works |
+| **Merge allowed** | 3 required checks red | All required checks green |
+
+In short, the file must be the same as on `main` again, with only the new quote added.
+
+### 7.4 The Fix: Start Again From the Version on main
+
+**Problem 1: a stray character.** Line 4 holds `Í`, which Python cannot read. *Solution: take the file from `main`.* The command `git checkout main -- core/site_data.py` replaces the file on the branch with the last checked version, the one that is live.
+
+**Problem 2: changes nobody asked for.** The editor sorted imports and broke lines on save. *Solution: check before pushing.* After the file was taken from `main`, lint and the tests were run on the Mac, before anything was pushed (Figure 57):
+
+1. The file is taken back from `main`.
+2. `ruff check`: All checks passed.
+3. The Django tests: all 10 tests OK.
+
+![Lint and tests pass on the Mac](images/terminal-local-checks-pass.png)
+
+*Figure 57. The same checks as in the pipeline, run on the Mac before the push.*
+
+Then the new quote was added again, and the change was committed and pushed. "Format on save" was also switched off in VS Code, so the editor no longer changes lines that were not touched.
+
+### 7.5 Testing the Fix: Pull Request #7 Revisited
+
+| Check | Before the fix | Expected after the fix |
+|---|---|---|
+| Lint, tests, security | Red | Green |
+| Docker job | Skipped | Green |
+| Merge | Blocked | Allowed |
+
+The pipeline ran again on the new commits (Figure 58):
+
+1. The three commits of the branch: the first one failed (red cross), the file was taken back from `main`, and the quote was added again (green tick).
+2. **All checks have passed.** The deployments are skipped, as for every pull request: they only run after the merge.
+3. **Merge pull request** is green and can be used.
+
+![The pull request is green](images/github-pr7-checks-passed.png)
+
+*Figure 58. Pull request #7 after the fix: all checks passed, and the merge is allowed.*
+
+The expected results were reached: the checks are green, and the merge is allowed again.
+
+One stray character would have taken the whole site down, and the checks stopped it in under half a minute, before it could reach `main`. The logs led straight to the file and the line, and the fix was confirmed on the Mac and again in the pipeline.
+
+## 8. November 21: A Typo Reaches the Live Site, and a Rollback Brings Back the Previous Version
+
+Section 7 showed a mistake that the checks can find. This section shows one they cannot, and what happens then.
+
+### 8.1 What Happened: "Make It Fats"
+
+The quote that was added again in section 7.4 had a typo: "make it **fats**" instead of "make it **fast**" (Figure 59):
+
+1. The commit `feat: update the profile quote.`
+2. Line 37: `make it fats`.
+
+![The commit with the typo](images/vscode-quote-fats-commit.png)
+
+*Figure 59. The quote with the typo, committed on the branch.*
+
+Every check passed: the code is correct Python, every page opens, and the smoke test finds "Om mig" on the Swedish page. No check reads the meaning of the text. The pull request was merged, staging passed, the release was approved, and at 15:06 the live site showed "make it fats" (the left side of [Figure 65](images/browser-live-site-typo-and-after-rollback.png)).
+
+For the visitors, this means:
+
+- **A visible mistake** in the first line under the name, on the portfolio of someone who applies for DevOps jobs.
+
+For Samuel, this means:
+
+- **The site must be right again quickly**, without waiting for a new fix to go through the whole pipeline.
+
+### 8.2 Defining the Fix: Go Back First, Fix Afterwards
+
+The quick fix would be to change the text directly on the server. It would be fast, but the live site would then differ from `main` and from every stored image, nothing would be checked, and the next release would bring the typo back.
+
+A new fix through the pipeline is the right way to correct the text, but it takes time: the change, the pull request, the checks, the build, staging and the approval.
+
+| Goal | Today (typo live) | Expected after the rollback |
+|---|---|---|
+| **Fast** | A new release takes minutes, plus the time to write the fix | The site is right again in about one minute |
+| **No new build** | - | A stored, already tested image is started again |
+| **Same control** | - | The same approval as a normal release |
+| **Checked** | - | The same smoke test as a normal release |
+
+In short, the previous version goes back first, and the text is fixed afterwards through the normal pipeline.
+
+### 8.3 The Rollback Workflow
+
+A rollback is its own workflow, `rollback.yml`. It is started by hand from the Actions tab and takes one value: the version to go back to (Figure 60):
+
+1. The file `rollback.yml`, next to `ci.yml`.
+2. `workflow_dispatch` means "start by hand". The form asks for one value: a full commit ID or a release name such as `v1.0.0`. Both are names of images in the registry (sections 5.2 and 6.6).
+3. The job uses the **production** environment, so it needs the same approval as a normal release and the same secrets.
+4. The version name is checked first. Anything that is not a 40-character commit ID or a release name like `v1.0.0` stops the run before the server is touched.
+5. Spaces around the typed version are removed before the check. These two lines were added after the first rollback attempt (section 8.4).
+6. The same deploy script and the same smoke test as in `ci.yml`. The image is pulled from the registry and started; nothing is built.
+7. The logout step from Figure 47.
+
+![The rollback workflow](images/vscode-rollback-yml.png)
+
+*Figure 60. `.github/workflows/rollback.yml`: start a stored image in production again.*
+
+### 8.4 The Rollback: Two Tries
+
+The rollback was started from **Actions > Rollback > Run workflow**, with `v1.0.0`, the last version without the typo (section 6.6). It needed two tries (Figure 61):
+
+1. **Run workflow** opens the form.
+2. The first try: `v1.0.0 `, typed with a space at the end. The space cannot be seen in the form.
+3. The first run failed.
+4. The second try: `v1.0.0`, without the space.
+
+![The rollback form, two tries](images/github-rollback-dialogs-pair.png)
+
+*Figure 61. The rollback form: the first try with a hidden space, and the second try.*
+
+The log of the first run shows why it failed (Figure 62):
+
+1. **Rollback #1** failed.
+2. The version check stopped the run: `Not a commit ID or a version: v1.0.0`. The space after `v1.0.0` is part of the value, so it is neither a commit ID nor a release name.
+3. All the steps that touch the server were skipped. Production was not changed.
+4. The logout step failed too, with `Host key verification failed`. It runs even after a failure, but the SSH key had never been set up, so it could not reach the server. This second error is only a result of the first one.
+
+![The log of the failed rollback](images/github-rollback-run1-failed-log.png)
+
+*Figure 62. Rollback #1: the version check stopped the run, and production was not touched.*
+
+The second run, after the approval (Figure 63):
+
+1. **Rollback #2**.
+2. **Success**, in 55 seconds from the start, including the approval.
+3. The job itself, from the image pull to the smoke test, took 19 seconds.
+4. The approval for production, the same as for a normal release.
+
+![The successful rollback](images/github-rollback-run2-green.png)
+
+*Figure 63. Rollback #2: production runs `v1.0.0` again after 55 seconds.*
+
+The list of runs shows the whole incident, with the newest run at the top (Figure 64):
+
+1. Rollback #2: green, 55 seconds.
+2. Rollback #1: red.
+3. The merge of pull request #7, the release with the typo.
+4. When each rollback started and how long it took.
+
+![The list of runs](images/github-actions-runs-rollback.png)
+
+*Figure 64. The release with the typo, the failed rollback and the successful rollback.*
+
+### 8.5 Testing the Rollback: The Live Site Revisited
+
+| | After the release | Expected after the rollback |
+|---|---|---|
+| Quote on samparsa.se | "make it fats" | "make it fast" |
+| Image in production | The commit with the typo | `v1.0.0` |
+| Smoke test | Passed | Passed |
+
+The live site before and after (Figure 65):
+
+1. The release with the typo, at 15:06: "make it fats".
+2. After the rollback, at 15:16: "make it fast".
+
+![The live site before and after the rollback](images/browser-live-site-typo-and-after-rollback.png)
+
+*Figure 65. samparsa.se after the release with the typo, and after the rollback.*
+
+The expected results were reached: the typo was live for about 10 minutes, and the rollback itself took 19 seconds on the server, without a new build.
+
+### 8.6 The Real Fix and the Lesson Learned
+
+The rollback fixed the live site, but `main` still held "fats", so the next release would have brought it back. The text was then fixed the normal way: a new branch, `fix/quote-typo`, one changed word, pull request #8, all checks green, merge, staging, approval and production. `main`, staging and production now all hold "make it fast".
+
+The first rollback attempt showed a weak point: in an emergency, one hidden space cost a failed run and a second approval, and the logout error made the log harder to read. Two small changes followed, through pull request #9:
+
+- Spaces around the typed version are removed before the check (box 5 in [Figure 60](images/vscode-rollback-yml.png)). A wrong name such as `v1.0` is still rejected.
+- The logout step runs only when the SSH step worked (box 7 in [Figure 60](images/vscode-rollback-yml.png), and the same in `ci.yml`), so a stopped run shows one clear error instead of two.
+
+Some mistakes cannot be found by any check, and this one reached the live site. Because every release is stored as an image, the previous version was back in production after one approval and 19 seconds of work on the server, and the real fix then went through the normal pipeline. The rollback is now also safer to use, because a stray space no longer stops it.
