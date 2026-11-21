@@ -418,3 +418,148 @@ A green run only helps if a red one can actually stop a change. Without a rule, 
 No approval from a second person is required, because there is only one developer. The rule still makes sure that every change is checked before it reaches `main`, and later, before it reaches the server.
 
 Continuous Integration is now in place. Every push is checked for code style, broken pages, unsafe redirects, known security holes and unsafe production settings, in under a minute. The first run already found three real problems in the live site, and all three were fixed and confirmed by a green run.
+
+## 4. The Docker Image: One Package That Runs the Same Everywhere
+
+Continuous Integration proves that the code works. The next question is how exactly that code reaches the server. Today the server has its own Python, its own packages and its own Gunicorn, all installed by hand in the folder from section 2.2. If anything there differs from the Mac, the live site can behave differently from the tested one. A Docker image removes this risk: the code, Python, the packages and Gunicorn are packed into one unit, and the same unit is tested, stored and deployed.
+
+### 4.1 The Dockerfile: How the Image Is Built
+
+The image is described in a file called `Dockerfile`, a list of build steps that Docker runs from top to bottom (Figure 30):
+
+1. The image starts from the official Python 3.11 image, the same Python version as in the pipeline. The `slim` variant leaves out tools the site does not need, so the image stays smaller.
+2. The packages from `requirements.txt` are installed first. Docker reuses this step as long as `requirements.txt` does not change, so a change in the code alone builds in seconds.
+3. The website's code is copied in. A second file, `.dockerignore`, keeps out what the image must never contain, such as the Git history, local settings and secret files.
+4. The static files (styles, scripts, images) are collected into the image at build time, so the image is complete when it starts.
+5. The site runs as a normal user, `appuser`, not as the all-powerful root user. If the site were ever broken into, the attacker would have far fewer rights.
+6. Gunicorn starts the site, the same web server that runs the live site today (section 2.2).
+
+![The Dockerfile](images/vscode-dockerfile.png)
+
+*Figure 30. `Dockerfile`: the build steps of the website image.*
+
+### 4.2 The Image Runs on the Mac
+
+Before the image was added to the pipeline, it was built and started on the Mac by hand. The build (Figure 31):
+
+1. `docker build -t portfolio:local .` builds the image from the Dockerfile and names it `portfolio:local`.
+2. Finished in 3.2 seconds, because the package step was reused from an earlier build.
+3. The seven steps of the Dockerfile, in the same order as in Figure 30.
+4. The finished image is saved under its name.
+
+![Building the image](images/terminal-docker-build.png)
+
+*Figure 31. The image is built on the Mac.*
+
+A running image is called a container. It is started with one command (Figure 32):
+
+1. `docker run -d --name portfolio -p 8020:8000 portfolio:local` starts a container from the image in the background. Gunicorn listens on port 8000 inside the container, and `-p 8020:8000` makes it reachable on port 8020 of the Mac. Docker answers with the ID of the new container.
+
+![Starting the container](images/terminal-docker-run.png)
+
+*Figure 32. A container is started from the image.*
+
+The site from the container opens in the browser (Figure 33):
+
+1. The address is `localhost:8020`, the port from Figure 32, so the page comes from the container and not from the development server.
+2. The EN | SV switch is there, so both languages can be checked.
+
+![The website served from the container](images/browser-site-from-container.png)
+
+*Figure 33. The website, served by Gunicorn inside the container.*
+
+Opening pages by hand does not scale, so a short script, `scripts/smoke_test.sh`, does the same checks automatically. A smoke test is a quick check that a running copy of the site really answers: it requests a few key pages over the network, just like a browser, and stops with an error if one of them is wrong. The unit tests from section 3.2 check the code; the smoke test checks the finished, running package. The same script is used later against the server. The result on the Mac (Figure 34):
+
+1. The script is started with the address of the container.
+2. Six checks: three main pages open, an unknown page answers "not found", the Swedish page contains "Om mig", and the stylesheet loads.
+3. "Smoke test passed".
+
+![The smoke test passes](images/terminal-smoke-test-pass.png)
+
+*Figure 34. The smoke test against the running container: all six checks passed.*
+
+**Why the smoke test matters.** In the first version of the image, the Swedish texts were missing. The file that holds them had been listed in `.dockerignore` by mistake, and without it the site quietly shows English instead. All 10 unit tests still passed, because they run on the source code, where the file exists. Only the smoke test, which asks the running container for the Swedish page, failed: `FAIL Swedish page has 'Om mig'`. The line was removed from `.dockerignore`, the image was built again, and all six checks passed. Without the smoke test, this image could have gone live with a broken Swedish version.
+
+### 4.3 The Image Is Built and Tested in the Pipeline
+
+The same steps were added to the workflow as a fourth job, "Build and test the image (Docker)". It builds the image, names it after the Git commit, starts it with production settings (debug off, the real domain, a random secret key made only for this run) and runs the smoke test against it. If the smoke test fails, the job fails. A run of the workflow now looks like this (Figure 35):
+
+1. The run was started by a pull request.
+2. The three checks from section 3 run first, side by side.
+3. The Docker job starts only when all three are green, shown by the line between them. There is no point in building an image from code that failed a check.
+
+![The Docker job runs after the checks](images/github-run-build-after-checks.png)
+
+*Figure 35. The image is built and tested only after lint, tests and security have passed.*
+
+The new job was also added to the branch protection rule from section 3.6, so `main` now requires all four checks before a change can be merged.
+
+The website is now one Docker image that runs the same on the Mac and in the pipeline. Every change is packed into an image, started and checked with the smoke test, before anything goes near the server.
+
+## 5. The Registry: Every Tested Image Is Stored and Traceable
+
+The image from section 4 is built on a GitHub runner, and the runner is thrown away after each job. Without a place to keep the image, the server would have no way to get it. That place is a container registry.
+
+### 5.1 What a Registry Is, and Why GitHub's Own Registry Was Chosen
+
+A container registry is a storage service for Docker images, in the same way that GitHub is a storage service for code. Three words are used all the time:
+
+- **push:** upload an image to the registry.
+- **pull:** download an image from the registry, for example onto the server.
+- **tag:** the name of one version of an image, written after a colon, for example `portfolio-cicd:78c7106...`.
+
+There are several registries. The best known is **Docker Hub** (hub.docker.com), the public registry where the official Python image from Figure 30 comes from. The large cloud providers have their own, such as Amazon ECR and Azure Container Registry. Any of them would work for this project.
+
+**GitHub Container Registry** (GHCR, at `ghcr.io`) was chosen, for three reasons:
+
+- **Same place as the code.** The code, the pipeline and the images all live in one GitHub account, so there is no second service to manage.
+- **No extra password.** The workflow logs in with the short-lived key that GitHub gives every run (`GITHUB_TOKEN`). Docker Hub would need its own account and an access key stored as a secret in GitHub.
+- **Private by default.** The images of a private repository are private too, so only the owner and the pipeline can pull them.
+
+### 5.2 How the Pipeline Stores the Image
+
+Three steps were added to the end of the Docker job in `ci.yml`, right after the smoke test (Figure 36):
+
+1. **Log in** to `ghcr.io` with the run's own key (`secrets.GITHUB_TOKEN`). `if: github.event_name == 'push'` means the step runs only for a push to `main`, never for a pull request.
+2. **Push** the image that just passed the smoke test, tagged with the full Git commit ID (`github.sha`). The pipeline pushes the tested image itself; it never builds a second one, so the stored image is exactly the one that was checked.
+3. **Add a version tag**, such as `v1.0.0`, when a release is marked with a Git tag of that name. This becomes important when the site goes live in section 6.
+
+![The steps that store the image](images/vscode-ci-yml-store-image.png)
+
+*Figure 36. `.github/workflows/ci.yml`, end of the Docker job: log in, store the tested image, add the version tag.*
+
+These steps run only for changes on `main`. A pull request is still built and tested, but its image is not stored, so the registry only holds versions that were accepted into `main`.
+
+Each image also carries two labels, small pieces of information stored inside it: the commit it was built from, and the repository it belongs to. Anyone who has the image can read them, even without access to GitHub.
+
+### 5.3 Finding the Image on GitHub
+
+The stored images are not in the list of files of the repository. They are in a separate part of GitHub called **Packages**. There are two ways to get there:
+
+- From the repository: on the **Code** page, the right-hand column has a **Packages** section with a link to `portfolio-cicd`.
+- From the GitHub profile: the **Packages** tab lists every package of the account.
+
+The profile view (Figure 37):
+
+1. The **Packages** tab of the profile.
+2. The package `portfolio-cicd`: private, and published from the repository `SamKian0007/portfolio-cicd`.
+
+![The Packages tab of the GitHub profile](images/github-profile-packages-tab.png)
+
+*Figure 37. The Packages tab: the website image is stored as the package portfolio-cicd.*
+
+Clicking the package opens its page (Figure 38):
+
+1. The package name, followed by the tag of the newest image: the full ID of commit `78c7106`, the change that added this registry step.
+2. The package is private, and this is the latest image.
+3. The command that downloads exactly this image. The server will use the same kind of command.
+4. The list of stored versions. Every accepted change on `main` adds one entry, named after its commit.
+5. The repository the package belongs to. GitHub makes this link from the label inside the image.
+
+![The package page of the website image](images/github-package-page.png)
+
+*Figure 38. The package page: every stored image is named after the commit it was built from.*
+
+This is how a running version is traced back to its code: the tag of the image is the commit ID, and the commit ID leads straight to the change in the repository, its pull request and its pipeline run.
+
+Every tested change on `main` is now stored as an image in GitHub's own registry, named after its commit and private to the owner. Any stored version can be pulled again at any time, which is exactly what the deployment to the server needs.
