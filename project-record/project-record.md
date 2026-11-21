@@ -94,8 +94,9 @@ Figure 4 shows the same pipeline in the usual CI/CD form, as one line of stages.
 | **Tests before going live** | **None** | Django tests, lint and security scans on every change |
 | **Test environment** | **None**, changes go straight to the live site | Staging on the same server, checked automatically |
 | **Versions** | **9 app folders** in `/var/www/`, not labelled | Each image named after its Git commit |
-| **Going back to an older version** | Find the right folder and switch by hand | Start the previous image again |
+| **Going back to an older version** | Find the right folder and switch by hand | Start the previous image again: 19 seconds on the server (section 8) |
 | **Check after an update** | Manual check in the browser | Automated checks on the live pages |
+| **From merge to staging** | - | About 1.5 minutes, all automatic |
 
 In short, the manual update works, but nothing protects the live site from a faulty change. The pipeline adds the checks, the versions and the way back that are missing today.
 
@@ -953,3 +954,55 @@ The text was then fixed the normal way: branch `fix/quote-typo`, pull request #8
 **Lesson learned.** In an emergency, one hidden space cost a failed run. Pull request #9 made the rollback remove extra spaces (box 5 in [Figure 62](images/vscode-rollback-yml.png)) and run the logout only when SSH worked (box 7), so a stopped run shows one clear error.
 
 Some mistakes pass every check. Because every release is stored as an image, the previous version was back in production within seconds, and the real fix then went through the normal pipeline.
+
+## 9. Design Choices, Limits and Improvements
+
+Sections 3 to 8 show what was built and that it works. This section explains why it was built this way, where it is weak, and how it would grow in a real production setup.
+
+### 9.1 Design Choices
+
+| Choice | Why | Alternative |
+|---|---|---|
+| **GitHub Actions** for the pipeline | The code, the pipeline and the images are in one place, with no extra server to run | Jenkins or GitLab CI, which need their own setup |
+| **Checks before the build** | Lint, tests and security take under 30 seconds and stop most mistakes before anything is built | Build first, which wastes time on broken code |
+| **One Docker image** for every place | The image that was tested is exactly the image that goes live | Copying files to the server, as before |
+| **GHCR** as the registry | Same account as the code, no extra password (section 5.1) | Docker Hub, Amazon ECR, Azure Container Registry |
+| **Staging on the same server** | Same operating system and settings as production, at no extra cost | A second server, which costs more |
+| **A person approves production** | The release goes live only when a person decides (Continuous Delivery) | Continuous Deployment, with no approval step |
+| **SSH and a short script** | Easy to read and enough for one server | Ansible, Kubernetes or a hosting platform |
+| **Rollback = start an older image** | No rebuild: a stored, tested image is started again | Fix forward only, which is slower in an emergency |
+
+### 9.2 Limits and Risks
+
+- **One server.** Staging and production run on the same VPS. If the server is down, the site is down, and a heavy staging run uses the same memory as production.
+- **A short gap during a release.** The deploy script removes the old container before it starts the new one, so for a moment there is no container behind Nginx.
+- **Content is not checked.** Section 8 showed that a text mistake passes every check.
+- **No monitoring.** Nothing warns if the site goes down between releases. Container logs are only read on the server.
+- **Staging shares the production settings.** Both containers use the same settings file, including the secret key.
+- **The owner account can bypass the rules.** As administrator, the owner can still merge without green checks (the box in [Figure 54](images/github-pr7-checks-failed-pair.png)). In a team, this would be switched off.
+
+### 9.3 Improvements for Real Production
+
+| Improvement | What it fixes |
+|---|---|
+| **Start the new container first, then switch Nginx** (blue-green deployment) | No gap during a release |
+| **Automatic rollback** when the production smoke test fails | The previous version comes back without a person |
+| **Uptime monitoring with alerts** | Problems are seen when they happen, not by visitors |
+| **Image scanning** (for example Trivy) and automatic package updates (Dependabot) | Security holes in Python and the base image are found early |
+| **A separate settings file for staging** | Staging can never use production secrets |
+| **A staging address with a password** | Staging can also be checked by eye before the approval |
+| **Server setup as code** (for example Ansible) | A new server can be prepared the same way in minutes |
+| **More servers or Kubernetes** | Needed only when one server is no longer enough |
+
+### 9.4 Lessons Learned
+
+- **The smoke test caught what the unit tests could not:** the missing Swedish texts in the first image (section 4.2).
+- **Editor settings can change code without asking:** "format on save" added changes that nobody wanted (section 7).
+- **A rollback must be easy to use under stress:** one hidden space was enough to stop it (section 8).
+- **Real runs find real problems:** the first pipeline run found three problems in the live site (section 3.4).
+
+## 10. The Final Result
+
+samparsa.se now runs from a Docker image that was tested, stored and approved before it went live. Every change goes the same way: checks on every push, one image per commit, a smoke test in staging, an approval, and a smoke test in production.
+
+Both scenarios showed the pipeline at work. A broken change was stopped before it reached `main` (section 7), and a typo that passed every check was taken off the live site with a rollback in 19 seconds of server work (section 8). The developer only writes the change, merges it and approves the release.
