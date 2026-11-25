@@ -33,7 +33,7 @@ def _build_article_two_horizontal_items():
 SITE = {
     "profile": {
         "name": "Samuel Parsakian",
-        "role": "DevOps Engineer | Automation ",
+        "role": "DevOps Engineer ",x
         "tagline": "\"Make it work, make it right, make it fast.\"<br>- Kent Beck",
     },
     "social": [
